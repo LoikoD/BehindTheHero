@@ -9,7 +9,7 @@ TagManager:
   - HeroSpawn
   - KnightSpawn
   - DialogueSystem
-  - PauseMenu
+  - Canvas
   layers:
   - Default
   - TransparentFX

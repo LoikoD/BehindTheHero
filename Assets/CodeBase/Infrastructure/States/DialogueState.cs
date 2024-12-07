@@ -1,5 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
+using CodeBase.CameraLogic;
 
 namespace CodeBase.Infrastructure.States
 {
