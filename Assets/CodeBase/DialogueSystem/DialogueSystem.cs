@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,8 +18,8 @@ public class DialogueSystem : MonoBehaviour
     [Space]
     [SerializeField] private TextAsset _textAsset;
 
-    [SerializeField] private Text _dialogueTitle;
-    [SerializeField] private Text _dialogueText;
+    [SerializeField] private TMP_Text _dialogueTitle;
+    [SerializeField] private TMP_Text _dialogueText;
     [SerializeField] private Image _dialogueIcon;
 
     [SerializeField] private Image _flashbackImage;
