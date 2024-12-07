@@ -9,19 +9,19 @@ public class SoundSlider : MonoBehaviour
 {
     [SerializeField] private AudioMixerGroup _mixerGroup;
     [SerializeField] private Slider _music;
-    [SerializeField] private Slider _volume;
+    [SerializeField] private Slider _effects;
     [SerializeField] private Slider _ambient;
 
     private void Start()
     {
 
         _music.onValueChanged.AddListener(SliderMusicChange);
-        _volume.onValueChanged.AddListener(SliderVolumeChange);
+        _effects.onValueChanged.AddListener(SliderVolumeChange);
         _ambient.onValueChanged.AddListener(SliderAmbientChange);
-        SliderMusicChange(_music.value);
-        SliderVolumeChange(_volume.value);
-        SliderAmbientChange(_ambient.value);
 
+        _music.value = GetVolume("Music");
+        _effects.value = GetVolume("Effects");
+        _ambient.value = GetVolume("Ambient");
     }
     public void SliderMusicChange(float newValue)
     {
@@ -39,5 +39,11 @@ public class SoundSlider : MonoBehaviour
     private void ChangeVolume(string mixerGroupName, float linearValue)
     {
         _mixerGroup.audioMixer.SetFloat(mixerGroupName, Mathf.Log10(linearValue) * 20);
+    }
+
+    private float GetVolume(string mixerGroupName)
+    {
+        _mixerGroup.audioMixer.GetFloat(mixerGroupName, out float value);
+        return Mathf.Pow(10, value / 20);
     }
 }

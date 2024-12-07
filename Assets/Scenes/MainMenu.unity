@@ -2488,7 +2488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mixerGroup: {fileID: 24300002, guid: fef6613c97ead8a4994ed0e813f84217, type: 2}
   _music: {fileID: 750397373}
-  _volume: {fileID: 2125263835}
+  _effects: {fileID: 2125263835}
   _ambient: {fileID: 1597894048}
 --- !u!114 &1075838541
 MonoBehaviour:

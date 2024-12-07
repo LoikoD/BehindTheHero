@@ -9,6 +9,7 @@ TagManager:
   - HeroSpawn
   - KnightSpawn
   - DialogueSystem
+  - PauseMenu
   layers:
   - Default
   - TransparentFX

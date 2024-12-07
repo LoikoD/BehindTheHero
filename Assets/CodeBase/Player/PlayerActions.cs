@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,8 @@ namespace CodeBase.Player
         private Backpack _backpack;
 
         private PlayerState _playerState;
+
+        private GameObject _menuPanel;
 
         // Input
         private Vector2 _inputVector;
@@ -40,6 +43,9 @@ namespace CodeBase.Player
             _backpack = GetComponent<Backpack>();
             _backpack.Init(_playerState);
             GetComponent<PickupObjects>().Init(_playerState);
+
+            _menuPanel = GameObject.FindGameObjectWithTag("PauseMenu");
+            _menuPanel.SetActive(false);
         }
 
         private void OnEnable()
@@ -48,6 +54,7 @@ namespace CodeBase.Player
             _playerInputActions.Player.Aim.performed += OnAim;
             _playerInputActions.Player.Throw.performed += OnThrow;
             _playerInputActions.Player.Swap.performed += OnSwap;
+            _playerInputActions.Player.Menu.performed += OnMenu;
         }
 
         private void OnDisable()
@@ -55,6 +62,7 @@ namespace CodeBase.Player
             _playerInputActions.Player.Aim.performed -= OnAim;
             _playerInputActions.Player.Throw.performed -= OnThrow;
             _playerInputActions.Player.Swap.performed -= OnSwap;
+            _playerInputActions.Player.Menu.performed -= OnMenu;
             _playerInputActions.Player.Disable();
         }
 
@@ -82,6 +90,24 @@ namespace CodeBase.Player
         private void OnSwap(InputAction.CallbackContext context)
         {
             _backpack.SwapItems();
+        }
+
+        private void OnMenu(InputAction.CallbackContext context)
+        {
+            Time.timeScale = 0;
+            _menuPanel.SetActive(true);
+            _playerInputActions.Player.Disable();
+            _playerInputActions.PauseMenu.Enable();
+            _playerInputActions.PauseMenu.Continue.performed += OnContinue;
+        }
+
+        private void OnContinue(InputAction.CallbackContext context)
+        {
+            Time.timeScale = 1;
+            _menuPanel.SetActive(false);
+            _playerInputActions.PauseMenu.Continue.performed -= OnContinue;
+            _playerInputActions.PauseMenu.Disable();
+            _playerInputActions.Player.Enable();
         }
     }
 }
