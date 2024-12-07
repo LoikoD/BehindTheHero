@@ -25,10 +25,6 @@ namespace CodeBase.Player
         {
             // Input Action
             _playerInputActions = new PlayerInputActions();
-            _playerInputActions.Player.Enable();
-            _playerInputActions.Player.Aim.performed += OnAim;
-            _playerInputActions.Player.Throw.performed += OnThrow;
-            _playerInputActions.Player.Swap.performed += OnSwap;
 
             // Camera
             _camera = Camera.main;
@@ -49,10 +45,16 @@ namespace CodeBase.Player
         private void OnEnable()
         {
             _playerInputActions.Player.Enable();
+            _playerInputActions.Player.Aim.performed += OnAim;
+            _playerInputActions.Player.Throw.performed += OnThrow;
+            _playerInputActions.Player.Swap.performed += OnSwap;
         }
 
         private void OnDisable()
         {
+            _playerInputActions.Player.Aim.performed -= OnAim;
+            _playerInputActions.Player.Throw.performed -= OnThrow;
+            _playerInputActions.Player.Swap.performed -= OnSwap;
             _playerInputActions.Player.Disable();
         }
 
