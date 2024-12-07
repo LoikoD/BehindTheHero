@@ -27,6 +27,7 @@ public class DialogueSystem : MonoBehaviour
 
     [SerializeField] private Image _flashbackImage;
     [SerializeField] private AudioClip _audioClip;
+    //[SerializeField] private AudioClip[] _printSoundClips;
 
     [SerializeField] private SceneLoader _sceneLoader;
 
@@ -71,6 +72,8 @@ public class DialogueSystem : MonoBehaviour
             for (int j = 0; j < _texts[i].Length; j++)
             {
                 _audioSource.PlayOneShot(_audioClip);
+                //_audioSource.PlayOneShot(_printSoundClips[Random.Range(0, _printSoundClips.Length)]);
+
                 if (_isSkipPressed)
                 {
                     _dialogueText.text = _texts[i];
