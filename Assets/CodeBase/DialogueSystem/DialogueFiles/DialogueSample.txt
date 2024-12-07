@@ -1,0 +1,14 @@
+{
+	"Phrases" : [
+	   {
+			"Name":"qwerty",
+			"Text":"222",
+			"IconPath":"999"
+		},
+		{
+		    "Name":"qwertye",
+			"Text":"222e",
+			"IconPath":"999e"
+		}
+	]
+}
