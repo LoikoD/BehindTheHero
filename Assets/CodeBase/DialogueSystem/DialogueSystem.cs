@@ -1,7 +1,10 @@
+using CodeBase.Player;
 using DG.Tweening;
 using System.Collections;
+using System.Security.Claims;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DialogueSystem : MonoBehaviour
@@ -27,38 +30,36 @@ public class DialogueSystem : MonoBehaviour
 
     [SerializeField] private SceneLoader _sceneLoader;
 
-    //private DialogueLoader _loader;
-    //private Dialogue _dialogue;
+
+    private PlayerInputActions _playerInputActions;
     private AudioSource _audioSource;
-    private string _symbolsToDelay = ".?!";
+    private readonly string _symbolsToDelay = ".?!";
+    private bool _isSkipPressed = false;
 
 
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
-        //_loader = gameObject.AddComponent<DialogueLoader>();
-        //_dialogue = _loader.LoadDialogue(_textAsset.text);
 
 
-        //
-        //_dialogue = ScriptableObject.CreateInstance<Dialogue>();
-        //_dialogue.Prases = new List<Phrase>();
-        //Phrase _phrase1 = ScriptableObject.CreateInstance<Phrase>();
-        //_phrase1.Name = "�������";
-        //_phrase1.Text = "Hello World! Heh";
-        //_phrase1.IconPath = "mutantExample";
-        //_dialogue.Prases.Add(_phrase1);
-        //_dialogue.Prases.Add(_phrase1);
-        //_dialogue.Prases.Add(_phrase1);
-        //
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Dialogue.Enable();
+        _playerInputActions.Dialogue.Skip.performed += OnSkip;
 
         StartCoroutine(StartDialogue());
+    }
+    private void OnDisable()
+    {
+        _playerInputActions.Dialogue.Skip.performed -= OnSkip;
+        _playerInputActions.Dialogue.Disable();
     }
 
     public IEnumerator StartDialogue()
     {
         for (int i = 0; i < _names.Length; i++)
         {
+            _isSkipPressed = false;
+
             if (i != 0)
                 if (_flashBackStart == i)
                     _flashbackImage.DOFade(1, 1);
@@ -69,14 +70,29 @@ public class DialogueSystem : MonoBehaviour
             _dialogueText.text = "";
             for (int j = 0; j < _texts[i].Length; j++)
             {
-                _dialogueText.text = _dialogueText.text + _texts[i][j];
                 _audioSource.PlayOneShot(_audioClip);
-                yield return new WaitForSeconds(_symbolsToDelay.Contains(_texts[i][j]) ? _typingDelay * 10 : _typingDelay);
+                if (_isSkipPressed)
+                {
+                    _dialogueText.text = _texts[i];
+                    yield return new WaitForSeconds(_typingDelay * 10);
+                    break;
+                }
+                else
+                {
+                    _dialogueText.text += _texts[i][j];
+                    yield return new WaitForSeconds(_symbolsToDelay.Contains(_texts[i][j]) ? _typingDelay * 10 : _typingDelay);
+                }
+
             }
-            while (!Input.GetMouseButtonDown(0))
+            while (!_playerInputActions.Dialogue.Skip.IsPressed())
                 yield return null;
         }
         
         _sceneLoader.SceneChange(_dialogueNum);
+    }
+
+    private void OnSkip(InputAction.CallbackContext context)
+    {
+        _isSkipPressed = true;
     }
 }
