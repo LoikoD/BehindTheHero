@@ -24,7 +24,15 @@ namespace CodeBase.Infrastructure.States
 
         public void Enter()
         {
-            _stateMachine.Enter<LoadLevelState, string>(SceneManager.GetActiveScene().name);
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            if (currentSceneName == Menu)
+            {
+                _stateMachine.Enter<MainMenuState>();
+            }
+            else
+            {
+                _stateMachine.Enter<LoadLevelState, string>(currentSceneName);
+            }
         }
 
         public void Exit()

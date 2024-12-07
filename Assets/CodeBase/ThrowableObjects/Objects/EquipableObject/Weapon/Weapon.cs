@@ -43,7 +43,7 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
                 {
                     if (hit.gameObject.TryGetComponent<IHealth>(out var enemy))
                     {
-                        Debug.Log($"{hit.gameObject.name} took {_damage} damage");
+                        //Debug.Log($"{hit.gameObject.name} took {_damage} damage");
                         enemy.TakeDamage(_damage);
                     }
                 }

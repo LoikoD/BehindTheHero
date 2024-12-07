@@ -24,7 +24,8 @@ namespace CodeBase.Infrastructure.States
 
         private void OnEndLevel()
         {
-            _sceneLoader.Load($"Dialogue{SceneManager.GetActiveScene().name}");
+
+            _stateMachine.Enter<DialogueState, string>($"Dialogue{SceneManager.GetActiveScene().name}");
         }
 
         public void Exit()

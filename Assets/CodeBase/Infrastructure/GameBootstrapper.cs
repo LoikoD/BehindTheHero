@@ -13,6 +13,7 @@ namespace CodeBase.Infrastructure
         {
             _game = new Game(this, Instantiate(_curtainPrefab));
             _game.StateMachine.Enter<BootstrapState>();
+            DontDestroyOnLoad(this);
         }
     }
 }

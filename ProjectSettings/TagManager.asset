@@ -6,6 +6,9 @@ TagManager:
   tags:
   - LoadingCurtain
   - ThrowableObject
+  - HeroSpawn
+  - KnightSpawn
+  - DialogueSystem
   layers:
   - Default
   - TransparentFX

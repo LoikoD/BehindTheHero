@@ -1,5 +1,6 @@
 using CodeBase.Player;
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Security.Claims;
 using TMPro;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 
 public class DialogueSystem : MonoBehaviour
 {
-    [SerializeField] private int _dialogueNum;
+    [SerializeField] private string _nextLevelName;
     [SerializeField] private string[] _names;
     [SerializeField] private string[] _texts;
     [SerializeField] private Sprite[] _icons;
@@ -29,13 +30,15 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField] private AudioClip _audioClip;
     //[SerializeField] private AudioClip[] _printSoundClips;
 
-    [SerializeField] private SceneLoader _sceneLoader;
+    [SerializeField] private GameStarter _sceneLoader;
 
 
     private PlayerInputActions _playerInputActions;
     private AudioSource _audioSource;
     private readonly string _symbolsToDelay = ".?!";
     private bool _isSkipPressed = false;
+
+    public event Action<string> EndScene;
 
 
     private void Start()
@@ -91,7 +94,7 @@ public class DialogueSystem : MonoBehaviour
                 yield return null;
         }
         
-        _sceneLoader.SceneChange(_dialogueNum);
+        EndScene?.Invoke(_nextLevelName);
     }
 
     private void OnSkip(InputAction.CallbackContext context)

@@ -15,7 +15,7 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
         {
             Vector2 scale = new Vector2(_attackArea.localScale.x * transform.localScale.x, _attackArea.localScale.y * transform.localScale.y) * _attackAreaCollider.size;
             Vector2 attackPoint = attackerPosition + attackDirection.normalized * scale / 2;
-            Debug.Log($"{attackPoint}; {scale}; {attackDirection.normalized}");
+            //Debug.Log($"{attackPoint}; {scale}; {attackDirection.normalized}");
             return Physics2D.OverlapBoxAll(attackPoint, scale, 0, mask);
         }
 

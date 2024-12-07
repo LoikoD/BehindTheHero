@@ -339,7 +339,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.4
+  m_fontSize: 38.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 144476229}
   m_Layer: 5
   m_Name: DialogueCanvas
-  m_TagString: Untagged
+  m_TagString: DialogueSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -524,6 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogueNum: 0
+  _nextLevelName: MainMenu
   _names:
   - "\u0414\u0430\u043C\u0438\u0430\u043D"
   - "\u0422\u0440\u0438\u0441\u0442\u0430\u043D"
@@ -1514,7 +1515,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.5
+  m_fontSize: 34
   m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -16,6 +16,7 @@ namespace CodeBase.Infrastructure
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, services),
+                [typeof(MainMenuState)] = new MainMenuState(this, sceneLoader),
                 [typeof(LoadLevelState)] = new LoadLevelState(
                     stateMachine: this,
                     sceneLoader: sceneLoader,
@@ -23,6 +24,7 @@ namespace CodeBase.Infrastructure
                     services.Single<IGameFactory>(),
                     services.Single<IStaticDataService>()),
                 [typeof(GameLoopState)] = new GameLoopState(this, sceneLoader),
+                [typeof(DialogueState)] = new DialogueState(this, sceneLoader)
             };
         }
 
