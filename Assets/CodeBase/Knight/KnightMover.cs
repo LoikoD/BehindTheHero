@@ -13,9 +13,7 @@ namespace CodeBase.Knight
             _moveSpeed = moveSpeed;
 
         public void Move(Transform target)
-        {
-            Vector2 moveDirection = transform.position - target.transform.position;
-            
+        {            
             transform.position = Vector2.Lerp(transform.position, target.position, _moveSpeed * Time.deltaTime);
         }
     }
