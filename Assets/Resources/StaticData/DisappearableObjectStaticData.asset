@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 784b1a8900af2094fa720fdf2d54831a, type: 3}
   m_Name: DisappearableObjectStaticData
   m_EditorClassIdentifier: 
-  DisappearTime: 0
+  DisappearTime: 2
   TimeBetweenFlashes: 0.3

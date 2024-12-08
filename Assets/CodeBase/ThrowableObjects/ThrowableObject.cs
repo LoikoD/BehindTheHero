@@ -1,6 +1,7 @@
 using System.Collections;
 using CodeBase.StaticData;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
+using CodeBase.ThrowableObjects.Pool;
 using UnityEngine;
 
 namespace CodeBase.ThrowableObjects
@@ -93,9 +94,8 @@ namespace CodeBase.ThrowableObjects
 
         public void Equip(Vector3 position)
         {
-            _state = ThrowableObjectState.Disappearing;
-            _disappear.StartDisappear();
-            Move(position);
+            _state = ThrowableObjectState.Disabled;
+            ThrowableObjectPool.ReturnObjectToPool(gameObject);
         }
 
         private void Move(Vector3 position)

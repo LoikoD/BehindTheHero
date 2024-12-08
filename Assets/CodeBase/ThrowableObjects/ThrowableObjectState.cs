@@ -11,6 +11,6 @@ namespace CodeBase.ThrowableObjects
         Disappearing,
         PickedUp,
         Weapon,
-        Dropped
+        Disabled
     }
 }
