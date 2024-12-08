@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField] private Image _sprite;
-    private KnightDefender _knight;
+    private Knight _knight;
 
-    public void Construct(KnightDefender defender)
+    public void Construct(Knight defender)
     {
         _knight = defender;
         _knight.HealthChanged += FillBar;

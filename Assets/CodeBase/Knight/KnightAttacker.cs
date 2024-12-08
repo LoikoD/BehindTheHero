@@ -13,14 +13,12 @@ namespace CodeBase.Knight
 
         private Weapon _currentWeapon;
         private Fists _fists;
-        private HorizontalDirection _horizontalDirection;
         private bool _isOnCooldown;
 
         private void Start()
         {
             EquipFists();
             _fists = (Fists)_currentWeapon;
-            _horizontalDirection = HorizontalDirection.Right;
         }
 
         public void Attack(Transform target)

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace CodeBase.Knight
 {
-    public class KnightDefender : MonoBehaviour, IHealth
+    public class Knight : MonoBehaviour, IHealth
     {
         private KnightStateMachine _stateMachine;
         private KnightAnimationsController _animator;
@@ -37,14 +37,34 @@ namespace CodeBase.Knight
 
         private void Update()
         {
+            if (_stateMachine.HasDied)
+                return;
 
             _stateMachine.Update();
 
+            Turn();
+        }
+        
+        public void TakeDamage(float damage)
+        {
+            if (_stateMachine.HasDied)
+                return;
+
+            CurrentHealth -= damage;
+            _animator.TakeDamage();
+            HealthChanged?.Invoke();
+
+            if (CurrentHealth <= 0)
+                Die();
+        }
+
+        private void Turn()
+        {
             Vector3 direction = Vector3.zero;
-            
+
             if (_stateMachine.Target != null)
                 direction = _stateMachine.Target.Transform.position - transform.position;
-            
+
             if (direction.x > 0 && _horizontalDirection != HorizontalDirection.Right)
             {
                 _horizontalDirection = HorizontalDirection.Right;
@@ -54,19 +74,6 @@ namespace CodeBase.Knight
             {
                 _horizontalDirection = HorizontalDirection.Left;
                 _animator.Turn();
-            }
-        }
-        
-        public void TakeDamage(float damage)
-        {
-            if (!_stateMachine.HasDied)
-            {
-                CurrentHealth -= damage;
-                _animator.TakeDamage();
-                HealthChanged?.Invoke();
-
-                if (CurrentHealth <= 0)
-                    Die();
             }
         }
 
