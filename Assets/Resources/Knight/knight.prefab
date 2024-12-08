@@ -636,6 +636,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2908442232359649070, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7603313922688627325, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
       propertyPath: m_Size.x
       value: 15
@@ -656,7 +660,10 @@ PrefabInstance:
       propertyPath: _isOnKnight
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2908442232359649070, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
+    - {fileID: 6019190256333245021, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
+    - {fileID: 6308451373842664807, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -773,6 +780,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2908442232359649070, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6772862711763674382, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -781,7 +792,10 @@ PrefabInstance:
       propertyPath: _isOnKnight
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2908442232359649070, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
+    - {fileID: 6019190256333245021, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
+    - {fileID: 6308451373842664807, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -857,6 +871,14 @@ PrefabInstance:
     - target: {fileID: 306916737257771696, guid: e1ce9b92b5f6aac498b6ffaf20122dd9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6374713905972648353, guid: e1ce9b92b5f6aac498b6ffaf20122dd9, type: 3}
+      propertyPath: _state
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6374713905972648353, guid: e1ce9b92b5f6aac498b6ffaf20122dd9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6374713905972648353, guid: e1ce9b92b5f6aac498b6ffaf20122dd9, type: 3}
       propertyPath: _isOnKnight
