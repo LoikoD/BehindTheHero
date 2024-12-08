@@ -18,22 +18,37 @@ namespace CodeBase.Logic.Utilities
         {
             _hitColliders = Physics2D.OverlapCircleAll(currentPosition, _radius, _layerMask);
 
+            float closestDistance = float.MaxValue;
+            IHealth closestTarget = null;
+
             if (_hitColliders.Length > 0)
             {
                 foreach (var hit in _hitColliders)
                 {
                     if (hit.transform.gameObject.TryGetComponent(out IHealth enemy))
                     {
-                        target = enemy;
+                        float distance = Vector3.Distance(hit.transform.position, currentPosition);
 
-                        return true;
+                        if (closestTarget == null || distance < closestDistance)
+                        {
+                            closestDistance = distance;
+                            closestTarget = enemy;
+                        }
                     }
                 }
             }
 
-            target = null;
+            if (closestTarget != null)
+            {
+                target = closestTarget;
+                return true;
+            }
+            else
+            {
+                target = null;
+                return false;
+            }
 
-            return false;
         }
     }
 }
