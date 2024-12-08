@@ -1,4 +1,3 @@
-using System.Collections;
 using CodeBase.Logic;
 using UnityEngine;
 
@@ -15,11 +14,10 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
         private Collider2D[] _hitColliders;
 
         internal readonly float _durabilityChangeStep = 1f;
-        private bool _isOnCooldown;
 
         public float CurrentDurability { get; set; }
         public float MaxDurability => _durability;
-        public bool IsOnCooldown => _isOnCooldown;
+        public float AttackCooldown => _attackCooldown;
 
 
         protected abstract Collider2D[] FindTargets(Vector2 attackerPosition, Vector2 attackDirection, LayerMask mask);
@@ -27,10 +25,6 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
         protected virtual void CalcDurability()
         {
             CurrentDurability -= _durabilityChangeStep;
-            if (CurrentDurability <= 0)
-            {
-                _isOnCooldown = false;
-            }
         }
 
         public void Attack(Vector2 attackerPosition, Vector2 attackDirection)
@@ -50,17 +44,7 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
                 
                 CalcDurability();
             }
-            
-            StartCoroutine(AttackCoroutine());
-        }
-        
-        private IEnumerator AttackCoroutine()
-        {
-            _isOnCooldown = true;
 
-            yield return new WaitForSeconds(_attackCooldown);
-
-            _isOnCooldown = false;
         }
     }
 }

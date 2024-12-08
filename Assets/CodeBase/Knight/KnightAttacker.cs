@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using CodeBase.Logic.Utilities;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace CodeBase.Knight
         private Weapon _currentWeapon;
         private Fists _fists;
         private HorizontalDirection _horizontalDirection;
+        private bool _isOnCooldown;
 
         private void Start()
         {
@@ -23,7 +25,7 @@ namespace CodeBase.Knight
 
         public void Attack(Transform target)
         {
-            if (_currentWeapon.IsOnCooldown)
+            if (_isOnCooldown)
                 return;
             
             if (_currentWeapon.CurrentDurability <= 0 && _currentWeapon != _fists)
@@ -32,6 +34,7 @@ namespace CodeBase.Knight
             Vector2 attackDirection = target.transform.position - transform.position;
 
             _animator.Attack();
+            StartCoroutine(AttackCdCoroutine());
             _currentWeapon.Attack(transform.position, attackDirection);
         }
 
@@ -76,6 +79,14 @@ namespace CodeBase.Knight
                     _animator.SetMeleeSkin();
                 }
             }
+        }
+        private IEnumerator AttackCdCoroutine()
+        {
+            _isOnCooldown = true;
+
+            yield return new WaitForSeconds(_currentWeapon.AttackCooldown);
+
+            _isOnCooldown = false;
         }
     }
 }
