@@ -14,8 +14,8 @@ public class Enemy : MonoBehaviour, IHealth
     private EnemyAnimationsController _enemyAnimationsController;
     private float _health;
 
-    public float Current { get; set; }
-    public float Max { get; set; }
+    public float CurrentHealth { get; set; }
+    public float MaxHealth { get; set; }
     public Transform Transform => transform;
 
     public event Action HealthChanged;

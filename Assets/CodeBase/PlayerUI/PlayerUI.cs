@@ -15,6 +15,6 @@ public class PlayerUI : MonoBehaviour
 
     void FillBar()
     {
-        _sprite.fillAmount = _knight.Current / _knight.Max;
+        _sprite.fillAmount = _knight.CurrentHealth / _knight.MaxHealth;
     }
 }

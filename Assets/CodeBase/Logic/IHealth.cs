@@ -6,8 +6,8 @@ namespace CodeBase.Logic
     public interface IHealth
     {
         event Action HealthChanged;
-        float Current { get; set; }
-        float Max { get; set; }
+        float CurrentHealth { get; set; }
+        float MaxHealth { get; set; }
         public Transform Transform { get; }
         void TakeDamage(float damage);
     }
