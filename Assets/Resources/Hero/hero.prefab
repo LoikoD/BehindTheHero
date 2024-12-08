@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1275019893805119344}
   - component: {fileID: 1018330257115039281}
   - component: {fileID: 2904602387099135733}
+  - component: {fileID: 3562490419792998897}
   m_Layer: 0
   m_Name: Spine GameObject (Junior)
   m_TagString: Untagged
@@ -82,7 +83,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2904602387099135733
 MonoBehaviour:
@@ -124,6 +125,18 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!210 &3562490419792998897
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619693764420724422}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
+  m_SortAtRoot: 1
 --- !u!1 &2398728321715247342
 GameObject:
   m_ObjectHideFlags: 0

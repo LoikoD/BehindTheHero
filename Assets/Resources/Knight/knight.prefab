@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 6972628631388891087}
   - component: {fileID: 6043353209942840566}
   - component: {fileID: 5847203695250855900}
-  - component: {fileID: -2378167706117796983}
   m_Layer: 7
   m_Name: knight
   m_TagString: Untagged
@@ -87,7 +86,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c43108d30fba49b190e6b6b530efab26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneLoader: {fileID: -2378167706117796983}
 --- !u!50 &-4330963052762215914
 Rigidbody2D:
   serializedVersion: 4
@@ -322,18 +320,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-2378167706117796983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2690634865653990598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfef3570e3b263f4399804bf09a826e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8357147639755254392
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +332,7 @@ GameObject:
   - component: {fileID: 8884457235662062387}
   - component: {fileID: 4359100639808946964}
   - component: {fileID: 1433277785829220121}
+  - component: {fileID: 4422738305279578231}
   m_Layer: 0
   m_Name: Spine GameObject (Knight)
   m_TagString: Untagged
@@ -460,6 +447,18 @@ MonoBehaviour:
   _animationName: idle
   loop: 1
   timeScale: 1
+--- !u!210 &4422738305279578231
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8357147639755254392}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
+  m_SortAtRoot: 1
 --- !u!1 &9055511468001499527
 GameObject:
   m_ObjectHideFlags: 0

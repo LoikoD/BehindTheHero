@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3527649664349072801}
   - component: {fileID: 5260249732694532862}
   - component: {fileID: 8890938104976360681}
-  - component: {fileID: -6366414732192597862}
   - component: {fileID: 4027140619056215117}
   - component: {fileID: 2300921797420026413}
   - component: {fileID: 1199440114663458913}
@@ -73,9 +72,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.76}
+  m_Offset: {x: 0, y: 4}
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 5
 --- !u!50 &8890938104976360681
 Rigidbody2D:
   serializedVersion: 4
@@ -103,19 +102,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-6366414732192597862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6123560694690102695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a3d279a26265949bd36e3d0adc39b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
 --- !u!114 &4027140619056215117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +287,7 @@ GameObject:
   - component: {fileID: 3311388774165985804}
   - component: {fileID: 7714980999660915391}
   - component: {fileID: 7170792407642284693}
+  - component: {fileID: 2416628828790890303}
   m_Layer: 0
   m_Name: Spine GameObject (Enemy_1)
   m_TagString: Untagged
@@ -413,3 +400,15 @@ MonoBehaviour:
   _animationName: go
   loop: 1
   timeScale: 1
+--- !u!210 &2416628828790890303
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7668803097322752121}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
+  m_SortAtRoot: 1
