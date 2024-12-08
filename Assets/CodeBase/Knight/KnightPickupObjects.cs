@@ -21,17 +21,17 @@ namespace CodeBase.Knight
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!_stateMachine.HasDied)
+            if (_stateMachine.HasDied)
+                return;
+
+            if (other.TryGetComponent(out ThrowableObject pickup))
             {
-                if (other.TryGetComponent(out ThrowableObject pickup))
+                if (pickup.State == ThrowableObjectState.Moving)
                 {
-                    if (pickup.State == ThrowableObjectState.Moving)
+                    if (pickup is Weapon weapon)
                     {
-                        if (pickup is Weapon weapon)
-                        {
-                            _attacker.Equip(weapon);
-                            pickup.Equip(transform.position);
-                        }
+                        _attacker.Equip(weapon);
+                        pickup.Equip(transform.position);
                     }
                 }
             }

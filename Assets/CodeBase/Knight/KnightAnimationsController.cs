@@ -69,6 +69,7 @@ namespace CodeBase.Knight
             _spineAnimationState = _skeletonAnimation.AnimationState;
             _skeleton = _skeletonAnimation.Skeleton;
             _isRunning = false;
+            _isAttacking = false;
 
             _sounds = GetComponent<KnightSounds>();
         }
@@ -104,6 +105,14 @@ namespace CodeBase.Knight
         }
         public float Die()
         {
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+                _isAttacking = false;
+            }
+            _isRunning = false;
+            _sounds.StopStepSounds();
+
             float time = _spineAnimationState.SetAnimation(0, _deathAnimationName, false).AnimationEnd;
 
             _sounds.PlayDieClip();

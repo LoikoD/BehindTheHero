@@ -10,7 +10,7 @@ namespace CodeBase.Knight.KnightFSM
     public class KnightStateMachine
     {
         private IFsmState _currentState;
-        private Dictionary<Type, IFsmState> _states = new Dictionary<Type, IFsmState>();
+        private readonly Dictionary<Type, IFsmState> _states = new();
 
         public KnightStateMachine(KnightMover movement, KnightAttacker attacker, KnightStaticData data, KnightAnimationsController animator)
         {

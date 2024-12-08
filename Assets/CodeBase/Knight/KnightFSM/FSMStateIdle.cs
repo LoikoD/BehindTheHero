@@ -10,7 +10,7 @@ namespace CodeBase.Knight.KnightFSM
     {
         private readonly KnightStateMachine _knightStateMachine;
         private readonly KnightMover _movement;
-        private ClosestTargetFinder _targetFinder;
+        private readonly ClosestTargetFinder _targetFinder;
         private readonly KnightAnimationsController _animator;
 
         public FSMStateIdle(KnightStateMachine knightStateMachine, KnightMover movement, KnightStaticData data, KnightAnimationsController animator)
