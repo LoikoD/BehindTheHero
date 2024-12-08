@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using CodeBase.Knight.KnightFSM;
 using CodeBase.Logic;
 using CodeBase.Logic.Utilities;
@@ -12,20 +13,20 @@ namespace CodeBase.Knight
         private KnightStateMachine _stateMachine;
         private KnightAnimationsController _animator;
         private HorizontalDirection _horizontalDirection;
-        //[SerializeField] private SceneLoader _sceneLoader;
 
-        public float Current { get; set; }
-        public float Max { get; set; }
+        public float CurrentHealth { get; set; }
+        public float MaxHealth { get; set; }
         public Transform Transform => transform;
 
         public event Action HealthChanged;
+        public event Action Died;
 
         public void Construct(KnightStateMachine stateMachine, float health)
         {
             _stateMachine = stateMachine;
 
-            Max = health;
-            Current = Max;
+            MaxHealth = health;
+            CurrentHealth = MaxHealth;
             _horizontalDirection = HorizontalDirection.Right;
         }
 
@@ -36,6 +37,7 @@ namespace CodeBase.Knight
 
         private void Update()
         {
+
             _stateMachine.Update();
 
             Vector3 direction = Vector3.zero;
@@ -57,22 +59,31 @@ namespace CodeBase.Knight
         
         public void TakeDamage(float damage)
         {
-            Current -= damage;
-            _animator.TakeDamage();
-            HealthChanged?.Invoke();
+            if (!_stateMachine.HasDied)
+            {
+                CurrentHealth -= damage;
+                _animator.TakeDamage();
+                HealthChanged?.Invoke();
 
-            if (Current <= 0)
-                Die();
+                if (CurrentHealth <= 0)
+                    Die();
+            }
         }
 
         private void Die()
         {
-            //if (SceneManager.GetActiveScene().name == "4")
-            //{
-            //    _sceneLoader?.SceneChange(7);
-            //}
-            _animator.Die();
-            Destroy(gameObject);
+            _stateMachine.SetState<FSMStateDie>();
+
+            float animTime = _animator.Die();
+
+            StartCoroutine(DiedAfterTime(animTime));
+        }
+
+        private IEnumerator DiedAfterTime(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+
+            Died?.Invoke();
         }
     }
 }

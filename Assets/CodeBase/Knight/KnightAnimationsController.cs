@@ -102,11 +102,13 @@ namespace CodeBase.Knight
             }
             _spineAnimationState.SetAnimation(1, _takeDamamgeAnimationName, false);
         }
-        public void Die()
+        public float Die()
         {
-            _spineAnimationState.SetAnimation(0, _deathAnimationName, false);
+            float time = _spineAnimationState.SetAnimation(0, _deathAnimationName, false).AnimationEnd;
 
             _sounds.PlayDieClip();
+
+            return time;
         }
         public void Attack()
         {

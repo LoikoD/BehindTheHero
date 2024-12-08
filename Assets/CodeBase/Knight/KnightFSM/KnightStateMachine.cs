@@ -14,14 +14,18 @@ namespace CodeBase.Knight.KnightFSM
 
         public KnightStateMachine(KnightMover movement, KnightAttacker attacker, KnightStaticData data, KnightAnimationsController animator)
         {
+            HasDied = false;
+
             AddState(new FSMStateIdle(this, movement, data, animator));
             AddState(new FSMStateChaseEnemy(this, movement, animator, data));
             AddState(new FSMStateAttack(this, attacker, animator, data));
-            
+            AddState(new FSMStateDie(this));
+
             SetState<FSMStateIdle>();
         }
 
         public IHealth Target { get; private set; }
+        public bool HasDied { get; private set; }
 
         public void AddState(IFsmState state)
         {
@@ -30,7 +34,10 @@ namespace CodeBase.Knight.KnightFSM
 
         public void Update()
         {
-            _currentState?.Update();
+            if (!HasDied)
+            {
+                _currentState?.Update();
+            }
         }
 
         public void SetState<T>() where T : IFsmState
@@ -53,6 +60,11 @@ namespace CodeBase.Knight.KnightFSM
         public void SetTarget(IHealth target)
         {
             Target = target;
+        }
+
+        public void SetDieFlag()
+        {
+            HasDied = true;
         }
     }
 }

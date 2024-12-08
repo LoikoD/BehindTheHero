@@ -39,7 +39,7 @@ namespace CodeBase.Infrastructure.Factory
                 knight.GetComponent<KnightAnimationsController>());
             
             mover.Construct(knightData.MoveSpeed);
-            knight.GetComponentInChildren<KnightPickupObjects>().Construct(knightData.PickUpRange);
+            knight.GetComponentInChildren<KnightPickupObjects>().Construct(knightStateMachine, knightData.PickUpRange);
             knight.GetComponent<KnightDefender>().Construct(knightStateMachine, knightData.Hp);
             
             return knight;
