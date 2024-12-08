@@ -73,11 +73,11 @@ namespace CodeBase.Infrastructure.States
             return spawner;
         }
 
-        private void InitHud(GameObject hero)
+        private void InitHud(GameObject knightObj)
         {
             GameObject hud = _gameFactory.CreateHud();
             
-            hud.GetComponent<PlayerUI>().Construct(hero.GetComponent<Knight>());
+            hud.GetComponent<PlayerUI>().Construct(knightObj.GetComponent<KnightMain>());
         }
 
         private void CameraFollow(GameObject gameObject) => 

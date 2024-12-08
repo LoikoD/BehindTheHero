@@ -40,7 +40,7 @@ namespace CodeBase.Infrastructure.Factory
             
             mover.Construct(knightData.MoveSpeed);
             knight.GetComponentInChildren<KnightPickupObjects>().Construct(knightStateMachine, knightData.PickUpRange);
-            knight.GetComponent<Knight>().Construct(knightStateMachine, knightData.Hp);
+            knight.GetComponent<KnightMain>().Construct(knightStateMachine, knightData.Hp);
             
             return knight;
         }

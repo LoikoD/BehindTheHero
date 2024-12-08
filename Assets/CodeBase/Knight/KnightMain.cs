@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace CodeBase.Knight
 {
-    public class Knight : MonoBehaviour, IHealth
+    public class KnightMain : MonoBehaviour, IHealth
     {
         private KnightStateMachine _stateMachine;
         private KnightAnimationsController _animator;
