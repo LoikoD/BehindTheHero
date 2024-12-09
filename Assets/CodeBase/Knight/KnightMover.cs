@@ -6,15 +6,16 @@ namespace CodeBase.Knight
     public class KnightMover : MonoBehaviour
     {
         [SerializeField] private KnightAnimationsController _animator;
-        
-        private float _moveSpeed;
+
+        [SerializeField] private float _moveSpeed;
 
         public void Construct(float moveSpeed) => 
             _moveSpeed = moveSpeed;
 
         public void Move(Transform target)
-        {            
-            transform.position = Vector2.Lerp(transform.position, target.position, _moveSpeed * Time.deltaTime);
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            transform.position += _moveSpeed * Time.deltaTime * direction;
         }
     }
 }

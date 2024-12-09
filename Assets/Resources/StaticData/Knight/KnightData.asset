@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 100
   Damage: 5
-  MoveSpeed: 0.4
+  MoveSpeed: 12
   AggroRange: 90
   AttackRange: 10
   PickUpRange: 5
