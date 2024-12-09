@@ -191,9 +191,9 @@ MonoBehaviour:
   _state: 1
   _isOnKnight: 0
   _attackArea: {fileID: 466373468518251994}
-  _damage: 10
-  _durability: 20
-  _attackCooldown: 0
+  _damage: 9
+  _durability: 10
+  _attackCooldown: 1.5
   _enemyMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64

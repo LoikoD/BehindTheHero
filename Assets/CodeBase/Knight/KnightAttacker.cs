@@ -10,11 +10,9 @@ namespace CodeBase.Knight
 {
     public class KnightAttacker : MonoBehaviour
     {
-        [SerializeField] private List<Weapon> _weapons;
-
         private KnightAnimationsController _animator;
+        private List<Weapon> _weapons;
         private Weapon _currentWeapon;
-        private Fists _fists;
         private bool _isOnCooldown;
 
         public void Construct(KnightAnimationsController animator, List<Weapon> weapons)
@@ -23,7 +21,6 @@ namespace CodeBase.Knight
             _weapons = weapons;
 
             EquipFists();
-            _fists = (Fists)_currentWeapon;
 
             _isOnCooldown = false;
         }
@@ -95,7 +92,7 @@ namespace CodeBase.Knight
 
         private void AfterAttackAnimation()
         {
-            if (_currentWeapon.CurrentDurability <= 0 && _currentWeapon != _fists)
+            if (_currentWeapon.CurrentDurability <= 0)
                 EquipFists();
         }
 

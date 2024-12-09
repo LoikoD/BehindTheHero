@@ -80,7 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7512e1ed67874c90a8ab72bd9896d738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapons: []
 --- !u!50 &-4330963052762215914
 Rigidbody2D:
   serializedVersion: 4
@@ -499,7 +498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c81bc171e6d4772ad1843920ed95aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attacker: {fileID: 1489851833570001546}
 --- !u!58 &3723077926769078114
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -548,28 +546,8 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 135667767003816957, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
-      propertyPath: _damage
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 135667767003816957, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
-      propertyPath: _durability
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 135667767003816957, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
       propertyPath: _isOnKnight
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 135667767003816957, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
-      propertyPath: _staticData
-      value: 
-      objectReference: {fileID: 11400000, guid: c7ce04955c108134e961fd0ec02bee78, type: 2}
-    - target: {fileID: 135667767003816957, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
-      propertyPath: _attackCooldown
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 135667767003816957, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
-      propertyPath: _enemyMask.m_Bits
-      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 143699381665704755, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -681,28 +659,8 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -7732392518682962432, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
-      propertyPath: _damage
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: -7732392518682962432, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
-      propertyPath: _durability
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -7732392518682962432, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
       propertyPath: _isOnKnight
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -7732392518682962432, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
-      propertyPath: _staticData
-      value: 
-      objectReference: {fileID: 11400000, guid: c7ce04955c108134e961fd0ec02bee78, type: 2}
-    - target: {fileID: -7732392518682962432, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
-      propertyPath: _attackCooldown
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -7732392518682962432, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
-      propertyPath: _enemyMask.m_Bits
-      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 143699381665704755, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
       propertyPath: m_LocalPosition.x

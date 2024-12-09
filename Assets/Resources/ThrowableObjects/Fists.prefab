@@ -50,7 +50,7 @@ MonoBehaviour:
   _isOnKnight: 0
   _attackArea: {fileID: 6772862711763674382}
   _damage: 5
-  _durability: 0
+  _durability: 1
   _attackCooldown: 1
   _enemyMask:
     serializedVersion: 2
