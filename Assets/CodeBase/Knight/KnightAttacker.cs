@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CodeBase.Knight.KnightFSM;
 using CodeBase.Logic.Utilities;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using UnityEngine;
@@ -9,16 +10,21 @@ namespace CodeBase.Knight
     public class KnightAttacker : MonoBehaviour
     {
         [SerializeField] private List<Weapon> _weapons;
-        [SerializeField] private KnightAnimationsController _animator;
 
+        private KnightAnimationsController _animator;
         private Weapon _currentWeapon;
         private Fists _fists;
         private bool _isOnCooldown;
 
-        private void Start()
+        public void Construct(KnightAnimationsController animator, List<Weapon> weapons)
         {
+            _animator = animator;
+            _weapons = weapons;
+
             EquipFists();
             _fists = (Fists)_currentWeapon;
+
+            _isOnCooldown = false;
         }
 
         public void Attack(Transform target)

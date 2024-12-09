@@ -21,18 +21,14 @@ namespace CodeBase.Knight
         public event Action HealthChanged;
         public event Action Died;
 
-        public void Construct(KnightStateMachine stateMachine, float health)
+        public void Construct(KnightStateMachine stateMachine, KnightAnimationsController animator, float health)
         {
             _stateMachine = stateMachine;
+            _animator = animator;
 
             MaxHealth = health;
             CurrentHealth = MaxHealth;
             _horizontalDirection = HorizontalDirection.Right;
-        }
-
-        private void Awake()
-        {
-            _animator = GetComponentInChildren<KnightAnimationsController>();
         }
 
         private void Update()
@@ -76,7 +72,6 @@ namespace CodeBase.Knight
                 _animator.Turn();
             }
         }
-
         private void Die()
         {
             _stateMachine.SetState<FSMStateDie>();

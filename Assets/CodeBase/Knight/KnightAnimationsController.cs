@@ -62,8 +62,7 @@ namespace CodeBase.Knight
         private bool _isAttacking;
         private Coroutine _attackCoroutine;
 
-
-        void Awake()
+        public void Construct(KnightSounds sounds)
         {
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
             _spineAnimationState = _skeletonAnimation.AnimationState;
@@ -71,7 +70,7 @@ namespace CodeBase.Knight
             _isRunning = false;
             _isAttacking = false;
 
-            _sounds = GetComponent<KnightSounds>();
+            _sounds = sounds;
         }
         public void Run()
         {

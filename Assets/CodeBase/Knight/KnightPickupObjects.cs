@@ -7,14 +7,15 @@ namespace CodeBase.Knight
 {
     public class KnightPickupObjects : MonoBehaviour
     {
-        [SerializeField] private KnightAttacker _attacker;
+        private KnightAttacker _attacker;
         private KnightStateMachine _stateMachine;
 
         private CircleCollider2D _collider;
 
-        public void Construct(KnightStateMachine stateMachine, float pickupRadius)
+        public void Construct(KnightStateMachine stateMachine, KnightAttacker attacker, float pickupRadius)
         {
             _stateMachine = stateMachine;
+            _attacker = attacker;
             _collider = GetComponent<CircleCollider2D>();
             _collider.radius = pickupRadius;
         }

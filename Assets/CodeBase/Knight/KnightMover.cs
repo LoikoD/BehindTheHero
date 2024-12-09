@@ -5,12 +5,12 @@ namespace CodeBase.Knight
 {
     public class KnightMover : MonoBehaviour
     {
-        [SerializeField] private KnightAnimationsController _animator;
+        private float _moveSpeed;
 
-        [SerializeField] private float _moveSpeed;
-
-        public void Construct(float moveSpeed) => 
+        public void Construct(float moveSpeed)
+        {
             _moveSpeed = moveSpeed;
+        }
 
         public void Move(Transform target)
         {

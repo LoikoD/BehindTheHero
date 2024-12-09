@@ -3,6 +3,9 @@ using CodeBase.Infrastructure.Services;
 using CodeBase.Knight;
 using CodeBase.Knight.KnightFSM;
 using CodeBase.StaticData;
+using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Factory
@@ -29,19 +32,25 @@ namespace CodeBase.Infrastructure.Factory
         {
             KnightStaticData knightData = _staticData.ForKnight();
             GameObject knight = _assets.InstantiateAt(AssetPath.Knight, at.transform.position);
-            
+
+            KnightSounds sounds = knight.GetComponent<KnightSounds>();
+            sounds.Construct();
+
+            KnightAnimationsController animator = knight.GetComponent<KnightAnimationsController>();
+            animator.Construct(sounds);
+
             KnightMover mover = knight.GetComponent<KnightMover>();
-            
-            KnightStateMachine knightStateMachine = new KnightStateMachine(
-                mover,
-                knight.GetComponent<KnightAttacker>(),
-                knightData,
-                knight.GetComponent<KnightAnimationsController>());
-            
             mover.Construct(knightData.MoveSpeed);
-            knight.GetComponentInChildren<KnightPickupObjects>().Construct(knightStateMachine, knightData.PickUpRange);
-            knight.GetComponent<KnightMain>().Construct(knightStateMachine, knightData.Hp);
-            
+
+            KnightAttacker attacker = knight.GetComponent<KnightAttacker>();
+            List<Weapon> weapons = knight.GetComponentsInChildren<Weapon>(true).ToList();
+            attacker.Construct(animator, weapons);
+
+            KnightStateMachine knightStateMachine = new(mover, attacker, knightData, animator);
+
+            knight.GetComponentInChildren<KnightPickupObjects>().Construct(knightStateMachine, attacker, knightData.PickUpRange);
+            knight.GetComponent<KnightMain>().Construct(knightStateMachine, animator, knightData.Hp);
+
             return knight;
         }
 

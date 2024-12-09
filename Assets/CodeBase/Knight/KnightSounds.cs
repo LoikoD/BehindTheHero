@@ -22,7 +22,7 @@ public class KnightSounds : MonoBehaviour
     private AudioSource _audioSource;
     private Coroutine _stepCoroutine;
 
-    private void Awake()
+    public void Construct()
     {
         _audioSource = GetComponent<AudioSource>();
         _audioSource.loop = false;
