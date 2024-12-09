@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CodeBase.Knight.KnightFSM;
 using CodeBase.Logic.Utilities;
@@ -32,14 +33,13 @@ namespace CodeBase.Knight
             if (_isOnCooldown)
                 return;
             
-            if (_currentWeapon.CurrentDurability <= 0 && _currentWeapon != _fists)
-                EquipFists();
-            
             Vector2 attackDirection = target.transform.position - transform.position;
 
-            _animator.Attack();
+            float attackAnimationTime = _animator.Attack();
+            StartCoroutine(ActionAfterTime(attackAnimationTime, AfterAttackAnimation));
             StartCoroutine(AttackCdCoroutine());
             _currentWeapon.Attack(transform.position, attackDirection);
+
         }
 
         public void Equip(Weapon weapon)
@@ -91,6 +91,19 @@ namespace CodeBase.Knight
             yield return new WaitForSeconds(_currentWeapon.AttackCooldown);
 
             _isOnCooldown = false;
+        }
+
+        private IEnumerator ActionAfterTime(float secondsToWait, Action action)
+        {
+            yield return new WaitForSeconds(secondsToWait);
+
+            action();
+        }
+
+        private void AfterAttackAnimation()
+        {
+            if (_currentWeapon.CurrentDurability <= 0 && _currentWeapon != _fists)
+                EquipFists();
         }
     }
 }

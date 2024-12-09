@@ -114,11 +114,12 @@ namespace CodeBase.Knight
 
             return time;
         }
-        public void Attack()
+        public float Attack()
         {
             if (_isAttacking)
             {
-                return;
+                Debug.LogWarning("Attack animation called before previous attack animation has finished.");
+                return 0;
             }
             _isAttacking = true;
 
@@ -150,7 +151,10 @@ namespace CodeBase.Knight
                 _spineAnimationState.AddAnimation(0, _idleAnimationName, true, 0);
             }
 
-            _attackCoroutine = StartCoroutine(StopAttackAfterTime(attackEntry.AnimationEnd));
+            float attackAnimationTime = attackEntry.AnimationEnd;
+            _attackCoroutine = StartCoroutine(StopAttackAfterTime(attackAnimationTime));
+
+            return attackAnimationTime;
         }
 
         private IEnumerator StopAttackAfterTime(float time)
