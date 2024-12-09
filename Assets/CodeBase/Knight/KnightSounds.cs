@@ -1,5 +1,7 @@
+using CodeBase.Logic.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class KnightSounds : MonoBehaviour
@@ -9,40 +11,48 @@ public class KnightSounds : MonoBehaviour
     [SerializeField] private List<AudioClip> _swordAttackSounds;
     [SerializeField] private List<AudioClip> _poleaxeAttackSounds;
     [SerializeField] private List<AudioClip> _dieSounds;
+
+    private const string StepKey = "step";
+    private const string MeleeAttackKey = "meleeAttack";
+    private const string SwordAttackKey = "swordAttack";
+    private const string PoleaxeAttackKey = "poleaxeAttack";
+    private const string DieKey = "die";
+
+    private SoundQueuer _soundQueuer;
     private AudioSource _audioSource;
     private Coroutine _stepCoroutine;
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        _audioSource.loop = false;
+
+        _soundQueuer = new();
+        _soundQueuer.RegisterSoundList(StepKey, _stepSounds);
+        _soundQueuer.RegisterSoundList(MeleeAttackKey, _meleeAttackSounds);
+        _soundQueuer.RegisterSoundList(SwordAttackKey, _swordAttackSounds);
+        _soundQueuer.RegisterSoundList(PoleaxeAttackKey, _poleaxeAttackSounds);
+        _soundQueuer.RegisterSoundList(DieKey, _dieSounds);
     }
 
-    public void PlayMeleeAttackClip()
+    public void PlayMeleeAttackClip(int playTimes, float interval)
     {
-        int clipIndex = Random.Range(0, _meleeAttackSounds.Count);
-        _audioSource.PlayOneShot(_meleeAttackSounds[clipIndex]);
-
+        StartCoroutine(PlayXNumberTimes(MeleeAttackKey, playTimes, interval));
     }
 
     public void PlaySwordAttackClip()
     {
-        int clipIndex = Random.Range(0, _swordAttackSounds.Count);
-        _audioSource.PlayOneShot(_swordAttackSounds[clipIndex]);
-
+        _audioSource.PlayOneShot(_soundQueuer.GetNextSound(SwordAttackKey));
     }
 
     public void PlayPoleaxeAttackClip()
     {
-        int clipIndex = Random.Range(0, _poleaxeAttackSounds.Count);
-        _audioSource.PlayOneShot(_poleaxeAttackSounds[clipIndex]);
-
+        _audioSource.PlayOneShot(_soundQueuer.GetNextSound(PoleaxeAttackKey));
     }
 
     public void PlayDieClip()
     {
-        int clipIndex = Random.Range(0, _dieSounds.Count);
-        _audioSource.PlayOneShot(_dieSounds[clipIndex]);
-
+        _audioSource.PlayOneShot(_soundQueuer.GetNextSound(DieKey));
     }
 
     public void StartStepSounds(float interval)
@@ -58,17 +68,19 @@ public class KnightSounds : MonoBehaviour
         }
     }
 
-    private void PlayStepClip()
-    {
-        int clipIndex = Random.Range(0, _stepSounds.Count);
-        _audioSource.PlayOneShot(_stepSounds[clipIndex]);
-    }
-
     private IEnumerator LoopStepSounds(float interval)
     {
         while (true)
         {
-            PlayStepClip();
+            _audioSource.PlayOneShot(_soundQueuer.GetNextSound(StepKey));
+            yield return new WaitForSeconds(interval);
+        }
+    }
+    private IEnumerator PlayXNumberTimes(string soundKey, int playTimes, float interval)
+    {
+        for (int i = 0; i < playTimes; ++i)
+        {
+            _audioSource.PlayOneShot(_soundQueuer.GetNextSound(soundKey));
             yield return new WaitForSeconds(interval);
         }
     }

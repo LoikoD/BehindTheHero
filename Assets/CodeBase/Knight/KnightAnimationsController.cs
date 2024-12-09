@@ -97,10 +97,6 @@ namespace CodeBase.Knight
         }
         public void TakeDamage()
         {
-            if (_isAttacking)
-            {
-                return;
-            }
             _spineAnimationState.SetAnimation(1, _takeDamamgeAnimationName, false);
         }
         public float Die()
@@ -132,7 +128,7 @@ namespace CodeBase.Knight
             if (_skeleton.Skin.Name == _meleeSkinName)
             {
                 attackEntry = _spineAnimationState.SetAnimation(0, _meleeAtackAnimationName, false);
-                _sounds.PlayMeleeAttackClip();
+                _sounds.PlayMeleeAttackClip(3, attackEntry.AnimationEnd / 3);
             }
             else if (_skeleton.Skin.Name == _swordSkinName)
             {
