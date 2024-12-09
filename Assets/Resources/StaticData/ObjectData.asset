@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   MaxDistance: 35
-  DistanceEpsilon: 0.1
+  DistanceEpsilon: 1
   TimeToDisappear: 10
