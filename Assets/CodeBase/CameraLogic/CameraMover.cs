@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CodeBase.CameraLogic
 {
     public class CameraMover : MonoBehaviour
     {
-        private readonly Vector3 _targetPosition = new(4.46f, -2.42f, -10f);
-        private const float DistanceEpsilon = 0.1f;
+        [SerializeField] private Transform _target;
+        [SerializeField] private AnimationCurve _curve;
 
+        private const float MoveSpeed = 0.3f;
+
+        private Vector3 _targetPosition;
+        private Vector3 _startPosition;
+        private float _moveTime;
         private bool _isMoving = false;
 
         public event Action Moved;
@@ -20,9 +21,10 @@ namespace CodeBase.CameraLogic
         {
             if (_isMoving)
             {
-                if (Vector3.Distance(transform.position, _targetPosition) > DistanceEpsilon)
+                if (_moveTime < 1)
                 {
-                    MoveTo();
+                    _moveTime = Mathf.MoveTowards(_moveTime, 1, MoveSpeed * Time.deltaTime);
+                    transform.position = Vector3.Lerp(_startPosition, _targetPosition, _curve.Evaluate(_moveTime));
                 }
                 else
                 {
@@ -34,16 +36,10 @@ namespace CodeBase.CameraLogic
 
         public void StartMoving()
         {
+            _targetPosition = new Vector3(_target.position.x, _target.position.y, transform.position.z);
+            _startPosition = transform.position;
             _isMoving = true;
+            _moveTime = 0;
         }
-
-
-        private void MoveTo()
-        {
-            Vector3 newPos = Vector3.Lerp(transform.position, _targetPosition, 1.5f * Time.deltaTime);
-            transform.position = newPos;
-        }
-
-
     }
 }
