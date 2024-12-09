@@ -37,7 +37,9 @@ namespace CodeBase.Knight
 
             float attackAnimationTime = _animator.Attack();
             StartCoroutine(ActionAfterTime(attackAnimationTime, AfterAttackAnimation));
-            StartCoroutine(AttackCdCoroutine());
+
+            AttackCd();
+
             _currentWeapon.Attack(transform.position, attackDirection);
 
         }
@@ -84,13 +86,17 @@ namespace CodeBase.Knight
                 }
             }
         }
-        private IEnumerator AttackCdCoroutine()
+
+        private void AttackCd()
         {
             _isOnCooldown = true;
+            StartCoroutine(ActionAfterTime(_currentWeapon.AttackCooldown, () => { _isOnCooldown = false; }));
+        }
 
-            yield return new WaitForSeconds(_currentWeapon.AttackCooldown);
-
-            _isOnCooldown = false;
+        private void AfterAttackAnimation()
+        {
+            if (_currentWeapon.CurrentDurability <= 0 && _currentWeapon != _fists)
+                EquipFists();
         }
 
         private IEnumerator ActionAfterTime(float secondsToWait, Action action)
@@ -98,12 +104,6 @@ namespace CodeBase.Knight
             yield return new WaitForSeconds(secondsToWait);
 
             action();
-        }
-
-        private void AfterAttackAnimation()
-        {
-            if (_currentWeapon.CurrentDurability <= 0 && _currentWeapon != _fists)
-                EquipFists();
         }
     }
 }
