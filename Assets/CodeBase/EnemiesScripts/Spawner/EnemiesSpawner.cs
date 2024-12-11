@@ -16,7 +16,6 @@ public class EnemiesSpawner : MonoBehaviour
     [SerializeField] private int _maxGroupCount = 2;
     [SerializeField] private float _minSpawnDelay = 7;
     [SerializeField] private float _maxSpawnDelay = 7;
-    [SerializeField] private float _randomRange = 0.1f;
     [SerializeField] private ThrowableObjectPool _lootPool;
 
     private int _enemiesDied;
@@ -94,8 +93,7 @@ public class EnemiesSpawner : MonoBehaviour
         _enemiesDied += 1;
 
         if (_enemiesCount == _enemiesDied)
-            EndLevel?.Invoke();
-        
+            StartCoroutine(EndLevelAfterTime());
 
         if (_enemiesDied % 2 == 0)
             _lootPool.SpwanThrowableObject(enemy.transform.position);
@@ -114,5 +112,11 @@ public class EnemiesSpawner : MonoBehaviour
         Vector3 offScreenPosition = _mainCamera.transform.position + direction.normalized * maxDistance;
 
         return offScreenPosition;
+    }
+
+    private IEnumerator EndLevelAfterTime()
+    {
+        yield return new WaitForSeconds(1);
+        EndLevel?.Invoke();
     }
 }

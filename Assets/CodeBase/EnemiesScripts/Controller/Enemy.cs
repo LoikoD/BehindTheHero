@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour, IHealth
     private EnemyStaticData _data;
     private EnemyAnimationsController _enemyAnimationsController;
     private float _health;
+    private bool _isDying;
 
     public float CurrentHealth { get; set; }
     public float MaxHealth { get; set; }
@@ -34,10 +35,15 @@ public class Enemy : MonoBehaviour, IHealth
 
         _enemyMover.Construct(_data.Speed);
         _enemyAttacker.Construct(_data.Damage, _data.AttackCooldown, _data.DamageRange, _data.KnightLayer);
+
+        _isDying = false;
     }
 
     private void Update()
     {
+        if (_isDying)
+            return;
+
         if (Vector2.Distance(transform.position, _knight.transform.position) > _data.AttackRange)
         {
             _enemyMover.Move(_knight);
@@ -50,6 +56,9 @@ public class Enemy : MonoBehaviour, IHealth
     
     public void TakeDamage(float damage)
     {
+        if (_isDying)
+            return;
+
         _health -= damage;
         _enemyAnimationsController.TakeDamage();
 
@@ -59,13 +68,14 @@ public class Enemy : MonoBehaviour, IHealth
 
     private void Die()
     {
+        _isDying = true;
         StartCoroutine(WaitForDie(_enemyAnimationsController.Die()));
-        HasDied?.Invoke(this);
     }
 
     private IEnumerator WaitForDie(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        HasDied?.Invoke(this);
         gameObject.SetActive(false);
     }
 }
