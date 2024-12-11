@@ -20,10 +20,10 @@ public class EnemiesSpawner : MonoBehaviour
     [SerializeField] private ThrowableObjectPool _lootPool;
 
     private int _enemiesDied;
-    
+
+    private Camera _mainCamera;
     private Transform _knight;
     private EnemyStaticData _data;
-    private List<ThrowableObject> _possibleLoot;
 
     public event Action EndLevel;
 
@@ -50,6 +50,9 @@ public class EnemiesSpawner : MonoBehaviour
             _maxSpawnDelay = 5;
         }
 
+        _mainCamera = Camera.main;
+
+        _enemiesDied = 0;
         StartCoroutine(Spawning());
     }
 
@@ -58,26 +61,18 @@ public class EnemiesSpawner : MonoBehaviour
         int _spawnedCount = 0;
         while (_spawnedCount < _enemiesCount)
         {
-            bool _xAxisToIncrease = Random.value < 0.5f;
-            bool _xPosHalf = Random.value < 0.5f;
-            bool _yPosHalf = Random.value < 0.5f;
+            Vector3 _groupSpawnPos = GetRandomOffScreenPosition();
 
-            float _xPosToSpawn = GetXPosition(_xAxisToIncrease, _xPosHalf);
-
-            float _yPosToSpawn = GetYPosition(_xAxisToIncrease, _xPosHalf);
-
-            Vector2 _groupSpawnPos = Camera.main.ViewportToWorldPoint(new Vector2(_xPosToSpawn, _yPosToSpawn));
+            int _enemiesInGroup = Mathf.Min(_enemiesCount - _spawnedCount, Random.Range(_minGroupCount, _maxGroupCount));
             
-            int _enemiesInGroup = Mathf.Min(_enemiesCount - _spawnedCount, 
-                (int)(Random.Range(_minGroupCount, _maxGroupCount)));
-            
-            for (int i = _enemiesInGroup; i > 0; i--)
+            for (int i = 0; i < _enemiesInGroup; i++)
             {
-                Vector2 position = _groupSpawnPos + new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
+                Vector3 position = _groupSpawnPos + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0);
 
                 Enemy enemy = CreateEnemy(position);
                 enemy.HasDied += OnEnemyDeath;
 
+                _spawnedCount++;
             }
             
             yield return new WaitForSeconds(Random.Range(_minSpawnDelay, _maxSpawnDelay));
@@ -86,10 +81,9 @@ public class EnemiesSpawner : MonoBehaviour
     
     private Enemy CreateEnemy(Vector3 position)
     {
-        GameObject enemySpawn = Instantiate(_data.Prefab, new Vector2(position.x, position.y), Quaternion.identity);
+        GameObject enemySpawn = Instantiate(_data.Prefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
 
         Enemy enemy = enemySpawn.GetComponent<Enemy>();
-
         enemy.Construct(_data, _knight);
 
         return enemy;
@@ -109,19 +103,16 @@ public class EnemiesSpawner : MonoBehaviour
         enemy.HasDied -= OnEnemyDeath;
     }
 
-    private float GetXPosition(bool isIncrease, bool isHalf)
+    private Vector3 GetRandomOffScreenPosition()
     {
-        float _xPosToSpawn = isIncrease ? (isHalf ? 10f + Random.Range(0, _randomRange) : -10f - Random.Range(0, _randomRange)) 
-            : Random.Range(0 - _randomRange, 1 + _randomRange);
+        float screenHeight = _mainCamera.orthographicSize * 2;
+        float screenWidth = screenHeight * _mainCamera.aspect;
 
-        return _xPosToSpawn;
-    }
+        float randomAngle = Random.Range(0f, 360f);
+        Vector3 direction = new(Mathf.Cos(randomAngle * Mathf.Deg2Rad), Mathf.Sin(randomAngle * Mathf.Deg2Rad), 0);
+        float maxDistance = Mathf.Abs(direction.x) > Mathf.Abs(direction.y) ? screenWidth : screenHeight;
+        Vector3 offScreenPosition = _mainCamera.transform.position + direction.normalized * maxDistance;
 
-    private float GetYPosition(bool isIncrease, bool isHalf)
-    {
-        float _yPosToSpawn = isIncrease  ? Random.Range(0 - _randomRange, 1 + _randomRange)
-            : (isHalf ? 10f + Random.Range(0, _randomRange) : -10f - Random.Range(0, _randomRange));
-
-        return _yPosToSpawn;
+        return offScreenPosition;
     }
 }
