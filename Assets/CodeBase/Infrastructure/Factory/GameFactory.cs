@@ -5,6 +5,7 @@ using CodeBase.Knight.KnightFSM;
 using CodeBase.StaticData;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using UnityEngine;
 
@@ -66,6 +67,11 @@ namespace CodeBase.Infrastructure.Factory
             spawner.GetComponent<EnemiesSpawner>().Construct(knight, enemyType);
 
             return spawner;
+        }
+
+        public GameObject CreateGameUI()
+        {
+            return _assets.Instantiate(AssetPath.GameUI);
         }
     }
 }

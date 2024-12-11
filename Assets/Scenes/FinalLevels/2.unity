@@ -93483,6 +93483,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 170300270608174347, guid: d95389aad895d6346851ca775d08a7f0, type: 3}
+      propertyPath: m_fontSize
+      value: 68.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1087239373660413373, guid: d95389aad895d6346851ca775d08a7f0, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -93591,6 +93595,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 3765278643936422522, guid: d95389aad895d6346851ca775d08a7f0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5503011992375067004, guid: d95389aad895d6346851ca775d08a7f0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -93618,6 +93626,10 @@ PrefabInstance:
     - target: {fileID: 7348376485720991742, guid: d95389aad895d6346851ca775d08a7f0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8497559182456676452, guid: d95389aad895d6346851ca775d08a7f0, type: 3}
+      propertyPath: m_fontSize
+      value: 61.3
       objectReference: {fileID: 0}
     - target: {fileID: 9035629570848489495, guid: d95389aad895d6346851ca775d08a7f0, type: 3}
       propertyPath: m_AnchorMax.x

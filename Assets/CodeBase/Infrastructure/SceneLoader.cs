@@ -12,12 +12,12 @@ namespace CodeBase.Infrastructure
         public SceneLoader(ICoroutineRunner coroutineRunner) =>
             _coroutineRunner = coroutineRunner;
 
-        public void Load(string name, Action onLoaded = null) =>
-            _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
+        public void Load(string name, Action onLoaded = null, bool needReload = false) =>
+            _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded, needReload));
 
-        private IEnumerator LoadScene(string name, Action onLoaded = null)
+        private IEnumerator LoadScene(string name, Action onLoaded = null, bool needReload = false)
         {
-            if (SceneManager.GetActiveScene().name == name)
+            if (SceneManager.GetActiveScene().name == name && !needReload)
             {
                 onLoaded?.Invoke();
                 yield break;
