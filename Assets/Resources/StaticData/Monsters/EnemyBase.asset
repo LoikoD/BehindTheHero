@@ -18,7 +18,7 @@ MonoBehaviour:
   MaxHp: 25
   Damage: 3
   DamageRange: 9
-  Speed: 0.3
+  Speed: 15
   Prefab: {fileID: 6123560694690102695, guid: db9906c3d569b6744ae2ff23fd5b35c4, type: 3}
   KnightLayer:
     serializedVersion: 2

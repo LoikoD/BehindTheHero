@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-    private Rigidbody2D _rb;
     private float _moveSpeed;
     private HorizontalDirection _horizontalDirection;
     private EnemyAnimationsController _enemyAnimationsController;
@@ -14,7 +13,6 @@ public class EnemyMover : MonoBehaviour
 
     private void Awake()
     {
-        _rb = gameObject.GetComponent<Rigidbody2D>();
         _enemyAnimationsController = gameObject.GetComponent<EnemyAnimationsController>();
 
         _horizontalDirection = HorizontalDirection.Right;
@@ -23,8 +21,8 @@ public class EnemyMover : MonoBehaviour
     public void Move(Transform target)
     {
         Vector2 vectorToKnight = target.transform.position - transform.position;
-        
-        transform.position = Vector2.Lerp(transform.position, target.position, _moveSpeed * Time.deltaTime);
+
+        transform.position = Vector3.MoveTowards(transform.position, target.position, _moveSpeed * Time.deltaTime);
 
         if (vectorToKnight.x > 0 && _horizontalDirection != HorizontalDirection.Right)
         {

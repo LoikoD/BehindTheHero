@@ -14,8 +14,7 @@ namespace CodeBase.Knight
 
         public void Move(Transform target)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += _moveSpeed * Time.deltaTime * direction;
+            transform.position = Vector3.MoveTowards(transform.position, target.position, _moveSpeed * Time.deltaTime);
         }
     }
 }
