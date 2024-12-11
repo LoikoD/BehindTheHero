@@ -19,7 +19,6 @@ public class Enemy : MonoBehaviour, IHealth
     public float MaxHealth { get; set; }
     public Transform Transform => transform;
 
-    public event Action HealthChanged;
     public event Action<Enemy> HasDied;
 
     public void Construct(EnemyStaticData data, Transform knight)
