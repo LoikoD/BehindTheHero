@@ -1,3 +1,5 @@
+using CodeBase.Character;
+using CodeBase.EnemiesScripts.EnemyFSM;
 using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Knight;
@@ -51,6 +53,7 @@ namespace CodeBase.Infrastructure.Factory
 
             knight.GetComponentInChildren<KnightPickupObjects>().Construct(knightStateMachine, attacker, knightData.PickUpRange);
             knight.GetComponent<KnightMain>().Construct(knightStateMachine, animator, knightData.Hp);
+            knight.GetComponent<CharacterTurner>().Construct(knightStateMachine, animator);
 
             return knight;
         }

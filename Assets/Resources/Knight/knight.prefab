@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 5254816593284887636}
   - component: {fileID: 5896694447900964692}
   - component: {fileID: 1489851833570001546}
-  - component: {fileID: -4330963052762215914}
+  - component: {fileID: 2277287714303824049}
   - component: {fileID: -5953299911526444620}
+  - component: {fileID: 421281117454851477}
   - component: {fileID: 6972628631388891087}
   - component: {fileID: 6043353209942840566}
   - component: {fileID: 5847203695250855900}
@@ -80,33 +81,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7512e1ed67874c90a8ab72bd9896d738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &-4330963052762215914
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &2277287714303824049
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2690634865653990598}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 031f25db57e247f4b849c3f5ca8ab71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!58 &-5953299911526444620
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -142,6 +128,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 8}
   serializedVersion: 2
   m_Radius: 10
+--- !u!50 &421281117454851477
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2690634865653990598}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &6972628631388891087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,9 +543,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 6}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
 --- !u!1001 &567494573448948603
 PrefabInstance:
   m_ObjectHideFlags: 0

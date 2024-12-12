@@ -1,23 +1,23 @@
+using CodeBase.Character.Interfaces;
 using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
 using CodeBase.Logic.Utilities;
 using CodeBase.StaticData;
-using UnityEngine;
 
 namespace CodeBase.Knight.KnightFSM
 {
-    public class FSMStateIdle : IFsmState
+    public class KnightFSMIdleState : IFsmState
     {
-        private readonly KnightStateMachine _knightStateMachine;
+        private readonly KnightStateMachine _stateMachine;
         private readonly KnightMover _movement;
         private readonly ClosestTargetFinder _targetFinder;
-        private readonly KnightAnimationsController _animator;
+        private readonly IAnimationsController _animator;
 
-        public FSMStateIdle(KnightStateMachine knightStateMachine, KnightMover movement, KnightStaticData data, KnightAnimationsController animator)
+        public KnightFSMIdleState(KnightStateMachine stateMachine, KnightMover movement, KnightStaticData data, KnightAnimationsController animator)
         {
-            _knightStateMachine = knightStateMachine;
+            _stateMachine = stateMachine;
             _movement = movement;
-            _targetFinder = new ClosestTargetFinder(data.AggroRange, data.Enemy);
+            _targetFinder = new ClosestTargetFinder(data.AggroRange, data.TargetLayer);
             _animator = animator;
         }
 
@@ -30,8 +30,8 @@ namespace CodeBase.Knight.KnightFSM
         {
             if (_targetFinder.TryFindTarget(_movement.gameObject.transform.position, out IHealth target))
             {
-                _knightStateMachine.SetTarget(target);
-                _knightStateMachine.SetState<FSMStateChaseEnemy>();
+                _stateMachine.SetTarget(target);
+                _stateMachine.SetState<KnightFSMChaseState>();
             }
         }
 

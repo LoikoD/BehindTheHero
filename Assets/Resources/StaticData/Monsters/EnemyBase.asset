@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4cef479e31305a4aaa11afbf6d7463c, type: 3}
   m_Name: EnemyBase
   m_EditorClassIdentifier: 
-  Type: 0
-  AttackRange: 9
-  AttackCooldown: 3
-  MaxHp: 25
+  Hp: 25
   Damage: 3
-  DamageRange: 9
-  Speed: 10
-  Prefab: {fileID: 6123560694690102695, guid: db9906c3d569b6744ae2ff23fd5b35c4, type: 3}
-  KnightLayer:
+  MoveSpeed: 10
+  AttackRange: 9
+  TargetLayer:
     serializedVersion: 2
     m_Bits: 128
+  Type: 0
+  AttackCooldown: 3
+  Prefab: {fileID: 6123560694690102695, guid: db9906c3d569b6744ae2ff23fd5b35c4, type: 3}

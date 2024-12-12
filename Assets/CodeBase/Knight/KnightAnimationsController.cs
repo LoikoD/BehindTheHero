@@ -1,12 +1,12 @@
+using CodeBase.Character.Interfaces;
 using Spine;
 using Spine.Unity;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.Knight
 {
-    public class KnightAnimationsController : MonoBehaviour
+    public class KnightAnimationsController : MonoBehaviour, IAnimationsController
     {
         #region Inspector
         [SpineAnimation]

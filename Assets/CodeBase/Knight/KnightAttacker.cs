@@ -1,44 +1,24 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CodeBase.Character;
 using CodeBase.Knight.KnightFSM;
-using CodeBase.Logic.Utilities;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using UnityEngine;
 
 namespace CodeBase.Knight
 {
-    public class KnightAttacker : MonoBehaviour
+    public class KnightAttacker : CharacterAttacker
     {
-        private KnightAnimationsController _animator;
         private List<Weapon> _weapons;
         private Weapon _currentWeapon;
-        private bool _isOnCooldown;
+
+        internal override float AttackCooldown => _currentWeapon.AttackCooldown;
 
         public void Construct(KnightAnimationsController animator, List<Weapon> weapons)
         {
-            _animator = animator;
+            base.Construct(animator);
             _weapons = weapons;
 
             EquipFists();
-
-            _isOnCooldown = false;
-        }
-
-        public void Attack(Transform target)
-        {
-            if (_isOnCooldown)
-                return;
-            
-            Vector2 attackDirection = target.transform.position - transform.position;
-
-            float attackAnimationTime = _animator.Attack();
-            StartCoroutine(ActionAfterTime(attackAnimationTime, AfterAttackAnimation));
-
-            AttackCd();
-
-            _currentWeapon.Attack(transform.position, attackDirection);
-
         }
 
         public void Equip(Weapon weapon)
@@ -58,17 +38,39 @@ namespace CodeBase.Knight
                         _currentWeapon.gameObject.SetActive(true);
                         _currentWeapon.CurrentDurability = _currentWeapon.MaxDurability;
 
-                        if (_currentWeapon is Sword)
+                        if (_animator is KnightAnimationsController knightAnimator)
                         {
-                            _animator.SetSwordSkin();
-                        }
-                        else
-                        {
-                            _animator.SetPoleaxeSkin();
+                            if (_currentWeapon is Sword)
+                            {
+                                knightAnimator.SetSwordSkin();
+                            }
+                            else
+                            {
+                                knightAnimator.SetPoleaxeSkin();
+                            }
                         }
                     }
                 } 
             }
+        }
+
+        internal override void DoAttack(Transform target)
+        {
+            Vector2 attackDirection = target.position - transform.position;
+            _currentWeapon.Attack(transform.position, attackDirection);
+
+        }
+
+        internal override void AttackAnimation()
+        {
+            float attackAnimationTime = _animator.Attack();
+            StartCoroutine(ActionAfterTime(attackAnimationTime, AfterAttackAnimation));
+        }
+
+        private void AfterAttackAnimation()
+        {
+            if (_currentWeapon.CurrentDurability <= 0)
+                EquipFists();
         }
 
         private void EquipFists()
@@ -79,28 +81,13 @@ namespace CodeBase.Knight
                 {
                     _currentWeapon = weapon;
                     _currentWeapon.gameObject.SetActive(true);
-                    _animator.SetMeleeSkin();
+
+                    if (_animator is KnightAnimationsController knightAnimator)
+                    {
+                        knightAnimator.SetMeleeSkin();
+                    }
                 }
             }
-        }
-
-        private void AttackCd()
-        {
-            _isOnCooldown = true;
-            StartCoroutine(ActionAfterTime(_currentWeapon.AttackCooldown, () => { _isOnCooldown = false; }));
-        }
-
-        private void AfterAttackAnimation()
-        {
-            if (_currentWeapon.CurrentDurability <= 0)
-                EquipFists();
-        }
-
-        private IEnumerator ActionAfterTime(float secondsToWait, Action action)
-        {
-            yield return new WaitForSeconds(secondsToWait);
-
-            action();
         }
     }
 }

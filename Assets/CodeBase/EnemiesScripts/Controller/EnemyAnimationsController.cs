@@ -1,12 +1,11 @@
+using CodeBase.Character.Interfaces;
 using Spine;
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.EnemiesScripts.Controller
 {
-    public class EnemyAnimationsController : MonoBehaviour
+    public class EnemyAnimationsController : MonoBehaviour, IAnimationsController
     {
         #region Inspector
         [SpineAnimation]
@@ -47,6 +46,10 @@ namespace CodeBase.EnemiesScripts.Controller
         {
             _spineAnimationState.SetAnimation(0, _runAnimationName, true);
         }
+        public void Idle()
+        {
+            _spineAnimationState.SetAnimation(0, _stunAnimationName, false);
+        }
         public void TakeDamage()
         {
             _spineAnimationState.SetAnimation(1, _takeDamamgeAnimationName, false);
@@ -57,11 +60,12 @@ namespace CodeBase.EnemiesScripts.Controller
             TrackEntry trackEntry = _spineAnimationState.SetAnimation(0, _deathAnimationName, false);
             return trackEntry.AnimationEnd;
         }
-        public void Attack()
+        public float Attack()
         {
-            _spineAnimationState.SetAnimation(0, _atackAnimationName, false);
-            _spineAnimationState.AddEmptyAnimation(0, 0.2f, 0);
+            TrackEntry trackEntry = _spineAnimationState.SetAnimation(0, _atackAnimationName, false);
+            _spineAnimationState.AddAnimation(0, _stunAnimationName, true, 0);
             _sounds.PlayAttackClip();
+            return trackEntry.AnimationEnd;
         }
         public void Turn()
         {

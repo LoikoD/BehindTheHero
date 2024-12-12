@@ -1,13 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CodeBase.Infrastructure.AssetManagment;
+using System.Linq;
 using CodeBase.Infrastructure.Factory;
+using CodeBase.Knight.KnightFSM;
+using CodeBase.Knight;
 using CodeBase.StaticData;
 using CodeBase.ThrowableObjects;
+using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using CodeBase.ThrowableObjects.Pool;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
+using Spine;
+using CodeBase.EnemiesScripts.EnemyFSM;
+using UnityEditor.VersionControl;
+using CodeBase.EnemiesScripts.Controller;
+using CodeBase.Logic;
+using CodeBase.Character;
 
 public class EnemiesSpawner : MonoBehaviour
 {
@@ -18,6 +29,7 @@ public class EnemiesSpawner : MonoBehaviour
     [SerializeField] private float _maxSpawnDelay = 7;
     [SerializeField] private ThrowableObjectPool _lootPool;
 
+    private const float EnemiesGap = 10f;
     private int _enemiesDied;
 
     private Camera _mainCamera;
@@ -66,9 +78,9 @@ public class EnemiesSpawner : MonoBehaviour
             
             for (int i = 0; i < _enemiesInGroup; i++)
             {
-                Vector3 position = _groupSpawnPos + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0);
+                Vector3 position = _groupSpawnPos + new Vector3(Random.Range(-EnemiesGap, EnemiesGap), Random.Range(-EnemiesGap, EnemiesGap), 0);
 
-                Enemy enemy = CreateEnemy(position);
+                EnemyMain enemy = CreateEnemy(position);
                 enemy.HasDied += OnEnemyDeath;
 
                 _spawnedCount++;
@@ -78,17 +90,29 @@ public class EnemiesSpawner : MonoBehaviour
         }
     }
     
-    private Enemy CreateEnemy(Vector3 position)
+    private EnemyMain CreateEnemy(Vector3 position)
     {
-        GameObject enemySpawn = Instantiate(_data.Prefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+        GameObject enemyObj = Instantiate(_data.Prefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
 
-        Enemy enemy = enemySpawn.GetComponent<Enemy>();
-        enemy.Construct(_data, _knight);
+        EnemyAnimationsController animator = enemyObj.GetComponent<EnemyAnimationsController>();
 
-        return enemy;
+        EnemyMover mover = enemyObj.GetComponent<EnemyMover>();
+        mover.Construct(_data.MoveSpeed);
+
+        EnemyAttacker attacker = enemyObj.GetComponent<EnemyAttacker>();
+        attacker.Construct(animator, _data.Damage, _data.AttackCooldown, _data.AttackRange, _data.TargetLayer);
+
+        EnemyStateMachine enemyStateMachine = new(mover, attacker, _data, animator, _knight.GetComponent<IHealth>());
+
+        EnemyMain enemyMain = enemyObj.GetComponent<EnemyMain>();
+        enemyMain.Construct(enemyStateMachine, animator, _data.Hp);
+
+        enemyObj.GetComponent<CharacterTurner>().Construct(enemyStateMachine, animator);
+
+        return enemyMain;
     }
 
-    private void OnEnemyDeath(Enemy enemy)
+    private void OnEnemyDeath(EnemyMain enemy)
     {
         _enemiesDied += 1;
 
