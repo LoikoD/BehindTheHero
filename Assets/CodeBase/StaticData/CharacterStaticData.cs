@@ -8,6 +8,5 @@ namespace CodeBase.StaticData
         public float Damage;
         public float MoveSpeed;
         public float AttackRange;
-        public LayerMask TargetLayer;
     }
 }

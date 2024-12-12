@@ -7,5 +7,6 @@ namespace CodeBase.StaticData
     { 
         public float AggroRange;
         public float PickUpRange;
+        public LayerMask TargetLayer;
     }
 }

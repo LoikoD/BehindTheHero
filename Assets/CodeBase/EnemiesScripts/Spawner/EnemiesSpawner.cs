@@ -100,7 +100,7 @@ public class EnemiesSpawner : MonoBehaviour
         mover.Construct(_data.MoveSpeed);
 
         EnemyAttacker attacker = enemyObj.GetComponent<EnemyAttacker>();
-        attacker.Construct(animator, _data.Damage, _data.AttackCooldown, _data.AttackRange, _data.TargetLayer);
+        attacker.Construct(animator, _data.Damage, _data.AttackCooldown);
 
         EnemyStateMachine enemyStateMachine = new(mover, attacker, _data, animator, _knight.GetComponent<IHealth>());
 
