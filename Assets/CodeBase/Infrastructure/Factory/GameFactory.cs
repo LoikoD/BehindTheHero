@@ -1,5 +1,4 @@
 using CodeBase.Character;
-using CodeBase.EnemiesScripts.EnemyFSM;
 using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Knight;
@@ -7,7 +6,6 @@ using CodeBase.Knight.KnightFSM;
 using CodeBase.StaticData;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using UnityEngine;
 
@@ -62,12 +60,12 @@ namespace CodeBase.Infrastructure.Factory
             _assets.Instantiate(AssetPath.Hud);
         
 
-        public GameObject CreateSpawner(EnemyStaticData enemyType, Transform knight)
+        public GameObject CreateSpawner(EnemyStaticData enemyType, Transform knight, LevelStaticData levelData)
         {
             var prefab = Resources.Load<GameObject>(AssetPath.Spawner);
             GameObject spawner = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
             
-            spawner.GetComponent<EnemiesSpawner>().Construct(knight, enemyType);
+            spawner.GetComponent<EnemiesSpawner>().Construct(knight, enemyType, levelData);
 
             return spawner;
         }

@@ -1,98 +1,85 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CodeBase.Infrastructure.AssetManagment;
 using System.Linq;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Knight.KnightFSM;
-using CodeBase.Knight;
 using CodeBase.StaticData;
-using CodeBase.ThrowableObjects;
-using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using CodeBase.ThrowableObjects.Pool;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
-using Spine;
 using CodeBase.EnemiesScripts.EnemyFSM;
-using UnityEditor.VersionControl;
 using CodeBase.EnemiesScripts.Controller;
 using CodeBase.Logic;
 using CodeBase.Character;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemiesSpawner : MonoBehaviour
 {
-    [SerializeField] private int _enemiesCount = 5;
-    [SerializeField] private int _minGroupCount = 1;
-    [SerializeField] private int _maxGroupCount = 2;
-    [SerializeField] private float _minSpawnDelay = 7;
-    [SerializeField] private float _maxSpawnDelay = 7;
     [SerializeField] private ThrowableObjectPool _lootPool;
 
     private const float EnemiesGap = 10f;
-    private int _enemiesDied;
+    private const int PoolBulkAmount = 15;
 
     private Camera _mainCamera;
     private Transform _knight;
-    private EnemyStaticData _data;
+    private EnemyStaticData _enemyData;
+    private LevelStaticData _levelData;
+    private static List<EnemyMain> _enemiesPool;
+    private int _enemiesDied;
 
     public event Action EndLevel;
 
-    public void Construct(Transform knight, EnemyStaticData enemyData)
+    public void Construct(Transform knight, EnemyStaticData enemyData, LevelStaticData levelData)
     {
         _knight = knight;
-        _data = enemyData;
-    }
-
-    private void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "3")
-        {
-            _enemiesCount = 14;
-            _minGroupCount = 1;
-            _maxGroupCount = 3;
-        }
-        else if (SceneManager.GetActiveScene().name == "4")
-        {
-            _enemiesCount = 30;
-            _minGroupCount = 2;
-            _maxGroupCount = 4;
-            _minSpawnDelay = 3;
-            _maxSpawnDelay = 5;
-        }
+        _enemyData = enemyData;
+        _levelData = levelData;
 
         _mainCamera = Camera.main;
-
         _enemiesDied = 0;
+
+        PoolEnemies();
+
         StartCoroutine(Spawning());
+    }
+
+    private void PoolEnemies()
+    {
+        _enemiesPool = new List<EnemyMain>();
+
+        for (int i = 0; i < PoolBulkAmount; i++)
+        {
+            EnemyMain enemy = CreateEnemy();
+            enemy.gameObject.SetActive(false);
+            _enemiesPool.Add(enemy);
+        }
+
     }
 
     private IEnumerator Spawning()
     {
         int _spawnedCount = 0;
-        while (_spawnedCount < _enemiesCount)
+        while (_spawnedCount < _levelData.EnemiesCount)
         {
             Vector3 _groupSpawnPos = GetRandomOffScreenPosition();
 
-            int _enemiesInGroup = Mathf.Min(_enemiesCount - _spawnedCount, Random.Range(_minGroupCount, _maxGroupCount));
+            int _enemiesInGroup = Mathf.Min(_levelData.EnemiesCount - _spawnedCount, Random.Range(_levelData.MinGroupCount, _levelData.MaxGroupCount));
             
             for (int i = 0; i < _enemiesInGroup; i++)
             {
                 Vector3 position = _groupSpawnPos + new Vector3(Random.Range(-EnemiesGap, EnemiesGap), Random.Range(-EnemiesGap, EnemiesGap), 0);
 
-                EnemyMain enemy = CreateEnemy(position);
-                enemy.Died += OnEnemyDeath;
+                SpawnEnemy(position);
 
                 _spawnedCount++;
             }
             
-            yield return new WaitForSeconds(Random.Range(_minSpawnDelay, _maxSpawnDelay));
+            yield return new WaitForSeconds(Random.Range(_levelData.MinSpawnDelay, _levelData.MaxSpawnDelay));
         }
     }
     
-    private EnemyMain CreateEnemy(Vector3 position)
+    private EnemyMain CreateEnemy()
     {
-        GameObject enemyObj = Instantiate(_data.Prefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+        GameObject enemyObj = Instantiate(_enemyData.Prefab, Vector3.zero, Quaternion.identity);
+        enemyObj.transform.SetParent(transform, true);
 
         EnemySounds sounds = enemyObj.GetComponent<EnemySounds>();
         sounds.Construct();
@@ -101,26 +88,48 @@ public class EnemiesSpawner : MonoBehaviour
         animator.Construct(sounds);
 
         EnemyMover mover = enemyObj.GetComponent<EnemyMover>();
-        mover.Construct(_data.MoveSpeed);
+        mover.Construct(_enemyData.MoveSpeed);
 
         EnemyAttacker attacker = enemyObj.GetComponent<EnemyAttacker>();
-        attacker.Construct(animator, _data.Damage, _data.AttackCooldown);
+        attacker.Construct(animator, _enemyData.Damage, _enemyData.AttackCooldown);
 
-        EnemyStateMachine enemyStateMachine = new(mover, attacker, _data, animator, _knight.GetComponent<IHealth>());
+        EnemyStateMachine enemyStateMachine = new(mover, attacker, _enemyData, animator, _knight.GetComponent<IHealth>());
 
         EnemyMain enemyMain = enemyObj.GetComponent<EnemyMain>();
-        enemyMain.Construct(enemyStateMachine, animator, _data.Hp);
+        enemyMain.Construct(enemyStateMachine, animator, _enemyData.Hp);
 
         enemyObj.GetComponent<CharacterTurner>().Construct(enemyStateMachine, animator);
 
         return enemyMain;
     }
 
+    private EnemyMain SpawnEnemy(Vector3 position)
+    {
+        EnemyMain enemy = _enemiesPool.FirstOrDefault();
+
+        if (enemy == null)
+        {
+            PoolEnemies();
+            SpawnEnemy(position);
+        }
+        else
+        {
+            _enemiesPool.Remove(enemy);
+            enemy.ResetState();
+            enemy.Died += OnEnemyDeath;
+            enemy.transform.position = position;
+            enemy.gameObject.SetActive(true);
+        }
+
+        return enemy;
+    }
+
     private void OnEnemyDeath(EnemyMain enemy)
     {
         _enemiesDied += 1;
+        _enemiesPool.Add(enemy);
 
-        if (_enemiesCount == _enemiesDied)
+        if (_levelData.EnemiesCount == _enemiesDied)
             StartCoroutine(EndLevelAfterTime());
 
         if (_enemiesDied % 2 == 0)

@@ -11,7 +11,7 @@ namespace CodeBase.Infrastructure.Factory
 
         GameObject CreateKnight(GameObject at);
         //LootPiece CreateLoot();
-        GameObject CreateSpawner(EnemyStaticData data, Transform knight);
+        GameObject CreateSpawner(EnemyStaticData data, Transform knight, LevelStaticData levelData);
         GameObject CreateGameUI();
     }
 }

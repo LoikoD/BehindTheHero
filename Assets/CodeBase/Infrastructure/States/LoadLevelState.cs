@@ -76,7 +76,7 @@ namespace CodeBase.Infrastructure.States
             
             foreach (EnemyStaticData enemyData in levelData.MonsterTypes)
             {
-                spawner = _gameFactory.CreateSpawner(enemyData, knight.transform);
+                spawner = _gameFactory.CreateSpawner(enemyData, knight.transform, levelData);
             }
 
             return spawner;

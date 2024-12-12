@@ -16,6 +16,11 @@ namespace CodeBase.EnemiesScripts.EnemyFSM
             AddState(new EnemyFSMAttackState(this, attacker, animator, data));
             AddState(new EnemyFSMDieState(this));
 
+            SetDefaultState();
+        }
+
+        internal override void SetDefaultState()
+        {
             SetState<EnemyFSMChaseState>();
         }
     }

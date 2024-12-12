@@ -2,6 +2,7 @@ using System;
 using CodeBase.Character;
 using CodeBase.Character.CharacterFSM;
 using CodeBase.Character.Interfaces;
+using CodeBase.EnemiesScripts.EnemyFSM;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 
 namespace CodeBase.EnemiesScripts.Controller
@@ -16,6 +17,12 @@ namespace CodeBase.EnemiesScripts.Controller
         {
             base.Construct(stateMachine, animator, health);
             _enemyAnimator = (EnemyAnimationsController)animator;
+        }
+        public void ResetState()
+        {
+            CurrentHealth = MaxHealth;
+
+            _stateMachine.Reset();
         }
 
         public void TakeDamageFromFists(float damage, Weapon weapon, float attackAnimation)

@@ -1,4 +1,5 @@
-﻿using CodeBase.Infrastructure.States;
+﻿using CodeBase.EnemiesScripts.EnemyFSM;
+using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,12 @@ namespace CodeBase.Character.CharacterFSM
 
         public IHealth Target { get; internal set; }
         public bool HasDied { get; internal set; }
+
+        public void Reset()
+        {
+            HasDied = false;
+            SetDefaultState();
+        }
 
         public void AddState(IFsmState state)
         {
@@ -55,5 +62,7 @@ namespace CodeBase.Character.CharacterFSM
         {
             HasDied = true;
         }
+
+        internal abstract void SetDefaultState();
     }
 }

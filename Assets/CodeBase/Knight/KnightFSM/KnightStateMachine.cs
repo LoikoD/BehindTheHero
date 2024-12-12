@@ -1,4 +1,5 @@
 ﻿using CodeBase.Character.CharacterFSM;
+using CodeBase.EnemiesScripts.EnemyFSM;
 using CodeBase.StaticData;
 
 namespace CodeBase.Knight.KnightFSM
@@ -14,6 +15,11 @@ namespace CodeBase.Knight.KnightFSM
             AddState(new KnightFSMAttackState(this, attacker, animator, data));
             AddState(new KnightFSMDieState(this));
 
+            SetDefaultState();
+        }
+
+        internal override void SetDefaultState()
+        {
             SetState<KnightFSMIdleState>();
         }
     }
