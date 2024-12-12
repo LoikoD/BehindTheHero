@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CodeBase.Logic
 {
@@ -8,6 +7,5 @@ namespace CodeBase.Logic
         float CurrentHealth { get; set; }
         float MaxHealth { get; set; }
         public Transform Transform { get; }
-        void TakeDamage(float damage);
     }
 }

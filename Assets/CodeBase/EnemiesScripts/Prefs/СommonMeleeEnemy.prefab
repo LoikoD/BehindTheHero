@@ -165,6 +165,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d772b76c4ead74645b76b9da628d1a79, type: 3}
   - {fileID: 8300000, guid: ae8f668ff5539c74eb8d703c2ec23101, type: 3}
   - {fileID: 8300000, guid: 68978b50227062140a5fcbf265d6b98e, type: 3}
+  _takeWeaponDamageSounds:
+  - {fileID: 8300000, guid: d47b02448369b6f42a50b5db524c5030, type: 3}
+  - {fileID: 8300000, guid: d772b76c4ead74645b76b9da628d1a79, type: 3}
+  - {fileID: 8300000, guid: ae8f668ff5539c74eb8d703c2ec23101, type: 3}
+  - {fileID: 8300000, guid: 68978b50227062140a5fcbf265d6b98e, type: 3}
+  _takeFistsDamageSounds:
+  - {fileID: 8300000, guid: 088c56ae7cabc0f4283c84c994252dd1, type: 3}
+  - {fileID: 8300000, guid: c5f34b41b2ec8e349a5c925c15dee215, type: 3}
+  - {fileID: 8300000, guid: 3e141cf203d343f48acbd57372ca4e37, type: 3}
+  - {fileID: 8300000, guid: 5d434cfbb6c963742bf14c8df7af10f1, type: 3}
 --- !u!82 &-5971452953238398200
 AudioSource:
   m_ObjectHideFlags: 0

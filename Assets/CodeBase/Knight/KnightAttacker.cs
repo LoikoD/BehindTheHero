@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CodeBase.Character;
-using CodeBase.Knight.KnightFSM;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using UnityEngine;
 
@@ -54,17 +53,17 @@ namespace CodeBase.Knight
             }
         }
 
-        internal override void DoAttack(Transform target)
+        internal override void DoAttack(Transform target, float animDuration)
         {
             Vector2 attackDirection = target.position - transform.position;
-            _currentWeapon.Attack(transform.position, attackDirection);
-
+            _currentWeapon.Attack(attackDirection, animDuration);
         }
 
-        internal override void AttackAnimation()
+        internal override float AttackAnimation()
         {
             float attackAnimationTime = _animator.Attack();
             StartCoroutine(ActionAfterTime(attackAnimationTime, AfterAttackAnimation));
+            return attackAnimationTime;
         }
 
         private void AfterAttackAnimation()

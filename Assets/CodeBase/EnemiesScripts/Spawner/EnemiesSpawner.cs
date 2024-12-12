@@ -81,7 +81,7 @@ public class EnemiesSpawner : MonoBehaviour
                 Vector3 position = _groupSpawnPos + new Vector3(Random.Range(-EnemiesGap, EnemiesGap), Random.Range(-EnemiesGap, EnemiesGap), 0);
 
                 EnemyMain enemy = CreateEnemy(position);
-                enemy.HasDied += OnEnemyDeath;
+                enemy.Died += OnEnemyDeath;
 
                 _spawnedCount++;
             }
@@ -94,7 +94,11 @@ public class EnemiesSpawner : MonoBehaviour
     {
         GameObject enemyObj = Instantiate(_data.Prefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
 
+        EnemySounds sounds = enemyObj.GetComponent<EnemySounds>();
+        sounds.Construct();
+
         EnemyAnimationsController animator = enemyObj.GetComponent<EnemyAnimationsController>();
+        animator.Construct(sounds);
 
         EnemyMover mover = enemyObj.GetComponent<EnemyMover>();
         mover.Construct(_data.MoveSpeed);
@@ -122,7 +126,7 @@ public class EnemiesSpawner : MonoBehaviour
         if (_enemiesDied % 2 == 0)
             _lootPool.SpwanThrowableObject(enemy.transform.position);
         
-        enemy.HasDied -= OnEnemyDeath;
+        enemy.Died -= OnEnemyDeath;
     }
 
     private Vector3 GetRandomOffScreenPosition()

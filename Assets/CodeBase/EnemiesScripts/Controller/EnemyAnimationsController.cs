@@ -1,6 +1,8 @@
 using CodeBase.Character.Interfaces;
+using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using Spine;
 using Spine.Unity;
+using System.Collections;
 using UnityEngine;
 
 namespace CodeBase.EnemiesScripts.Controller
@@ -35,12 +37,12 @@ namespace CodeBase.EnemiesScripts.Controller
         private EnemySounds _sounds;
 
 
-        void Awake()
+        public void Construct(EnemySounds sounds)
         {
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
             _spineAnimationState = _skeletonAnimation.AnimationState;
             _skeleton = _skeletonAnimation.Skeleton;
-            _sounds = GetComponent<EnemySounds>();
+            _sounds = sounds;
         }
         public void Run()
         {
@@ -50,10 +52,14 @@ namespace CodeBase.EnemiesScripts.Controller
         {
             _spineAnimationState.SetAnimation(0, _stunAnimationName, false);
         }
-        public void TakeDamage()
+        public void TakeDamage(Weapon weapon) 
         {
             _spineAnimationState.SetAnimation(1, _takeDamamgeAnimationName, false);
-            _sounds.PlayTakeDamageClip();
+            _sounds.PlayTakeDamageClip(weapon);
+        }
+        public void TakeDamageFromFists(Weapon weapon, float attackAnimation)
+        {
+            StartCoroutine(TakeDamageXTimesRoutine(weapon, 3, attackAnimation / 3));
         }
         public float Die()
         {
@@ -71,11 +77,13 @@ namespace CodeBase.EnemiesScripts.Controller
         {
             _skeleton.ScaleX *= -1;
         }
-
-        public enum AttackType
+        private IEnumerator TakeDamageXTimesRoutine(Weapon weapon, int times, float interval)
         {
-            Weapon,
-            Fists
+            for (int i = 0; i < times; ++i)
+            {
+                TakeDamage(weapon);
+                yield return new WaitForSeconds(interval);
+            }
         }
     }
 }

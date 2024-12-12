@@ -9,7 +9,7 @@ namespace CodeBase.Character
 {
     public abstract class CharacterMain : MonoBehaviour, IHealth
     {
-        private CharacterStateMachine _stateMachine;
+        internal CharacterStateMachine _stateMachine;
         private IAnimationsController _animator;
 
         public float CurrentHealth { get; set; }
@@ -18,7 +18,7 @@ namespace CodeBase.Character
 
         public event Action HealthChanged;
 
-        public void Construct(CharacterStateMachine stateMachine, IAnimationsController animator, float health)
+        public virtual void Construct(CharacterStateMachine stateMachine, IAnimationsController animator, float health)
         {
             _stateMachine = stateMachine;
             _animator = animator;
@@ -35,13 +35,9 @@ namespace CodeBase.Character
             _stateMachine.Update();
         }
 
-        public void TakeDamage(float damage)
+        internal void BaseTakeDamage(float damage)
         {
-            if (_stateMachine.HasDied)
-                return;
-
             CurrentHealth -= damage;
-            _animator.TakeDamage();
             HealthChanged?.Invoke();
 
             if (CurrentHealth <= 0)

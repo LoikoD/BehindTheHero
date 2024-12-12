@@ -1,5 +1,5 @@
 using CodeBase.Character;
-using CodeBase.Logic;
+using CodeBase.Knight;
 using UnityEngine;
 
 namespace CodeBase.EnemiesScripts.Controller
@@ -19,9 +19,9 @@ namespace CodeBase.EnemiesScripts.Controller
             _attackCooldown = attackCooldown;
         }
     
-        internal override void DoAttack(Transform target)
+        internal override void DoAttack(Transform target, float animDuration)
         {
-            target.TryGetComponent(out IHealth knight);
+            target.TryGetComponent(out IDamageable knight);
             knight.TakeDamage(_damage);
         }
     }

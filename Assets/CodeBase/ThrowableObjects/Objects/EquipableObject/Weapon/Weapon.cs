@@ -1,4 +1,4 @@
-using CodeBase.Logic;
+using CodeBase.EnemiesScripts.Controller;
 using UnityEngine;
 
 namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
@@ -27,7 +27,7 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
             CurrentDurability -= _durabilityChangeStep;
         }
 
-        public void Attack(Vector2 attackerPosition, Vector2 attackDirection)
+        public void Attack(Vector2 attackDirection, float attackAnimation = 0)
         {
             _hitColliders = FindTargets(transform.position, attackDirection, _enemyMask);
 
@@ -35,10 +35,16 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
             {
                 foreach (var hit in _hitColliders)
                 {
-                    if (hit.gameObject.TryGetComponent<IHealth>(out var enemy))
+                    if (hit.gameObject.TryGetComponent<IWeaponDamageable>(out var enemy))
                     {
-                        //Debug.Log($"{hit.gameObject.name} took {_damage} damage");
-                        enemy.TakeDamage(_damage);
+                        if (this is Fists)
+                        {
+                            enemy.TakeDamageFromFists(_damage, this, attackAnimation);
+                        }
+                        else
+                        {
+                            enemy.TakeDamageFromWeapon(_damage, this);
+                        }
                     }
                 }
                 

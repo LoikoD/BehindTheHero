@@ -1,10 +1,6 @@
-﻿using CodeBase.Character.CharacterFSM;
-using CodeBase.Character.Interfaces;
-using CodeBase.Knight;
-using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
+﻿using CodeBase.Character.Interfaces;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.Character
@@ -28,19 +24,19 @@ namespace CodeBase.Character
             if (_isOnCooldown)
                 return;
 
-            AttackAnimation();
+            float animDuration = AttackAnimation();
 
             AttackCd();
 
-            DoAttack(target);
+            DoAttack(target, animDuration);
 
         }
 
-        internal abstract void DoAttack(Transform target);
+        internal abstract void DoAttack(Transform target, float animDuration);
 
-        internal virtual void AttackAnimation()
+        internal virtual float AttackAnimation()
         {
-            _animator.Attack();
+            return _animator.Attack();
         }
 
         private void AttackCd()

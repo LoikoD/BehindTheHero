@@ -1,4 +1,5 @@
-using System.Collections;
+using CodeBase.Logic.Utilities;
+using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,24 +9,42 @@ namespace CodeBase.EnemiesScripts.Controller
     {
         [SerializeField] private List<AudioClip> _attackSounds;
         [SerializeField] private List<AudioClip> _takeDamageSounds;
-        private AudioSource _audioSource;
+        [SerializeField] private List<AudioClip> _takeWeaponDamageSounds;
+        [SerializeField] private List<AudioClip> _takeFistsDamageSounds;
 
-        private void Awake()
+        private const string AttackKey = "attack";
+        private const string TakeWeaponDamageKey = "takeWeaponDamage";
+        private const string TakeFistsDamageKey = "takeFistsDamage";
+
+        private AudioSource _audioSource;
+        private SoundQueuer _soundQueuer;
+
+        public void Construct()
         {
             _audioSource = GetComponent<AudioSource>();
+
+            _soundQueuer = new();
+            _soundQueuer.RegisterSoundList(AttackKey, _attackSounds);
+            _soundQueuer.RegisterSoundList(TakeWeaponDamageKey, _takeWeaponDamageSounds);
+            _soundQueuer.RegisterSoundList(TakeFistsDamageKey, _takeFistsDamageSounds);
         }
 
         public void PlayAttackClip()
         {
-            int clipIndex = Random.Range(0, _attackSounds.Count);
-            _audioSource.PlayOneShot(_attackSounds[clipIndex]);
+            _audioSource.PlayOneShot(_soundQueuer.GetNextSound(AttackKey));
 
         }
-        public void PlayTakeDamageClip()
+        public void PlayTakeDamageClip(Weapon weapon)
         {
-            int clipIndex = Random.Range(0, _takeDamageSounds.Count);
-            _audioSource.PlayOneShot(_takeDamageSounds[clipIndex]);
-
+            if (weapon is Fists)
+            {
+                _audioSource.PlayOneShot(_soundQueuer.GetNextSound(TakeFistsDamageKey));
+            }
+            else
+            {
+                _audioSource.PlayOneShot(_soundQueuer.GetNextSound(TakeWeaponDamageKey));
+            }
         }
+
     }
 }

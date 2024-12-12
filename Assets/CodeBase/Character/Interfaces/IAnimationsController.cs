@@ -4,7 +4,6 @@
     {
         void Run();
         void Idle();
-        void TakeDamage();
         float Die();
         float Attack();
         void Turn();
