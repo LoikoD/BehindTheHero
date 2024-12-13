@@ -22,8 +22,11 @@ namespace CodeBase.Infrastructure.States
             _gameSession.EnemiesSpawner.EndLevel += OnEndLevel;
             _gameSession.Knight.Died += OnDied;
 
-            _gameSession.GameUIController.TryAgainClicked += OnTryAgain;
-            _gameSession.GameUIController.MainMenuClicked += OnMainMenu;
+            _gameSession.GameUI.GameOverUI.TryAgainClicked += OnTryAgain;
+            _gameSession.GameUI.GameOverUI.MainMenuClicked += OnMainMenu;
+
+            _gameSession.PlayerActions.Paused += OnPause;
+            _gameSession.GameUI.PauseMenu.Unpaused += OnUnpause;
         }
 
         private void OnEndLevel()
@@ -34,7 +37,7 @@ namespace CodeBase.Infrastructure.States
         private void OnDied()
         {
             Time.timeScale = 0;
-            _gameSession.GameUIController.ShowGameOverPanel();
+            _gameSession.GameUI.GameOverUI.gameObject.SetActive(true);
         }
 
         private void OnTryAgain()
@@ -49,12 +52,27 @@ namespace CodeBase.Infrastructure.States
             _stateMachine.Enter<MainMenuState>();
         }
 
+        private void OnPause()
+        {
+            Time.timeScale = 0;
+            _gameSession.GameUI.PauseMenu.gameObject.SetActive(true);
+        }
+
+        private void OnUnpause()
+        {
+            Time.timeScale = 1;
+            _gameSession.GameUI.PauseMenu.gameObject.SetActive(false);
+            _gameSession.PlayerActions.EnableControls();
+        }
+
         public void Exit()
         {
             _gameSession.EnemiesSpawner.EndLevel -= OnEndLevel;
             _gameSession.Knight.Died -= OnDied;
-            _gameSession.GameUIController.TryAgainClicked -= OnTryAgain;
-            _gameSession.GameUIController.MainMenuClicked -= OnMainMenu;
+            _gameSession.GameUI.GameOverUI.TryAgainClicked -= OnTryAgain;
+            _gameSession.GameUI.GameOverUI.MainMenuClicked -= OnMainMenu;
+            _gameSession.PlayerActions.Paused -= OnPause;
+            _gameSession.GameUI.PauseMenu.Unpaused -= OnUnpause;
         }
     }
 }

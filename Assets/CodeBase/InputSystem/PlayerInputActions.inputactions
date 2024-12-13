@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Menu",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "e55a1223-29e3-4ce6-807b-d0982c1d7f33",
                     "expectedControlType": "Button",
@@ -147,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Menu",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -208,7 +208,7 @@
             "id": "774cedfc-3110-488e-b107-effe0f25c91c",
             "actions": [
                 {
-                    "name": "Continue",
+                    "name": "Back",
                     "type": "Button",
                     "id": "393030f3-9976-40ed-9ddb-1c638c5685ec",
                     "expectedControlType": "Button",
@@ -225,7 +225,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Continue",
+                    "action": "Back",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

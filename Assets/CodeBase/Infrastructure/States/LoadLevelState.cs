@@ -2,6 +2,7 @@ using CodeBase.CameraLogic;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Knight;
+using CodeBase.Player;
 using CodeBase.StaticData;
 using CodeBase.UI;
 using UnityEngine;
@@ -52,20 +53,33 @@ namespace CodeBase.Infrastructure.States
 
         private GameSession InitGameWorld()
         {
-            GameObject hero = _gameFactory.CreateHero(GameObject.FindGameObjectWithTag(HeroSpawnTag));
+            PlayerInputActions inputActions = new();
+
+            GameObject hero = _gameFactory.CreateHero(GameObject.FindGameObjectWithTag(HeroSpawnTag), inputActions);
+            PlayerActions playerActions = hero.GetComponent<PlayerActions>();
+
             GameObject knight = _gameFactory.CreateKnight(GameObject.FindGameObjectWithTag(KnightSpawnTag));
 
             KnightMain knightMain = knight.GetComponent<KnightMain>();
             EnemiesSpawner enemiesSpawner = InitSpawners(knight).GetComponent<EnemiesSpawner>();
-            GameObject gameUI = _gameFactory.CreateGameUI();
 
             InitHud(knightMain);
             CameraFollow(knight);
 
-
-            GameSession gameSession = new(knightMain, enemiesSpawner, gameUI.GetComponent<GameUIController>());
+            UIController gameUI = InitUI(inputActions);
+            GameSession gameSession = new(knightMain, enemiesSpawner, gameUI, playerActions);
 
             return gameSession;
+        }
+
+        private UIController InitUI(PlayerInputActions inputActions)
+        {
+            PauseMenuController pauseMenu = _gameFactory.CreatePauseMenu(inputActions).GetComponent<PauseMenuController>();
+            GameOverUIController gameOverUI = _gameFactory.CreateGameOverUI().GetComponent<GameOverUIController>();
+
+            UIController uiController = new(pauseMenu, gameOverUI);
+
+            return uiController;
         }
 
         private GameObject InitSpawners(GameObject knight)

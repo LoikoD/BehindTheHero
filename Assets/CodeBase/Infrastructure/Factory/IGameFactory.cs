@@ -6,12 +6,13 @@ namespace CodeBase.Infrastructure.Factory
 {
     public interface IGameFactory : IService
     {
-        GameObject CreateHero(GameObject at);
+        GameObject CreateHero(GameObject at, PlayerInputActions inputActions);
         GameObject CreateHud();
 
         GameObject CreateKnight(GameObject at);
         //LootPiece CreateLoot();
         GameObject CreateSpawner(EnemyStaticData data, Transform knight, LevelStaticData levelData);
-        GameObject CreateGameUI();
+        GameObject CreateGameOverUI();
+        GameObject CreatePauseMenu(PlayerInputActions inputActions);
     }
 }

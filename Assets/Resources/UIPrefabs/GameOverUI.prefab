@@ -414,12 +414,12 @@ GameObject:
   - component: {fileID: 6373231919672126447}
   - component: {fileID: 6008494146043595937}
   m_Layer: 5
-  m_Name: GameUI
+  m_Name: GameOverUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7354721143683047752
 RectTransform:
   m_ObjectHideFlags: 0
@@ -515,7 +515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde804c3527a8b54d8964130731f2b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameOverPanel: {fileID: 4140714794134117711}
 --- !u!1 &4140714794134117711
 GameObject:
   m_ObjectHideFlags: 0

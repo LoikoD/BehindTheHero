@@ -3,8 +3,10 @@ using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Knight;
 using CodeBase.Knight.KnightFSM;
+using CodeBase.Player;
 using CodeBase.StaticData;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
+using CodeBase.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,10 +24,15 @@ namespace CodeBase.Infrastructure.Factory
             _staticData = staticData;
         }
 
-        public GameObject CreateHero(GameObject at)
+        public GameObject CreateHero(GameObject at, PlayerInputActions inputActions)
         {
             GameObject hero = _assets.InstantiateAt(AssetPath.Hero, at.transform.position);
-            
+
+            PlayerState playerState = new();
+
+            PlayerActions playerActions = hero.GetComponent<PlayerActions>();
+            playerActions.Construct(playerState, inputActions);
+
             return hero;
         }
 
@@ -70,9 +77,17 @@ namespace CodeBase.Infrastructure.Factory
             return spawner;
         }
 
-        public GameObject CreateGameUI()
+        public GameObject CreateGameOverUI()
         {
-            return _assets.Instantiate(AssetPath.GameUI);
+            return _assets.Instantiate(AssetPath.GameOverUI);
+        }
+
+        public GameObject CreatePauseMenu(PlayerInputActions inputActions)
+        {
+            GameObject pauseMenu = _assets.Instantiate(AssetPath.PauseMenu);
+            pauseMenu.GetComponent<PauseMenuController>().Construct(inputActions);
+
+            return pauseMenu;
         }
     }
 }

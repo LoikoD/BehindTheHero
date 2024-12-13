@@ -1,4 +1,6 @@
 ﻿using CodeBase.Knight;
+using CodeBase.Player;
+using CodeBase.UI;
 
 namespace CodeBase.Infrastructure
 {
@@ -6,13 +8,15 @@ namespace CodeBase.Infrastructure
     {
         public KnightMain Knight { get; private set; }
         public EnemiesSpawner EnemiesSpawner { get; private set; }
-        public GameUIController GameUIController { get; private set; }
+        public UIController GameUI { get; private set; }
+        public PlayerActions PlayerActions { get; private set; }
 
-        public GameSession(KnightMain knight, EnemiesSpawner enemiesSpawner, GameUIController gameUIController)
+        public GameSession(KnightMain knight, EnemiesSpawner enemiesSpawner, UIController gameUI, PlayerActions playerActions)
         {
             Knight = knight;
             EnemiesSpawner = enemiesSpawner;
-            GameUIController = gameUIController;
+            GameUI = gameUI;
+            PlayerActions = playerActions;
         }
     }
 }
