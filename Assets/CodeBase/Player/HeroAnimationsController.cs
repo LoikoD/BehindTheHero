@@ -38,6 +38,7 @@ namespace CodeBase.Player
         private Skeleton _skeleton;
         private PlayerSounds _sounds;
 
+        private bool _isRunning = false;
         private bool _hasItem = false;
         private Coroutine _throwCoroutine;
 
@@ -47,6 +48,9 @@ namespace CodeBase.Player
             _spineAnimationState = _skeletonAnimation.AnimationState;
             _skeleton = _skeletonAnimation.Skeleton;
             _sounds = GetComponent<PlayerSounds>();
+
+            _isRunning = false;
+            _hasItem = false;
         }
 
         public void SetHasItem(bool hasItem)
@@ -54,7 +58,6 @@ namespace CodeBase.Player
             if (_throwCoroutine != null)
             {
                 StopCoroutine(_throwCoroutine);
-                _hasItem = false;
             }
             UpdateSetItem(hasItem);
         }
@@ -63,26 +66,25 @@ namespace CodeBase.Player
         {
             if (_hasItem == hasItem) return;
 
-            string curAnimName = _spineAnimationState.GetCurrent(0).Animation.Name;
             _hasItem = hasItem;
             if (_hasItem)
             {
-                if (curAnimName == _runAnimationName)
+                if (_isRunning)
                 {
                     _spineAnimationState.SetAnimation(0, _runWithItemAnimationName, true);
                 }
-                else if (curAnimName == _idleAnimationName)
+                else if (!_isRunning)
                 {
                     _spineAnimationState.SetAnimation(0, _idleWithItemAnimationName, true);
                 }
             }
             else
             {
-                if (curAnimName == _runWithItemAnimationName)
+                if (_isRunning)
                 {
                     _spineAnimationState.SetAnimation(0, _runAnimationName, true);
                 }
-                else if (curAnimName == _idleWithItemAnimationName)
+                else if (!_isRunning)
                 {
                     _spineAnimationState.SetAnimation(0, _idleAnimationName, true);
                 }
@@ -101,7 +103,9 @@ namespace CodeBase.Player
                 trackEntry = _spineAnimationState.SetAnimation(0, _runAnimationName, true);
             }
             _sounds.StartStepSounds(trackEntry.AnimationEnd / 2);
+            _isRunning = true;
         }
+
         public void Idle()
         {
             if (_hasItem)
@@ -113,6 +117,7 @@ namespace CodeBase.Player
                 _spineAnimationState.SetAnimation(0, _idleAnimationName, true);
             }
             _sounds.StopStepSounds();
+            _isRunning = false;
         }
 
         public void Throw()
@@ -133,18 +138,6 @@ namespace CodeBase.Player
         public void Turn()
         {
             _skeleton.ScaleX *= -1;
-        }
-
-        public void Idle(bool hasItem)
-        {
-            if (hasItem)
-            {
-                _spineAnimationState.SetAnimation(0, _idleWithItemAnimationName, true);
-            }
-            else
-            {
-                _spineAnimationState.SetAnimation(0, _idleAnimationName, true);
-            }
         }
     }
 }

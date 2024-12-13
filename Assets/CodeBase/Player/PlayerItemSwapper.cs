@@ -6,10 +6,12 @@ namespace CodeBase.Player
     public class PlayerItemSwapper : MonoBehaviour
     {
         private PlayerInventory _playerInventory;
+        private HeroAnimationsController _animationController;
 
-        public void Construct(PlayerInventory inventory)
+        public void Construct(PlayerInventory inventory, HeroAnimationsController animator)
         {
             _playerInventory = inventory;
+            _animationController = animator;
         }
 
         public void SwapItems()
@@ -17,15 +19,20 @@ namespace CodeBase.Player
             ThrowableObject backpackObject = _playerInventory.BackpackObject;
 
             _playerInventory.BackpackObject = _playerInventory.ObjectInHands;
-            if (_playerInventory.ObjectInHands != null)
+            if (_playerInventory.BackpackObject != null)
             {
                 _playerInventory.BackpackObject.gameObject.SetActive(false);
             }
 
             _playerInventory.ObjectInHands = backpackObject;
-            if (backpackObject != null)
+            if (_playerInventory.ObjectInHands != null)
             {
                 _playerInventory.ObjectInHands.gameObject.SetActive(true);
+                _animationController.SetHasItem(true);
+            }
+            else
+            {
+                _animationController.SetHasItem(false);
             }
         }
     }

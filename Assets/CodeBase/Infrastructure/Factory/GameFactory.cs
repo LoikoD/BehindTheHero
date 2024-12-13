@@ -43,7 +43,7 @@ namespace CodeBase.Infrastructure.Factory
             itemThrower.Construct(inventory, animator, objectsHolder);
 
             PlayerItemSwapper itemSwapper = hero.GetComponent<PlayerItemSwapper>();
-            itemSwapper.Construct(inventory);
+            itemSwapper.Construct(inventory, animator);
 
             hero.GetComponent<PickupObjects>().Construct(inventory, animator);
 
