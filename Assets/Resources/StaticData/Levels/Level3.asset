@@ -15,3 +15,8 @@ MonoBehaviour:
   LevelKey: 4
   MonsterTypes:
   - {fileID: 11400000, guid: 7b431d85d55742b47a32bd091bc40e9f, type: 2}
+  EnemiesCount: 30
+  MinGroupCount: 2
+  MaxGroupCount: 4
+  MinSpawnDelay: 3
+  MaxSpawnDelay: 5
