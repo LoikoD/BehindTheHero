@@ -5,8 +5,13 @@ namespace CodeBase.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private PlayerStaticData _movementStats;
+        private PlayerStaticData _movementStats;
         private HeroAnimationsController _animationController;
+
+        private Vector2 _inputVector;
+        private Vector2 _frameVelocity;
+        private bool _isRunning;
+
         private Rigidbody2D _playerRb;
         private Camera _camera;
         private Vector2 _screenBounds;
@@ -14,22 +19,15 @@ namespace CodeBase.Player
         private float _playerWidth;
         private float _playerHeight;
 
-        // Input
-        private Vector2 _inputVector;
-
-        // Player state
-        private Vector2 _frameVelocity;
-        private bool isRunning;
-
-        private void Awake()
+        public void Construct(HeroAnimationsController animator, PlayerStaticData data)
         {
-            _animationController = GetComponent<HeroAnimationsController>();
+            _animationController = animator;
+            _movementStats = data;
+
             _playerRb = GetComponent<Rigidbody2D>();
 
             _camera = Camera.main;
             _screenBounds = _camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, _camera.transform.position.z));
-
-            //Vector3 playerSize = GetComponent<SpriteRenderer>().bounds.size;
 
             Collider2D collider2d = GetComponent<Collider2D>();
             Vector2 playerSize = (Vector2)collider2d.bounds.size / 2;
@@ -38,12 +36,7 @@ namespace CodeBase.Player
             _playerWidth = playerSize.x;
             _playerHeight = playerSize.y;
 
-
-        }
-
-        private void Start()
-        {
-            isRunning = false;
+            _isRunning = false;
             _animationController.Idle();
         }
 
@@ -61,7 +54,6 @@ namespace CodeBase.Player
 
         private void HandleMove()
         {
-            // Horizontal
             if (_inputVector.x == 0)
             {
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, _movementStats.Deceleration * Time.fixedDeltaTime);
@@ -71,7 +63,6 @@ namespace CodeBase.Player
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _inputVector.x * _movementStats.MaxSpeed, _movementStats.Acceleration * Time.fixedDeltaTime);
             }
 
-            // Vertical
             if (_inputVector.y == 0)
             {
                 _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, 0, _movementStats.Deceleration * Time.fixedDeltaTime);
@@ -87,17 +78,17 @@ namespace CodeBase.Player
         {
             if (_frameVelocity == Vector2.zero)
             {
-                if (isRunning)
+                if (_isRunning)
                 {
-                    isRunning = false;
+                    _isRunning = false;
                     _animationController.Idle();
                 }
             }
             else
             {
-                if (!isRunning)
+                if (!_isRunning)
                 {
-                    isRunning = true;
+                    _isRunning = true;
                     _animationController.Run();
                 }
             }
@@ -107,17 +98,13 @@ namespace CodeBase.Player
 
         private void StayInBounds()
         {
-            //_screenBounds += new Vector2(_camera.transform.position.x, _camera.transform.position.y);
             Vector2 maxBounds = (Vector2)_camera.transform.position + _screenBounds;
             Vector2 minBounds = (Vector2)_camera.transform.position - _screenBounds;
-
 
             Vector3 stayInBoundsPos = transform.position;
             stayInBoundsPos.x = Mathf.Clamp(stayInBoundsPos.x, minBounds.x + _playerWidth, maxBounds.x - _playerWidth);
             stayInBoundsPos.y = Mathf.Clamp(stayInBoundsPos.y, minBounds.y + _playerHeight - _playerYOffset, maxBounds.y - _playerHeight - _playerYOffset);
             transform.position = stayInBoundsPos;
-
         }
-
     }
 }

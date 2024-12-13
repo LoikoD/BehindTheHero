@@ -14,6 +14,7 @@ namespace CodeBase.Infrastructure.States
     {
         private const string HeroSpawnTag = "HeroSpawn";
         private const string KnightSpawnTag = "KnightSpawn";
+        private const string ObjectsHolderTag = "ObjectsHolder";
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -55,7 +56,10 @@ namespace CodeBase.Infrastructure.States
         {
             PlayerInputActions inputActions = new();
 
-            GameObject hero = _gameFactory.CreateHero(GameObject.FindGameObjectWithTag(HeroSpawnTag), inputActions);
+            GameObject hero = _gameFactory.CreateHero(
+                GameObject.FindGameObjectWithTag(HeroSpawnTag),
+                GameObject.FindGameObjectWithTag(ObjectsHolderTag).transform,
+                inputActions);
             PlayerActions playerActions = hero.GetComponent<PlayerActions>();
 
             GameObject knight = _gameFactory.CreateKnight(GameObject.FindGameObjectWithTag(KnightSpawnTag));

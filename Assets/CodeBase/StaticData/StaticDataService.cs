@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CodeBase.Infrastructure.Services;
-using CodeBase.ThrowableObjects;
 using UnityEngine;
 
 namespace CodeBase.StaticData
@@ -10,7 +9,6 @@ namespace CodeBase.StaticData
     {
         private Dictionary<EnemyTypeID, EnemyStaticData> _monsters;
         private Dictionary<string, LevelStaticData> _levels;
-        private List<ThrowableObject> _loot;
 
         public void LoadMonsters()
         {
@@ -28,6 +26,9 @@ namespace CodeBase.StaticData
 
         public KnightStaticData ForKnight() => 
             Resources.Load<KnightStaticData>("StaticData/Knight/KnightData");
+
+        public PlayerStaticData ForHero() =>
+            Resources.Load<PlayerStaticData>("StaticData/PlayerData");
 
         public EnemyStaticData ForMonster(EnemyTypeID typeID) => 
             _monsters.TryGetValue(typeID, out EnemyStaticData data) ? data : null;

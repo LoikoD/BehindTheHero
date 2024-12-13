@@ -16,8 +16,8 @@ MonoBehaviour:
   Damage: 5
   MoveSpeed: 12
   AttackRange: 10
+  AggroRange: 90
+  PickUpRange: 8
   TargetLayer:
     serializedVersion: 2
     m_Bits: 64
-  AggroRange: 90
-  PickUpRange: 8

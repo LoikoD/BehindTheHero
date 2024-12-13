@@ -1,7 +1,6 @@
 using Spine;
 using Spine.Unity;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.Player
@@ -42,8 +41,7 @@ namespace CodeBase.Player
         private bool _hasItem = false;
         private Coroutine _throwCoroutine;
 
-
-        void Awake()
+        private void Awake()
         {
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
             _spineAnimationState = _skeletonAnimation.AnimationState;

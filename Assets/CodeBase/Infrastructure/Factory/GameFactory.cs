@@ -24,14 +24,31 @@ namespace CodeBase.Infrastructure.Factory
             _staticData = staticData;
         }
 
-        public GameObject CreateHero(GameObject at, PlayerInputActions inputActions)
+        public GameObject CreateHero(GameObject at, Transform objectsHolder, PlayerInputActions inputActions)
         {
             GameObject hero = _assets.InstantiateAt(AssetPath.Hero, at.transform.position);
 
-            PlayerState playerState = new();
+            HeroAnimationsController animator = hero.GetComponent<HeroAnimationsController>();
+
+            PlayerInventory inventory = new();
+
+            PlayerMovement playerMovement = hero.GetComponent<PlayerMovement>();
+            PlayerStaticData playerData = _staticData.ForHero();
+            playerMovement.Construct(animator, playerData);
+
+            PlayerAim playerAim = hero.GetComponent<PlayerAim>();
+            playerAim.Construct(animator);
+
+            PlayerItemThrower itemThrower = hero.GetComponent<PlayerItemThrower>();
+            itemThrower.Construct(inventory, animator, objectsHolder);
+
+            PlayerItemSwapper itemSwapper = hero.GetComponent<PlayerItemSwapper>();
+            itemSwapper.Construct(inventory);
+
+            hero.GetComponent<PickupObjects>().Construct(inventory, animator);
 
             PlayerActions playerActions = hero.GetComponent<PlayerActions>();
-            playerActions.Construct(playerState, inputActions);
+            playerActions.Construct(playerMovement, playerAim, itemThrower, itemSwapper, inputActions);
 
             return hero;
         }

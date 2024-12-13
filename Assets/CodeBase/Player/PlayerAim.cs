@@ -11,9 +11,9 @@ namespace CodeBase.Player
 
         public Vector2 CurrentCoords => _cursorCoords;
 
-        private void Awake()
+        public void Construct(HeroAnimationsController animator)
         {
-            _animationController = GetComponentInChildren<HeroAnimationsController>();
+            _animationController = animator;
             _cursorCoords = Vector2.zero;
 
             _horizontalDirection = HorizontalDirection.Right;

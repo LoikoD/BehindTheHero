@@ -10,6 +10,7 @@ TagManager:
   - KnightSpawn
   - DialogueSystem
   - Canvas
+  - ObjectsHolder
   layers:
   - Default
   - TransparentFX

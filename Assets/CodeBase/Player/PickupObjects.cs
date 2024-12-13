@@ -1,6 +1,4 @@
 using CodeBase.ThrowableObjects;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.Player
@@ -8,12 +6,13 @@ namespace CodeBase.Player
     public class PickupObjects : MonoBehaviour
     {
         [SerializeField] private Transform handsArea;
-        private PlayerState _playerState;
+        private PlayerInventory _playerInventory;
         private HeroAnimationsController _animationController;
 
-        private void Awake()
+        public void Construct(PlayerInventory inventory, HeroAnimationsController animator)
         {
-            _animationController = GetComponentInChildren<HeroAnimationsController>();
+            _playerInventory = inventory;
+            _animationController = animator;
         }
 
         private void OnTriggerStay2D(Collider2D collision)
@@ -21,23 +20,18 @@ namespace CodeBase.Player
             
             if (collision.TryGetComponent<ThrowableObject>(out var throwableObject))
             {
-                if (_playerState.ObjectInHands == null && throwableObject.CanBePickedUp)
+                if (_playerInventory.ObjectInHands == null && throwableObject.CanBePickedUp)
                 {
 
                     collision.transform.SetParent(handsArea, false);
                     collision.transform.localPosition = Vector3.zero;
-                    _playerState.ObjectInHands = collision.gameObject;
+                    _playerInventory.ObjectInHands = throwableObject;
 
                     _animationController.SetHasItem(true);
 
                     throwableObject.PickedUp();
                 }
             }
-        }
-
-        public void Init(PlayerState playerState)
-        {
-            _playerState = playerState;
         }
     }
 }

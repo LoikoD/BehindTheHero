@@ -1,7 +1,4 @@
-using CodeBase.Infrastructure;
-using CodeBase.UI;
 using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,40 +6,34 @@ namespace CodeBase.Player
 {
     public class PlayerActions : MonoBehaviour
     {
-        private PlayerInputActions _playerInputActions;
         private Camera _camera;
-
         private PlayerMovement _playerMovement;
         private PlayerAim _playerAim;
-        private ThrowAction _throwAction;
-        private Backpack _backpack;
+        private PlayerItemThrower _itemThrower;
+        private PlayerItemSwapper _itemSwapper;
+        private PlayerInputActions _playerInputActions;
 
-        private PlayerState _playerState;
 
         private Vector2 _inputVector;
 
         public event Action Paused;
     
-        public void Construct(PlayerState playerState, PlayerInputActions inputActions)
+        public void Construct(PlayerMovement movement, PlayerAim aim, PlayerItemThrower itemThrower,
+                              PlayerItemSwapper itemSwapper, PlayerInputActions inputActions)
         {
-            _playerState = playerState;
+            _camera = Camera.main;
 
+            _playerMovement = movement;
+            _playerAim = aim;
+            _itemThrower = itemThrower;
+            _itemSwapper = itemSwapper;
             _playerInputActions = inputActions;
+
             _playerInputActions.Player.Enable();
             _playerInputActions.Player.Aim.performed += OnAim;
             _playerInputActions.Player.Throw.performed += OnThrow;
             _playerInputActions.Player.Swap.performed += OnSwap;
             _playerInputActions.Player.Pause.performed += OnPause;
-
-            _camera = Camera.main;
-
-            _playerMovement = GetComponent<PlayerMovement>();
-            _playerAim = GetComponent<PlayerAim>();
-            _throwAction = GetComponent<ThrowAction>();
-            _throwAction.Init(_playerState);
-            _backpack = GetComponent<Backpack>();
-            _backpack.Init(_playerState);
-            GetComponent<PickupObjects>().Init(_playerState);
         }
 
         private void OnDisable()
@@ -77,12 +68,12 @@ namespace CodeBase.Player
 
         private void OnThrow(InputAction.CallbackContext context)
         {
-            _throwAction.Throw(_playerAim.CurrentCoords);
+            _itemThrower.Throw(_playerAim.CurrentCoords);
         }
 
         private void OnSwap(InputAction.CallbackContext context)
         {
-            _backpack.SwapItems();
+            _itemSwapper.SwapItems();
         }
 
         private void OnPause(InputAction.CallbackContext context)

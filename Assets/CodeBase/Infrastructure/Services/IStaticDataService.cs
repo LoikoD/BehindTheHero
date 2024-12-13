@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using CodeBase.StaticData;
-using CodeBase.ThrowableObjects;
 
 namespace CodeBase.Infrastructure.Services
 {
@@ -10,7 +8,7 @@ namespace CodeBase.Infrastructure.Services
         void LoadLevels();
         EnemyStaticData ForMonster(EnemyTypeID typeID);
         KnightStaticData ForKnight();
-
+        PlayerStaticData ForHero();
         LevelStaticData ForLevel(string sceneKey);
     }
 }

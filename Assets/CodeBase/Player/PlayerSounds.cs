@@ -1,3 +1,4 @@
+using CodeBase.Logic.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,19 +9,26 @@ namespace CodeBase.Player
     {
         [SerializeField] private List<AudioClip> _throwSounds;
         [SerializeField] private List<AudioClip> _stepSounds;
+
+        private const string ThrowKey = "throw";
+        private const string StepKey = "step";
+
         private AudioSource _audioSource;
+        private SoundQueuer _soundQueuer;
         private Coroutine _stepCoroutine;
 
-        private void Awake()
+        public void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+
+            _soundQueuer = new();
+            _soundQueuer.RegisterSoundList(ThrowKey, _throwSounds);
+            _soundQueuer.RegisterSoundList(StepKey, _stepSounds);
         }
 
         public void PlayThrowClip()
         {
-            int clipIndex = Random.Range(0, _throwSounds.Count);
-            _audioSource.PlayOneShot(_throwSounds[clipIndex]);
-
+            _audioSource.PlayOneShot(_soundQueuer.GetNextSound(ThrowKey));
         }
 
         public void StartStepSounds(float interval)
@@ -36,17 +44,11 @@ namespace CodeBase.Player
             }
         }
 
-        private void PlayStepClip()
-        {
-            int clipIndex = Random.Range(0, _stepSounds.Count);
-            _audioSource.PlayOneShot(_stepSounds[clipIndex]);
-        }
-
         private IEnumerator LoopStepSounds(float interval)
         {
             while (true)
             {
-                PlayStepClip();
+                _audioSource.PlayOneShot(_soundQueuer.GetNextSound(StepKey));
                 yield return new WaitForSeconds(interval);
             }
         }
