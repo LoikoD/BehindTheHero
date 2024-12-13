@@ -2,17 +2,17 @@ using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
 using CodeBase.StaticData;
-using CodeBase.ThrowableObjects.Pool;
 using UnityEngine.SceneManagement;
 
 namespace CodeBase.Infrastructure.States
 {
     public class BootstrapState : IState
     {
-        private const string Menu = "MainMenu";
+        private const string MenuSceneKey = "MainMenu";
+        private const string DialogueSceneKey = "Dialogue";
 
-        private GameStateMachine _stateMachine;
-        private AllServices _services;
+        private readonly GameStateMachine _stateMachine;
+        private readonly AllServices _services;
 
         public BootstrapState(GameStateMachine stateMachine, AllServices allServices)
         {
@@ -25,9 +25,13 @@ namespace CodeBase.Infrastructure.States
         public void Enter()
         {
             string currentSceneName = SceneManager.GetActiveScene().name;
-            if (currentSceneName == Menu)
+            if (currentSceneName == MenuSceneKey)
             {
                 _stateMachine.Enter<MainMenuState>();
+            }
+            else if (currentSceneName.StartsWith(DialogueSceneKey))
+            {
+                _stateMachine.Enter<DialogueState, string>(currentSceneName);
             }
             else
             {
@@ -55,6 +59,7 @@ namespace CodeBase.Infrastructure.States
             IStaticDataService staticData = new StaticDataService();
             staticData.LoadMonsters();
             staticData.LoadLevels();
+            staticData.LoadDialogues();
             _services.RegisterSingle<IStaticDataService>(staticData);
         }
     }

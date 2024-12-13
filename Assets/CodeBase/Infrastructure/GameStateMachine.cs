@@ -24,7 +24,7 @@ namespace CodeBase.Infrastructure
                     services.Single<IGameFactory>(),
                     services.Single<IStaticDataService>()),
                 [typeof(GameLoopState)] = new GameLoopState(this),
-                [typeof(DialogueState)] = new DialogueState(this, sceneLoader)
+                [typeof(DialogueState)] = new DialogueState(this, sceneLoader, services.Single<IStaticDataService>())
             };
         }
 

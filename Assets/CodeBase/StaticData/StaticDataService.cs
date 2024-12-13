@@ -9,6 +9,7 @@ namespace CodeBase.StaticData
     {
         private Dictionary<EnemyTypeID, EnemyStaticData> _monsters;
         private Dictionary<string, LevelStaticData> _levels;
+        private Dictionary<string, DialogueStaticData> _dialogues;
 
         public void LoadMonsters()
         {
@@ -24,6 +25,13 @@ namespace CodeBase.StaticData
                 .ToDictionary(x => x.LevelKey, x => x);
         }
 
+        public void LoadDialogues()
+        {
+            _dialogues = Resources
+                .LoadAll<DialogueStaticData>("StaticData/Dialogue/Dialogues")
+                .ToDictionary(x => x.SceneName, x => x);
+        }
+
         public KnightStaticData ForKnight() => 
             Resources.Load<KnightStaticData>("StaticData/Knight/KnightData");
 
@@ -34,6 +42,9 @@ namespace CodeBase.StaticData
             _monsters.TryGetValue(typeID, out EnemyStaticData data) ? data : null;
         
         public LevelStaticData ForLevel(string sceneKey) => 
-            _levels.TryGetValue(sceneKey, out LevelStaticData data) ? data : null;  
+            _levels.TryGetValue(sceneKey, out LevelStaticData data) ? data : null;
+
+        public DialogueStaticData ForDialogue(string sceneKey) =>
+            _dialogues.TryGetValue(sceneKey, out DialogueStaticData data) ? data : null;
     }
 }

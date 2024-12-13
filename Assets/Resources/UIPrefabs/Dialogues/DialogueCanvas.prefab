@@ -168,12 +168,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.4
+  m_fontSize: 34.5
   m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 34
+  m_fontSizeMax: 34.5
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.5
+  m_fontSize: 38.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -404,7 +404,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -422,12 +422,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -462,19 +462,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a22957888662c4d8d8593e25bd29f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextLevelName: 0
-  _names: []
-  _texts: []
-  _icons: []
-  _flashBackStart: 0
-  _flashBackEnd: 0
   _typingDelay: 0.025
-  _textAsset: {fileID: 4900000, guid: e1e599d43b00f9c47916bd677f345bd1, type: 3}
   _dialogueTitle: {fileID: 7644548700495983806}
   _dialogueText: {fileID: 597748275734464106}
   _dialogueIcon: {fileID: 2006887411401119832}
   _flashbackImage: {fileID: 8305932432348699325}
-  _audioClip: {fileID: 8300000, guid: f2a222621799aca48babb2783c629f64, type: 3}
+  _printSoundClips:
+  - {fileID: 8300000, guid: a2db136ede4e69947aa25ea1a87f8cf4, type: 3}
+  - {fileID: 8300000, guid: f2a222621799aca48babb2783c629f64, type: 3}
 --- !u!82 &7067440347018761202
 AudioSource:
   m_ObjectHideFlags: 0

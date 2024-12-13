@@ -2,7 +2,6 @@ using CodeBase.CameraLogic;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Knight;
-using CodeBase.Player;
 using CodeBase.StaticData;
 using CodeBase.UI;
 using UnityEngine;
@@ -56,11 +55,10 @@ namespace CodeBase.Infrastructure.States
         {
             PlayerInputActions inputActions = new();
 
-            GameObject hero = _gameFactory.CreateHero(
+            _gameFactory.CreateHero(
                 GameObject.FindGameObjectWithTag(HeroSpawnTag),
                 GameObject.FindGameObjectWithTag(ObjectsHolderTag).transform,
                 inputActions);
-            PlayerActions playerActions = hero.GetComponent<PlayerActions>();
 
             GameObject knight = _gameFactory.CreateKnight(GameObject.FindGameObjectWithTag(KnightSpawnTag));
 
@@ -71,7 +69,7 @@ namespace CodeBase.Infrastructure.States
             CameraFollow(knight);
 
             UIController gameUI = InitUI(inputActions);
-            GameSession gameSession = new(knightMain, enemiesSpawner, gameUI, playerActions);
+            GameSession gameSession = new(knightMain, enemiesSpawner, gameUI, inputActions);
 
             return gameSession;
         }

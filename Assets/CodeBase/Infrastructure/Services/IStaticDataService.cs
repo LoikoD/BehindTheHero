@@ -6,9 +6,11 @@ namespace CodeBase.Infrastructure.Services
     {
         void LoadMonsters();
         void LoadLevels();
+        void LoadDialogues();
         EnemyStaticData ForMonster(EnemyTypeID typeID);
         KnightStaticData ForKnight();
         PlayerStaticData ForHero();
         LevelStaticData ForLevel(string sceneKey);
+        DialogueStaticData ForDialogue(string sceneKey);
     }
 }

@@ -1,6 +1,5 @@
-using CodeBase.Infrastructure.Services;
-using CodeBase.Knight;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace CodeBase.Infrastructure.States
@@ -8,6 +7,7 @@ namespace CodeBase.Infrastructure.States
     public class GameLoopState : IPayloadState<GameSession>
     {
         private readonly GameStateMachine _stateMachine;
+
         private GameSession _gameSession;
 
         public GameLoopState(GameStateMachine gameStateMachine)
@@ -25,13 +25,15 @@ namespace CodeBase.Infrastructure.States
             _gameSession.GameUI.GameOverUI.TryAgainClicked += OnTryAgain;
             _gameSession.GameUI.GameOverUI.MainMenuClicked += OnMainMenu;
 
-            _gameSession.PlayerActions.Paused += OnPause;
+            _gameSession.InputActions.Player.Pause.performed += OnPause;
             _gameSession.GameUI.PauseMenu.Unpaused += OnUnpause;
         }
 
         private void OnEndLevel()
         {
-            _stateMachine.Enter<DialogueState, string>($"Dialogue{SceneManager.GetActiveScene().name}");
+            string dialogueSceneName = $"Dialogue{SceneManager.GetActiveScene().name}";
+
+            _stateMachine.Enter<DialogueState, string>(dialogueSceneName);
         }
 
         private void OnDied()
@@ -52,9 +54,10 @@ namespace CodeBase.Infrastructure.States
             _stateMachine.Enter<MainMenuState>();
         }
 
-        private void OnPause()
+        private void OnPause(InputAction.CallbackContext _)
         {
             Time.timeScale = 0;
+            _gameSession.InputActions.Player.Disable();
             _gameSession.GameUI.PauseMenu.gameObject.SetActive(true);
         }
 
@@ -62,7 +65,7 @@ namespace CodeBase.Infrastructure.States
         {
             Time.timeScale = 1;
             _gameSession.GameUI.PauseMenu.gameObject.SetActive(false);
-            _gameSession.PlayerActions.EnableControls();
+            _gameSession.InputActions.Player.Enable();
         }
 
         public void Exit()
@@ -71,7 +74,7 @@ namespace CodeBase.Infrastructure.States
             _gameSession.Knight.Died -= OnDied;
             _gameSession.GameUI.GameOverUI.TryAgainClicked -= OnTryAgain;
             _gameSession.GameUI.GameOverUI.MainMenuClicked -= OnMainMenu;
-            _gameSession.PlayerActions.Paused -= OnPause;
+            _gameSession.InputActions.Player.Pause.performed -= OnPause;
             _gameSession.GameUI.PauseMenu.Unpaused -= OnUnpause;
         }
     }
