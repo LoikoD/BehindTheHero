@@ -1,12 +1,6 @@
 ﻿using CodeBase.CameraLogic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
+using CodeBase.UI;
 using UnityEngine;
-using static UnityEditor.SceneView;
 
 namespace CodeBase.Infrastructure.States
 {
@@ -17,19 +11,22 @@ namespace CodeBase.Infrastructure.States
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly ScreenFader _screenFader;
 
-        private GameStarter _gameStarter;
+        private MainMenuController _mainMenuController;
         private CameraMover _cameraMover;
         private GameObject _canvas;
 
-        public MainMenuState(GameStateMachine gameStateMachine, SceneLoader sceneLoader)
+        public MainMenuState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, ScreenFader screenFader)
         {
             _stateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
+            _screenFader = screenFader;
         }
 
         public void Enter()
         {
+            _screenFader.SetBlack();
             _sceneLoader.Load(MainMenuSceneName, OnLoaded);
         }
 
@@ -37,8 +34,10 @@ namespace CodeBase.Infrastructure.States
         {
             _canvas = GameObject.FindGameObjectWithTag(CanvasTag);
 
-            _gameStarter = GameObject.FindAnyObjectByType<GameStarter>();
-            _gameStarter.StartGame += OnStartGame;
+            _mainMenuController = GameObject.FindAnyObjectByType<MainMenuController>();
+            _mainMenuController.StartGame += OnStartGame;
+
+            _screenFader.ScreenFadeOut();
         }
 
         private void OnStartGame()
@@ -57,8 +56,8 @@ namespace CodeBase.Infrastructure.States
 
         public void Exit()
         {
-            _cameraMover.Moved += OnMoved;
-            _gameStarter.StartGame -= OnStartGame;
+            _cameraMover.Moved -= OnMoved;
+            _mainMenuController.StartGame -= OnStartGame;
         }
     }
 }

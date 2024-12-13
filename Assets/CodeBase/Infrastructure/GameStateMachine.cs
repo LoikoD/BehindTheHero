@@ -11,12 +11,12 @@ namespace CodeBase.Infrastructure
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, AllServices services)
+        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, ScreenFader screenFader, AllServices services)
         {
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, services),
-                [typeof(MainMenuState)] = new MainMenuState(this, sceneLoader),
+                [typeof(MainMenuState)] = new MainMenuState(this, sceneLoader, screenFader),
                 [typeof(LoadLevelState)] = new LoadLevelState(
                     stateMachine: this,
                     sceneLoader: sceneLoader,

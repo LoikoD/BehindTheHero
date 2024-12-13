@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _curtainPrefab: {fileID: 1928065159389786245, guid: 86f83a0719cd32c48ac3671ab9da88ff, type: 3}
+  _screenFaderPrefab: {fileID: 2895311901477860469, guid: 1b9a88451eb27a24090cbc0683c749aa, type: 3}

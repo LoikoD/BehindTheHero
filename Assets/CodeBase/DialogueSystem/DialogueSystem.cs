@@ -30,9 +30,6 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField] private AudioClip _audioClip;
     //[SerializeField] private AudioClip[] _printSoundClips;
 
-    [SerializeField] private GameStarter _sceneLoader;
-
-
     private PlayerInputActions _playerInputActions;
     private AudioSource _audioSource;
     private readonly string _symbolsToDelay = ".?!";

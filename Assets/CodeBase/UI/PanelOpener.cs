@@ -1,8 +1,7 @@
 using DG.Tweening;
-using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelOpener : MonoBehaviour
+public class PanelOpener
 {
     public void PanelClck(Image panel)
     {
@@ -14,4 +13,3 @@ public class PanelOpener : MonoBehaviour
                 .SetEase(Ease.InCubic);
     }
 }
-

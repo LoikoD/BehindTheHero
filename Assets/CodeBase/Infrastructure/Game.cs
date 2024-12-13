@@ -6,10 +6,10 @@ namespace CodeBase.Infrastructure
     {
         public GameStateMachine StateMachine { get; }
 
-        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain loadingCurtain)
+        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain loadingCurtain, ScreenFader screenFader)
         {
             StateMachine =
-                new GameStateMachine(new SceneLoader(coroutineRunner), loadingCurtain, AllServices.Container);
+                new GameStateMachine(new SceneLoader(coroutineRunner), loadingCurtain, screenFader, AllServices.Container);
         }
     }
 }
