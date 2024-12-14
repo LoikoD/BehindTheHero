@@ -13,18 +13,19 @@ namespace CodeBase.Infrastructure
 
         public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, ScreenFader screenFader, AllServices services)
         {
+
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, services),
-                [typeof(MainMenuState)] = new MainMenuState(this, sceneLoader, screenFader),
+                [typeof(MainMenuState)] = new MainMenuState(this, sceneLoader, screenFader, services.Single<ISceneService>()),
                 [typeof(LoadLevelState)] = new LoadLevelState(
                     stateMachine: this,
                     sceneLoader: sceneLoader,
                     loadingCurtain: curtain,
                     services.Single<IGameFactory>(),
-                    services.Single<IStaticDataService>()),
-                [typeof(GameLoopState)] = new GameLoopState(this),
-                [typeof(DialogueState)] = new DialogueState(this, sceneLoader, services.Single<IStaticDataService>())
+                    services.Single<ISceneService>()),
+                [typeof(GameLoopState)] = new GameLoopState(this, services.Single<ISceneService>()),
+                [typeof(DialogueState)] = new DialogueState(this, sceneLoader, services.Single<ISceneService>())
             };
         }
 

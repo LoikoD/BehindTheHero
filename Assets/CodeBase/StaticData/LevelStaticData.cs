@@ -4,9 +4,8 @@ using UnityEngine;
 namespace CodeBase.StaticData
 {
     [CreateAssetMenu(fileName = "LevelData", menuName = "StaticData/Level")]
-    public class LevelStaticData : ScriptableObject
+    public class LevelStaticData : SceneStaticData
     {
-        public string LevelKey;
         public List<EnemyStaticData> MonsterTypes;
         public int EnemiesCount;
         public int MinGroupCount;

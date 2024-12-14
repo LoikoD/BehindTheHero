@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3d5a737808f4e448e7c845c58c36ea2, type: 3}
-  m_Name: Level1
+  m_Name: Level2
   m_EditorClassIdentifier: 
-  LevelKey: 2
+  SceneName: 3
+  LevelKey: 3
   MonsterTypes:
   - {fileID: 11400000, guid: 7b431d85d55742b47a32bd091bc40e9f, type: 2}
-  EnemiesCount: 7
+  EnemiesCount: 14
   MinGroupCount: 1
-  MaxGroupCount: 2
-  MinSpawnDelay: 2
-  MaxSpawnDelay: 6
+  MaxGroupCount: 3
+  MinSpawnDelay: 7
+  MaxSpawnDelay: 7

@@ -12,5 +12,6 @@ namespace CodeBase.Infrastructure.Services
         PlayerStaticData ForHero();
         LevelStaticData ForLevel(string sceneKey);
         DialogueStaticData ForDialogue(string sceneKey);
+        SceneListStaticData AllScenes();
     }
 }

@@ -5,48 +5,45 @@ using CodeBase.Infrastructure.Services;
 
 namespace CodeBase.Infrastructure.States
 {
-    public class DialogueState : IPayloadState<string>
+    public class DialogueState : IState
     {
         private const string DialogueSystemTag = "DialogueSystem";
 
         private readonly GameStateMachine _stateMachine;
-        private readonly IStaticDataService _staticData;
-
-        private string _sceneKey;
-        private DialogueSystem _dialogueSystem;
         private readonly SceneLoader _sceneLoader;
+        private readonly ISceneService _sceneService;
 
-        public DialogueState(GameStateMachine gameStateMachine, SceneLoader loader, IStaticDataService staticData)
+        private DialogueSystem _dialogueSystem;
+
+        public DialogueState(GameStateMachine gameStateMachine, SceneLoader loader, ISceneService sceneService)
         {
             _stateMachine = gameStateMachine;
             _sceneLoader = loader;
-            _staticData = staticData;
+            _sceneService = sceneService;
         }
 
-        public void Enter(string sceneName)
+        public void Enter()
         {
-            _sceneKey = sceneName;
-            _sceneLoader.Load(_sceneKey, OnLoaded);
+            _sceneLoader.Load(_sceneService.CurrentScene.SceneName, OnLoaded);
         }
 
         private void OnLoaded()
         {
-            DialogueStaticData data = _staticData.ForDialogue(_sceneKey);
-
             _dialogueSystem = GameObject.FindGameObjectWithTag(DialogueSystemTag).GetComponent<DialogueSystem>();
-            _dialogueSystem.Construct(data);
+            _dialogueSystem.Construct((DialogueStaticData)_sceneService.CurrentScene);
             _dialogueSystem.EndScene += OnEndScene;
         }
 
-        private void OnEndScene(string sceneToLoad)
+        private void OnEndScene()
         {
-            if (sceneToLoad == "MainMenu")
+            SceneStaticData nextScene = _sceneService.GetNextScene();
+            if (nextScene.GetType() == typeof(LevelStaticData))
             {
-                _stateMachine.Enter<MainMenuState>();
+                _stateMachine.Enter<LoadLevelState>();
             }
             else
             {
-                _stateMachine.Enter<LoadLevelState, string>(sceneToLoad);
+                _stateMachine.Enter<MainMenuState>();
             }
         }
 

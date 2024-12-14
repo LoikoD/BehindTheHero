@@ -30,7 +30,7 @@ namespace CodeBase.Dialogue
 
         private bool _isSkipPressed = false;
 
-        public event Action<string> EndScene;
+        public event Action EndScene;
 
         private void OnDisable()
         {
@@ -90,7 +90,7 @@ namespace CodeBase.Dialogue
                     yield return null;
             }
 
-            EndScene?.Invoke(_dialogueData.NextLevelName);
+            EndScene?.Invoke();
         }
 
         private void OnSkip(InputAction.CallbackContext context)

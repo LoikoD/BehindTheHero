@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,10 +12,7 @@ namespace CodeBase.Player
         private PlayerItemSwapper _itemSwapper;
         private PlayerInputActions _playerInputActions;
 
-
         private Vector2 _inputVector;
-
-        public event Action Paused;
     
         public void Construct(PlayerMovement movement, PlayerAim aim, PlayerItemThrower itemThrower,
                               PlayerItemSwapper itemSwapper, PlayerInputActions inputActions)
@@ -33,7 +29,6 @@ namespace CodeBase.Player
             _playerInputActions.Player.Aim.performed += OnAim;
             _playerInputActions.Player.Throw.performed += OnThrow;
             _playerInputActions.Player.Swap.performed += OnSwap;
-            _playerInputActions.Player.Pause.performed += OnPause;
         }
 
         private void OnDisable()
@@ -41,7 +36,6 @@ namespace CodeBase.Player
             _playerInputActions.Player.Aim.performed -= OnAim;
             _playerInputActions.Player.Throw.performed -= OnThrow;
             _playerInputActions.Player.Swap.performed -= OnSwap;
-            _playerInputActions.Player.Pause.performed -= OnPause;
             _playerInputActions.Player.Disable();
         }
 
@@ -74,12 +68,6 @@ namespace CodeBase.Player
         private void OnSwap(InputAction.CallbackContext context)
         {
             _itemSwapper.SwapItems();
-        }
-
-        private void OnPause(InputAction.CallbackContext context)
-        {
-            _playerInputActions.Player.Disable();
-            Paused.Invoke();
         }
     }
 }

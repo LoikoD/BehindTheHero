@@ -21,14 +21,14 @@ namespace CodeBase.StaticData
         public void LoadLevels()
         {
             _levels = Resources
-                .LoadAll<LevelStaticData>("StaticData/Levels")
-                .ToDictionary(x => x.LevelKey, x => x);
+                .LoadAll<LevelStaticData>("StaticData/ScenesData/Levels")
+                .ToDictionary(x => x.SceneName, x => x);
         }
 
         public void LoadDialogues()
         {
             _dialogues = Resources
-                .LoadAll<DialogueStaticData>("StaticData/Dialogue/Dialogues")
+                .LoadAll<DialogueStaticData>("StaticData/ScenesData/Dialogue/Dialogues")
                 .ToDictionary(x => x.SceneName, x => x);
         }
 
@@ -38,13 +38,16 @@ namespace CodeBase.StaticData
         public PlayerStaticData ForHero() =>
             Resources.Load<PlayerStaticData>("StaticData/PlayerData");
 
-        public EnemyStaticData ForMonster(EnemyTypeID typeID) => 
+        public EnemyStaticData ForMonster(EnemyTypeID typeID) =>
             _monsters.TryGetValue(typeID, out EnemyStaticData data) ? data : null;
-        
-        public LevelStaticData ForLevel(string sceneKey) => 
+
+        public LevelStaticData ForLevel(string sceneKey) =>
             _levels.TryGetValue(sceneKey, out LevelStaticData data) ? data : null;
 
         public DialogueStaticData ForDialogue(string sceneKey) =>
             _dialogues.TryGetValue(sceneKey, out DialogueStaticData data) ? data : null;
+
+        public SceneListStaticData AllScenes() =>
+            Resources.Load<SceneListStaticData>("StaticData/ScenesData/SceneList");
     }
 }

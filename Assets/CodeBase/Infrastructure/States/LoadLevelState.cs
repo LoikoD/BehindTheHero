@@ -5,11 +5,10 @@ using CodeBase.Knight;
 using CodeBase.StaticData;
 using CodeBase.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace CodeBase.Infrastructure.States
 {
-    public class LoadLevelState : IPayloadState<string>
+    public class LoadLevelState : IState
     {
         private const string HeroSpawnTag = "HeroSpawn";
         private const string KnightSpawnTag = "KnightSpawn";
@@ -17,28 +16,29 @@ namespace CodeBase.Infrastructure.States
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
-        private readonly IStaticDataService _staticData;
         private readonly IGameFactory _gameFactory;
         private readonly LoadingCurtain _loadingCurtain;
+        private readonly ISceneService _sceneService;
 
         public LoadLevelState(
             GameStateMachine stateMachine,
             SceneLoader sceneLoader,
             LoadingCurtain loadingCurtain,
             IGameFactory gameFactory,
-            IStaticDataService staticData)
+            ISceneService sceneService)
         {
             _loadingCurtain = loadingCurtain;
             _gameFactory = gameFactory;
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
-            _staticData = staticData;
+            _sceneService = sceneService;
         }
 
-        public void Enter(string sceneName)
+        public void Enter()
         {
             _loadingCurtain.Show();
-            _sceneLoader.Load(sceneName, OnLoaded, true);
+
+            _sceneLoader.Load(_sceneService.CurrentScene.SceneName, OnLoaded, true);
         }
 
         public void Exit() => 
@@ -87,12 +87,12 @@ namespace CodeBase.Infrastructure.States
         private GameObject InitSpawners(GameObject knight)
         {
             GameObject spawner = null;
-            string sceneKey = SceneManager.GetActiveScene().name;
-            LevelStaticData levelData = _staticData.ForLevel(sceneKey);
+
+            LevelStaticData levelStaticData = (LevelStaticData)_sceneService.CurrentScene;
             
-            foreach (EnemyStaticData enemyData in levelData.MonsterTypes)
+            foreach (EnemyStaticData enemyData in levelStaticData.MonsterTypes)
             {
-                spawner = _gameFactory.CreateSpawner(enemyData, knight.transform, levelData);
+                spawner = _gameFactory.CreateSpawner(enemyData, knight.transform, levelStaticData);
             }
 
             return spawner;

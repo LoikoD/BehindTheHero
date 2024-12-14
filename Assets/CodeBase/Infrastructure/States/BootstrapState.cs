@@ -8,9 +8,6 @@ namespace CodeBase.Infrastructure.States
 {
     public class BootstrapState : IState
     {
-        private const string MenuSceneKey = "MainMenu";
-        private const string DialogueSceneKey = "Dialogue";
-
         private readonly GameStateMachine _stateMachine;
         private readonly AllServices _services;
 
@@ -25,17 +22,21 @@ namespace CodeBase.Infrastructure.States
         public void Enter()
         {
             string currentSceneName = SceneManager.GetActiveScene().name;
-            if (currentSceneName == MenuSceneKey)
+
+            ISceneService sceneService = _services.Single<ISceneService>();
+            sceneService.SetCurrentScene(currentSceneName);
+
+            if (sceneService.CurrentScene.GetType() == typeof(DialogueStaticData))
             {
-                _stateMachine.Enter<MainMenuState>();
+                _stateMachine.Enter<DialogueState>();
             }
-            else if (currentSceneName.StartsWith(DialogueSceneKey))
+            else if (sceneService.CurrentScene.GetType() == typeof(LevelStaticData))
             {
-                _stateMachine.Enter<DialogueState, string>(currentSceneName);
+                _stateMachine.Enter<LoadLevelState>();
             }
             else
             {
-                _stateMachine.Enter<LoadLevelState, string>(currentSceneName);
+                _stateMachine.Enter<MainMenuState>();
             }
         }
 
@@ -47,11 +48,12 @@ namespace CodeBase.Infrastructure.States
         private void RegisterServices()
         {
             RegisterStaticData();
-            
+
             _services.RegisterSingle<IAssets>(new AssetsProvider());
             _services.RegisterSingle<IGameFactory>(new GameFactory(
                 _services.Single<IAssets>(),
                 _services.Single<IStaticDataService>()));
+            _services.RegisterSingle<ISceneService>(new SceneService(_services.Single<IStaticDataService>()));
         }
 
         private void RegisterStaticData()

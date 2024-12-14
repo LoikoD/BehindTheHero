@@ -1,18 +1,20 @@
+using CodeBase.Infrastructure.Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 namespace CodeBase.Infrastructure.States
 {
     public class GameLoopState : IPayloadState<GameSession>
     {
         private readonly GameStateMachine _stateMachine;
+        private readonly ISceneService _sceneService;
 
         private GameSession _gameSession;
 
-        public GameLoopState(GameStateMachine gameStateMachine)
+        public GameLoopState(GameStateMachine gameStateMachine, ISceneService sceneService)
         {
             _stateMachine = gameStateMachine;
+            _sceneService = sceneService;
         }
 
         public void Enter(GameSession gameSession)
@@ -31,9 +33,8 @@ namespace CodeBase.Infrastructure.States
 
         private void OnEndLevel()
         {
-            string dialogueSceneName = $"Dialogue{SceneManager.GetActiveScene().name}";
-
-            _stateMachine.Enter<DialogueState, string>(dialogueSceneName);
+            _sceneService.GetNextScene();
+            _stateMachine.Enter<DialogueState>();
         }
 
         private void OnDied()
@@ -45,12 +46,13 @@ namespace CodeBase.Infrastructure.States
         private void OnTryAgain()
         {
             Time.timeScale = 1;
-            _stateMachine.Enter<LoadLevelState, string>(SceneManager.GetActiveScene().name);
+            _stateMachine.Enter<LoadLevelState>();
         }
 
         private void OnMainMenu()
         {
             Time.timeScale = 1;
+            _sceneService.SetFirstScene();
             _stateMachine.Enter<MainMenuState>();
         }
 
