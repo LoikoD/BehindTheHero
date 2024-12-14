@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d5a737808f4e448e7c845c58c36ea2, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: 
-  SceneName: 4
-  LevelKey: 4
+  SceneName: Level3
   MonsterTypes:
   - {fileID: 11400000, guid: 7b431d85d55742b47a32bd091bc40e9f, type: 2}
   EnemiesCount: 30
