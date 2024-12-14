@@ -32,6 +32,7 @@ namespace CodeBase.Infrastructure.States
             _dialogueSystem = GameObject.FindGameObjectWithTag(DialogueSystemTag).GetComponent<DialogueSystem>();
             _dialogueSystem.Construct((DialogueStaticData)_sceneService.CurrentScene);
             _dialogueSystem.EndScene += OnEndScene;
+            _dialogueSystem.StartDialogue();
         }
 
         private void OnEndScene()

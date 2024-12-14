@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1333365099462000365, guid: b50856d38cc78294699f2249b4e6a6a6, type: 3}
       propertyPath: m_Name
-      value: DialogueCanvas Variant
+      value: DialogueCanvas 1
       objectReference: {fileID: 0}
     - target: {fileID: 7343390879796021118, guid: b50856d38cc78294699f2249b4e6a6a6, type: 3}
       propertyPath: _nextLevelName
