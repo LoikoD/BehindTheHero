@@ -1,4 +1,3 @@
-using CodeBase.Logic.Utilities;
 using CodeBase.StaticData;
 using DG.Tweening;
 using System;
@@ -13,20 +12,18 @@ namespace CodeBase.Dialogue
 {
     public class DialogueSystem : MonoBehaviour
     {
-        [SerializeField] private float _typingDelay = 0.025f;
+        [SerializeField] private float _typingDelay;
+        [SerializeField] private float _endSentenceDelay;
         [SerializeField] private TMP_Text _dialogueTitle;
         [SerializeField] private TMP_Text _dialogueText;
         [SerializeField] private Image _dialogueIcon;
         [SerializeField] private Image _flashbackImage;
-        [SerializeField] private List<AudioClip> _printSoundClips;
 
-        private readonly string SymbolsToDelay = ".?!";
-        private readonly string PrintKey = "print";
+        private readonly string EndSentenceSymbols = ".?!";
 
         private DialogueStaticData _dialogueData;
         private PlayerInputActions _playerInputActions;
-        private AudioSource _audioSource;
-        private SoundQueuer _soundQueuer;
+        private TypingSoundsController _typingSoundsController;
 
         private bool _isSkipPressed = false;
 
@@ -40,16 +37,14 @@ namespace CodeBase.Dialogue
 
         public void Construct(DialogueStaticData dialogueData)
         {
-            _audioSource = GetComponent<AudioSource>();
+            _typingSoundsController = GetComponent<TypingSoundsController>();
+            _typingSoundsController.Construct();
 
             _dialogueData = dialogueData;
 
             _playerInputActions = new();
             _playerInputActions.Dialogue.Enable();
             _playerInputActions.Dialogue.Skip.performed += OnSkip;
-
-            _soundQueuer = new();
-            _soundQueuer.RegisterSoundList(PrintKey, _printSoundClips);
 
             StartCoroutine(StartDialogueRoutine());
         }
@@ -69,23 +64,31 @@ namespace CodeBase.Dialogue
                 _dialogueTitle.text = block.Character.Name;
                 _dialogueIcon.overrideSprite = block.Character.Icon;
                 _dialogueText.text = "";
+
+                _typingSoundsController.StartTypingSounds();
+
                 for (int j = 0; j < block.Text.Length; j++)
                 {
-                    _audioSource.PlayOneShot(_soundQueuer.GetNextSound(PrintKey));
-
                     if (_isSkipPressed)
                     {
                         _dialogueText.text = block.Text;
-                        yield return new WaitForSeconds(_typingDelay * 10);
                         break;
                     }
                     else
                     {
                         _dialogueText.text += block.Text[j];
-                        yield return new WaitForSeconds(SymbolsToDelay.Contains(block.Text[j]) ? _typingDelay * 10 : _typingDelay);
+                        if (EndSentenceSymbols.Contains(block.Text[j]))
+                        {
+                            _typingSoundsController.StopForSeconds(_endSentenceDelay);
+                            yield return new WaitForSeconds(_endSentenceDelay);
+                        }
+                        else
+                        {
+                            yield return new WaitForSeconds(_typingDelay);
+                        }
                     }
-
                 }
+                _typingSoundsController.StopTypingSounds();
                 while (!_playerInputActions.Dialogue.Skip.IsPressed())
                     yield return null;
             }
