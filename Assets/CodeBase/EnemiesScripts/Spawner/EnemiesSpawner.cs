@@ -144,9 +144,9 @@ public class EnemiesSpawner : MonoBehaviour
         float screenWidth = screenHeight * _mainCamera.aspect;
 
         float randomAngle = Random.Range(0f, 360f);
-        Vector3 direction = new(Mathf.Cos(randomAngle * Mathf.Deg2Rad), Mathf.Sin(randomAngle * Mathf.Deg2Rad), 0);
+        Vector2 direction = new(Mathf.Cos(randomAngle * Mathf.Deg2Rad), Mathf.Sin(randomAngle * Mathf.Deg2Rad));
         float maxDistance = screenWidth > screenHeight ? screenWidth : screenHeight;
-        Vector3 offScreenPosition = _mainCamera.transform.position + direction.normalized * maxDistance;
+        Vector3 offScreenPosition = (Vector2)_mainCamera.transform.position + direction.normalized * maxDistance;
 
         return offScreenPosition;
     }
