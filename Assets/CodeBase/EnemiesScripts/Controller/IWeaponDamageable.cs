@@ -1,10 +1,8 @@
-﻿using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
-
-namespace CodeBase.EnemiesScripts.Controller
+﻿namespace CodeBase.EnemiesScripts.Controller
 {
     public interface IWeaponDamageable
     {
-        void TakeDamageFromWeapon(float damage, Weapon weapon);
-        void TakeDamageFromFists(float damage, Weapon weapon, float interval);
+        void TakeDamageFromWeapon(float damage, float delay);
+        void TakeDamageFromFists(float damage, float delay, float interval);
     }
 }

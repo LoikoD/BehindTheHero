@@ -1,7 +1,6 @@
 using CodeBase.Logic.Utilities;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class KnightSounds : MonoBehaviour
@@ -11,12 +10,14 @@ public class KnightSounds : MonoBehaviour
     [SerializeField] private List<AudioClip> _swordAttackSounds;
     [SerializeField] private List<AudioClip> _poleaxeAttackSounds;
     [SerializeField] private List<AudioClip> _dieSounds;
+    [SerializeField] private List<AudioClip> _takeDamageSounds;
 
     private const string StepKey = "step";
     private const string MeleeAttackKey = "meleeAttack";
     private const string SwordAttackKey = "swordAttack";
     private const string PoleaxeAttackKey = "poleaxeAttack";
     private const string DieKey = "die";
+    private const string TakeDamageKey = "takeDamage";
 
     private SoundQueuer _soundQueuer;
     private AudioSource _audioSource;
@@ -25,7 +26,6 @@ public class KnightSounds : MonoBehaviour
     public void Construct()
     {
         _audioSource = GetComponent<AudioSource>();
-        _audioSource.loop = false;
 
         _soundQueuer = new();
         _soundQueuer.RegisterSoundList(StepKey, _stepSounds);
@@ -33,6 +33,7 @@ public class KnightSounds : MonoBehaviour
         _soundQueuer.RegisterSoundList(SwordAttackKey, _swordAttackSounds);
         _soundQueuer.RegisterSoundList(PoleaxeAttackKey, _poleaxeAttackSounds);
         _soundQueuer.RegisterSoundList(DieKey, _dieSounds);
+        _soundQueuer.RegisterSoundList(TakeDamageKey, _takeDamageSounds);
     }
 
     public void PlayMeleeAttackClip(int playTimes, float interval)
@@ -53,6 +54,15 @@ public class KnightSounds : MonoBehaviour
     public void PlayDieClip()
     {
         _audioSource.PlayOneShot(_soundQueuer.GetNextSound(DieKey));
+    }
+    public void PlayTakeDamageClip(float delay = 0)
+    {
+        StartCoroutine(PlayDelayedClip(_soundQueuer.GetNextSound(TakeDamageKey), delay));
+    }
+    IEnumerator PlayDelayedClip(AudioClip clip, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _audioSource.PlayOneShot(clip);
     }
 
     public void StartStepSounds(float interval)

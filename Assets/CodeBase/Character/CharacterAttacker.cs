@@ -24,17 +24,17 @@ namespace CodeBase.Character
             if (_isOnCooldown)
                 return;
 
-            float animDuration = AttackAnimation();
+            AttackAnimationInfo animInfo = AttackAnimation();
 
             AttackCd();
 
-            DoAttack(target, animDuration);
+            DoAttack(target, animInfo);
 
         }
 
-        internal abstract void DoAttack(Transform target, float animDuration);
+        internal abstract void DoAttack(Transform target, AttackAnimationInfo animInfo);
 
-        internal virtual float AttackAnimation()
+        internal virtual AttackAnimationInfo AttackAnimation()
         {
             return _animator.Attack();
         }

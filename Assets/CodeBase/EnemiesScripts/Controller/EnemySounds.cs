@@ -1,5 +1,5 @@
 using CodeBase.Logic.Utilities;
-using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,21 +29,23 @@ namespace CodeBase.EnemiesScripts.Controller
             _soundQueuer.RegisterSoundList(TakeFistsDamageKey, _takeFistsDamageSounds);
         }
 
-        public void PlayAttackClip()
+        public void PlayAttackClip(float delay = 0)
         {
-            _audioSource.PlayOneShot(_soundQueuer.GetNextSound(AttackKey));
+            StartCoroutine(PlayDelayedClip(_soundQueuer.GetNextSound(AttackKey), delay));
 
         }
-        public void PlayTakeDamageClip(Weapon weapon)
+        public void PlayTakeDamageFromWeaponClip(float delay = 0)
         {
-            if (weapon is Fists)
-            {
-                _audioSource.PlayOneShot(_soundQueuer.GetNextSound(TakeFistsDamageKey));
-            }
-            else
-            {
-                _audioSource.PlayOneShot(_soundQueuer.GetNextSound(TakeWeaponDamageKey));
-            }
+            StartCoroutine(PlayDelayedClip(_soundQueuer.GetNextSound(TakeWeaponDamageKey), delay));
+        }
+        public void PlayTakeDamageFromFistsClip(float delay = 0)
+        {
+            StartCoroutine(PlayDelayedClip(_soundQueuer.GetNextSound(TakeFistsDamageKey), delay));
+        }
+        IEnumerator PlayDelayedClip(AudioClip clip, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            _audioSource.PlayOneShot(clip);
         }
 
     }

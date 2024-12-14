@@ -2,8 +2,6 @@ using System;
 using CodeBase.Character;
 using CodeBase.Character.CharacterFSM;
 using CodeBase.Character.Interfaces;
-using CodeBase.EnemiesScripts.EnemyFSM;
-using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 
 namespace CodeBase.EnemiesScripts.Controller
 {
@@ -25,21 +23,21 @@ namespace CodeBase.EnemiesScripts.Controller
             _stateMachine.Reset();
         }
 
-        public void TakeDamageFromFists(float damage, Weapon weapon, float attackAnimation)
+        public void TakeDamageFromFists(float damage, float delay, float interval)
         {
             if (_stateMachine.HasDied)
                 return;
 
-            _enemyAnimator.TakeDamageFromFists(weapon, attackAnimation);
+            _enemyAnimator.TakeDamageFromFists(delay, interval);
 
             BaseTakeDamage(damage);
         }
-        public void TakeDamageFromWeapon(float damage, Weapon weapon)
+        public void TakeDamageFromWeapon(float damage, float delay)
         {
             if (_stateMachine.HasDied)
                 return;
 
-            _enemyAnimator.TakeDamage(weapon);
+            _enemyAnimator.TakeDamageFromWeapon(delay);
 
             BaseTakeDamage(damage);
         }

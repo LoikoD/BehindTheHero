@@ -5,7 +5,7 @@
         void Run();
         void Idle();
         float Die();
-        float Attack();
+        AttackAnimationInfo Attack();
         void Turn();
     }
 }

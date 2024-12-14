@@ -53,17 +53,17 @@ namespace CodeBase.Knight
             }
         }
 
-        internal override void DoAttack(Transform target, float animDuration)
+        internal override void DoAttack(Transform target, AttackAnimationInfo animInfo)
         {
             Vector2 attackDirection = target.position - transform.position;
-            _currentWeapon.Attack(attackDirection, animDuration);
+            _currentWeapon.Attack(attackDirection, animInfo);
         }
 
-        internal override float AttackAnimation()
+        internal override AttackAnimationInfo AttackAnimation()
         {
-            float attackAnimationTime = _animator.Attack();
-            StartCoroutine(ActionAfterTime(attackAnimationTime, AfterAttackAnimation));
-            return attackAnimationTime;
+            AttackAnimationInfo animInfo = _animator.Attack();
+            StartCoroutine(ActionAfterTime(animInfo.Duration, AfterAttackAnimation));
+            return animInfo;
         }
 
         private void AfterAttackAnimation()

@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _runAnimationName: go
   _atackAnimationName: attack
-  _takeDamamgeAnimationName: damage
+  _takeDamageAnimationName: damage
   _deathAnimationName: death
   _stunAnimationName: stun
 --- !u!114 &2367117315640051562

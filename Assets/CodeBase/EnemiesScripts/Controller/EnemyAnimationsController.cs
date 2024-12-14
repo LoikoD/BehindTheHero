@@ -1,8 +1,7 @@
+using CodeBase.Character;
 using CodeBase.Character.Interfaces;
-using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using Spine;
 using Spine.Unity;
-using System.Collections;
 using UnityEngine;
 
 namespace CodeBase.EnemiesScripts.Controller
@@ -20,7 +19,7 @@ namespace CodeBase.EnemiesScripts.Controller
 
         [SpineAnimation]
         [SerializeField]
-        private string _takeDamamgeAnimationName;
+        private string _takeDamageAnimationName;
 
         [SpineAnimation]
         [SerializeField]
@@ -36,6 +35,7 @@ namespace CodeBase.EnemiesScripts.Controller
         private Skeleton _skeleton;
         private EnemySounds _sounds;
 
+        private const float HitDelay = 0.3332f;
 
         public void Construct(EnemySounds sounds)
         {
@@ -52,38 +52,42 @@ namespace CodeBase.EnemiesScripts.Controller
         {
             _spineAnimationState.SetAnimation(0, _stunAnimationName, false);
         }
-        public void TakeDamage(Weapon weapon) 
-        {
-            _spineAnimationState.SetAnimation(1, _takeDamamgeAnimationName, false);
-            _sounds.PlayTakeDamageClip(weapon);
-        }
-        public void TakeDamageFromFists(Weapon weapon, float attackAnimation)
-        {
-            StartCoroutine(TakeDamageXTimesRoutine(weapon, 3, attackAnimation / 3));
-        }
         public float Die()
         {
             TrackEntry trackEntry = _spineAnimationState.SetAnimation(0, _deathAnimationName, false);
             return trackEntry.AnimationEnd;
         }
-        public float Attack()
+        public AttackAnimationInfo Attack()
         {
             TrackEntry trackEntry = _spineAnimationState.SetAnimation(0, _atackAnimationName, false);
             _spineAnimationState.AddAnimation(0, _stunAnimationName, true, 0);
-            _sounds.PlayAttackClip();
-            return trackEntry.AnimationEnd;
+            _sounds.PlayAttackClip(HitDelay * 0.8f);
+            return new AttackAnimationInfo(trackEntry.AnimationEnd, HitDelay, 0);
         }
         public void Turn()
         {
             _skeleton.ScaleX *= -1;
         }
-        private IEnumerator TakeDamageXTimesRoutine(Weapon weapon, int times, float interval)
+        public void TakeDamage(float delay)
         {
-            for (int i = 0; i < times; ++i)
-            {
-                TakeDamage(weapon);
-                yield return new WaitForSeconds(interval);
-            }
+            TrackEntry trackEntry = _spineAnimationState.SetAnimation(1, _takeDamageAnimationName, false);
+            trackEntry.Delay = delay;
+        }
+        public void TakeDamageFromWeapon(float delay)
+        {
+            TakeDamage(delay);
+            _sounds.PlayTakeDamageFromWeaponClip(delay);
+        }
+        public void TakeDamageFromFists(float delay, float interval)
+        {
+            TrackEntry trackEntry = _spineAnimationState.SetAnimation(1, _takeDamageAnimationName, false);
+            trackEntry.Delay = delay;
+            _spineAnimationState.AddAnimation(1, _takeDamageAnimationName, false, interval);
+            _spineAnimationState.AddAnimation(1, _takeDamageAnimationName, false, interval);
+
+            _sounds.PlayTakeDamageFromFistsClip(delay);
+            _sounds.PlayTakeDamageFromFistsClip(delay + interval);
+            _sounds.PlayTakeDamageFromFistsClip(delay + interval * 2);
         }
     }
 }

@@ -4,6 +4,6 @@ namespace CodeBase.Knight
 {
     public interface IDamageable : IHealth
     {
-        void TakeDamage(float damage);
+        void TakeDamage(float damage, float delay);
     }
 }

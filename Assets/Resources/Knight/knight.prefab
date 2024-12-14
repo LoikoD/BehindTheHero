@@ -172,7 +172,7 @@ MonoBehaviour:
   _meleeAtackAnimationName: attack_mele
   _swordAttackAnimationName: attack_sword
   _poleaxeAttackAnimationName: attack_axe
-  _takeDamamgeAnimationName: damage_paralllel
+  _takeDamageAnimationName: damage_paralllel
   _stunAnimationName: stun
   _deathAnimationName: death
   _meleeSkinName: mele
@@ -231,6 +231,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5ade2d3c2f41a414c87e322d44d8b11d, type: 3}
   - {fileID: 8300000, guid: bb358b8db49e52f4e9261eb0776307ce, type: 3}
   - {fileID: 8300000, guid: 39b03baa61efb5a48bc128650e98feb8, type: 3}
+  _takeDamageSounds:
+  - {fileID: 8300000, guid: d1ce079a37850784b84e80e8095b7608, type: 3}
+  - {fileID: 8300000, guid: b91cdb05bf2e4924c9b4ac351deeafd2, type: 3}
+  - {fileID: 8300000, guid: aaea50de6a75cd349b732150022a065a, type: 3}
+  - {fileID: 8300000, guid: a01474f1894f1404681951515042f929, type: 3}
 --- !u!82 &5847203695250855900
 AudioSource:
   m_ObjectHideFlags: 0
