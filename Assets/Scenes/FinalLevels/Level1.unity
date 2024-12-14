@@ -135,10 +135,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u0432\u0435\u043D\u044C\u0435\u0442\u043A\u0430"
       objectReference: {fileID: 0}
-    - target: {fileID: 527953934336201124, guid: 7d739d1744e4b3a419f7cdb9870338e3, type: 3}
-      propertyPath: m_Color.a
-      value: 0.78431374
-      objectReference: {fileID: 0}
     - target: {fileID: 5811205130777464638, guid: 7d739d1744e4b3a419f7cdb9870338e3, type: 3}
       propertyPath: m_Pivot.x
       value: 0
