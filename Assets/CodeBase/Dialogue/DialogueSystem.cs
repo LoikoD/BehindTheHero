@@ -64,7 +64,8 @@ namespace CodeBase.Dialogue
 
                 yield return TypeText(block.Text);
 
-                while (!_playerInputActions.Dialogue.Skip.IsPressed())
+                _isSkipPressed = false;
+                while (!_isSkipPressed)
                     yield return null;
             }
 
@@ -96,11 +97,6 @@ namespace CodeBase.Dialogue
             }
 
             _typingSoundsController.StopTypingSounds();
-
-            if (_isSkipPressed)
-            {
-                yield return new WaitForSeconds(_endSentenceDelay);
-            }
         }
 
         private IEnumerator PrintWord(string word)
