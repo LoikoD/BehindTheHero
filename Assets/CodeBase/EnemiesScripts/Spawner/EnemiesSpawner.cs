@@ -17,6 +17,7 @@ public class EnemiesSpawner : MonoBehaviour
 
     private const float EnemiesGap = 10f;
     private const int PoolBulkAmount = 15;
+    private const float SpawnDistanceInScreens = 0.7f;
 
     private Camera _mainCamera;
     private Transform _knight;
@@ -142,11 +143,11 @@ public class EnemiesSpawner : MonoBehaviour
     {
         float screenHeight = _mainCamera.orthographicSize * 2;
         float screenWidth = screenHeight * _mainCamera.aspect;
+        float distance = SpawnDistanceInScreens * (screenWidth > screenHeight ? screenWidth : screenHeight);
 
         float randomAngle = Random.Range(0f, 360f);
         Vector2 direction = new(Mathf.Cos(randomAngle * Mathf.Deg2Rad), Mathf.Sin(randomAngle * Mathf.Deg2Rad));
-        float maxDistance = screenWidth > screenHeight ? screenWidth : screenHeight;
-        Vector3 offScreenPosition = (Vector2)_mainCamera.transform.position + direction.normalized * maxDistance;
+        Vector3 offScreenPosition = (Vector2)_mainCamera.transform.position + direction.normalized * distance;
 
         return offScreenPosition;
     }
