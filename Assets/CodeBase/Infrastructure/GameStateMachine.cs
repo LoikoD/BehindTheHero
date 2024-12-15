@@ -11,21 +11,21 @@ namespace CodeBase.Infrastructure
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, ScreenFader screenFader, AllServices services)
+        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, AllServices services)
         {
 
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, services),
-                [typeof(MainMenuState)] = new MainMenuState(this, sceneLoader, screenFader, services.Single<ISceneService>()),
+                [typeof(MainMenuState)] = new MainMenuState(this, sceneLoader, services.Single<ISceneService>(), curtain),
                 [typeof(LoadLevelState)] = new LoadLevelState(
                     stateMachine: this,
                     sceneLoader: sceneLoader,
                     loadingCurtain: curtain,
                     services.Single<IGameFactory>(),
                     services.Single<ISceneService>()),
-                [typeof(GameLoopState)] = new GameLoopState(this, services.Single<ISceneService>()),
-                [typeof(DialogueState)] = new DialogueState(this, sceneLoader, services.Single<ISceneService>())
+                [typeof(GameLoopState)] = new GameLoopState(this, services.Single<ISceneService>(), curtain),
+                [typeof(DialogueState)] = new DialogueState(this, sceneLoader, services.Single<ISceneService>(), curtain)
             };
         }
 

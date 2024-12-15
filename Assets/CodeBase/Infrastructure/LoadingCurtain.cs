@@ -1,4 +1,6 @@
+using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure
@@ -6,36 +8,26 @@ namespace CodeBase.Infrastructure
     public class LoadingCurtain : MonoBehaviour
     {
         [SerializeField] private CanvasGroup _curtain;
-        
-        private float _tick = 0.03f;
-        private WaitForSeconds _timer;
+        [SerializeField] private TMP_Text _text;
 
         private void Awake()
         {
             DontDestroyOnLoad(this);
-
-            _timer = new WaitForSeconds(_tick);
         }
 
-        public void Show()
+        public void Show(TweenCallback callback, string text = "")
         {
-            gameObject.SetActive(true);
-            _curtain.alpha = 1f;
+            _text.text = text;
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(_curtain.DOFade(1, 0.5f));
+            sequence.AppendCallback(callback);
         }
 
-        public void Hide() => 
-            StartCoroutine(FadeIn());
-
-        private IEnumerator FadeIn()
+        public void Hide(TweenCallback callback)
         {
-            while (_curtain.alpha > 0)
-            {
-                _curtain.alpha -= _tick;
-
-                yield return _timer;
-            }
-            
-            gameObject.SetActive(false);
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(_curtain.DOFade(0, 0.5f));
+            sequence.AppendCallback(callback);
         }
     }
 }

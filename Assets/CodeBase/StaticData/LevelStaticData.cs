@@ -6,6 +6,7 @@ namespace CodeBase.StaticData
     [CreateAssetMenu(fileName = "LevelData", menuName = "StaticData/Level")]
     public class LevelStaticData : SceneStaticData
     {
+        public string LoadLevelText;
         public List<EnemyStaticData> MonsterTypes;
         public int EnemiesCount;
         public int MinGroupCount;

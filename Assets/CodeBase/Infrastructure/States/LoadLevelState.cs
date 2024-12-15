@@ -36,13 +36,16 @@ namespace CodeBase.Infrastructure.States
 
         public void Enter()
         {
-            _loadingCurtain.Show();
-
-            _sceneLoader.Load(_sceneService.CurrentScene.SceneName, OnLoaded, true);
+            string loadText = (_sceneService.CurrentScene as LevelStaticData).LoadLevelText;
+            _loadingCurtain.Show(
+                () => _sceneLoader.Load(_sceneService.CurrentScene.SceneName, OnLoaded, true),
+                loadText);
         }
 
-        public void Exit() => 
-            _loadingCurtain.Hide();
+        public void Exit()
+        {
+
+        }
 
         private void OnLoaded()
         {

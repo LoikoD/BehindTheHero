@@ -39,6 +39,10 @@ public class EnemiesSpawner : MonoBehaviour
 
         PoolEnemies();
 
+    }
+
+    public void StartSpawning()
+    {
         StartCoroutine(Spawning());
     }
 

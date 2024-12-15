@@ -51,6 +51,9 @@ namespace CodeBase.Dialogue
 
         public void StartDialogue()
         {
+            _dialogueTitle.gameObject.SetActive(true);
+            _dialogueText.gameObject.SetActive(true);
+            _dialogueIcon.gameObject.SetActive(true);
             StartCoroutine(StartDialogueRoutine());
         }
 

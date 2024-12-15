@@ -25,7 +25,6 @@ namespace CodeBase.Player
             _itemSwapper = itemSwapper;
             _playerInputActions = inputActions;
 
-            _playerInputActions.Player.Enable();
             _playerInputActions.Player.Aim.performed += OnAim;
             _playerInputActions.Player.Throw.performed += OnThrow;
             _playerInputActions.Player.Swap.performed += OnSwap;
@@ -36,7 +35,6 @@ namespace CodeBase.Player
             _playerInputActions.Player.Aim.performed -= OnAim;
             _playerInputActions.Player.Throw.performed -= OnThrow;
             _playerInputActions.Player.Swap.performed -= OnSwap;
-            _playerInputActions.Player.Disable();
         }
 
         private void Update()

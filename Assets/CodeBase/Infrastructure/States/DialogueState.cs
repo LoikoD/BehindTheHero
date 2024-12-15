@@ -12,14 +12,16 @@ namespace CodeBase.Infrastructure.States
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly ISceneService _sceneService;
+        private readonly LoadingCurtain _loadingCurtain;
 
         private DialogueSystem _dialogueSystem;
 
-        public DialogueState(GameStateMachine gameStateMachine, SceneLoader loader, ISceneService sceneService)
+        public DialogueState(GameStateMachine gameStateMachine, SceneLoader loader, ISceneService sceneService, LoadingCurtain loadingCurtain)
         {
             _stateMachine = gameStateMachine;
             _sceneLoader = loader;
             _sceneService = sceneService;
+            _loadingCurtain = loadingCurtain;
         }
 
         public void Enter()
@@ -32,6 +34,12 @@ namespace CodeBase.Infrastructure.States
             _dialogueSystem = GameObject.FindGameObjectWithTag(DialogueSystemTag).GetComponent<DialogueSystem>();
             _dialogueSystem.Construct((DialogueStaticData)_sceneService.CurrentScene);
             _dialogueSystem.EndScene += OnEndScene;
+
+            _loadingCurtain.Hide(StartDialogue);
+        }
+
+        private void StartDialogue()
+        {
             _dialogueSystem.StartDialogue();
         }
 

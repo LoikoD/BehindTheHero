@@ -8,13 +8,15 @@ namespace CodeBase.Infrastructure.States
     {
         private readonly GameStateMachine _stateMachine;
         private readonly ISceneService _sceneService;
+        private readonly LoadingCurtain _loadingCurtain;
 
         private GameSession _gameSession;
 
-        public GameLoopState(GameStateMachine gameStateMachine, ISceneService sceneService)
+        public GameLoopState(GameStateMachine gameStateMachine, ISceneService sceneService, LoadingCurtain loadingCurtain)
         {
             _stateMachine = gameStateMachine;
             _sceneService = sceneService;
+            _loadingCurtain = loadingCurtain;
         }
 
         public void Enter(GameSession gameSession)
@@ -29,12 +31,20 @@ namespace CodeBase.Infrastructure.States
 
             _gameSession.InputActions.Player.Pause.performed += OnPause;
             _gameSession.GameUI.PauseMenu.Unpaused += OnUnpause;
+            _loadingCurtain.Hide(StartGame);
+        }
+
+        private void StartGame()
+        {
+            _gameSession.InputActions.Player.Enable();
+            _gameSession.EnemiesSpawner.StartSpawning();
         }
 
         private void OnEndLevel()
         {
             _sceneService.GetNextScene();
-            _stateMachine.Enter<DialogueState>();
+
+            _loadingCurtain.Show(() => _stateMachine.Enter<DialogueState>());
         }
 
         private void OnDied()

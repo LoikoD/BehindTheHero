@@ -11,25 +11,25 @@ namespace CodeBase.Infrastructure.States
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
-        private readonly ScreenFader _screenFader;
+        private readonly LoadingCurtain _loadingCurtain;
         private readonly ISceneService _sceneService;
 
         private MainMenuController _mainMenuController;
         private CameraMover _cameraMover;
         private GameObject _canvas;
 
-        public MainMenuState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, ScreenFader screenFader, ISceneService sceneService)
+        public MainMenuState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, ISceneService sceneService, LoadingCurtain loadingCurtain)
         {
             _stateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
-            _screenFader = screenFader;
             _sceneService = sceneService;
+            _loadingCurtain = loadingCurtain;
         }
 
         public void Enter()
         {
-            _screenFader.SetBlack();
-            _sceneLoader.Load(_sceneService.CurrentScene.SceneName, OnLoaded);
+            _loadingCurtain.Show(() => _sceneLoader.Load(_sceneService.CurrentScene.SceneName, OnLoaded));
+            
         }
 
         private void OnLoaded()
@@ -39,7 +39,7 @@ namespace CodeBase.Infrastructure.States
             _mainMenuController = GameObject.FindAnyObjectByType<MainMenuController>();
             _mainMenuController.StartGame += OnStartGame;
 
-            _screenFader.ScreenFadeOut();
+            _loadingCurtain.Hide(() => { });
         }
 
         private void OnStartGame()
