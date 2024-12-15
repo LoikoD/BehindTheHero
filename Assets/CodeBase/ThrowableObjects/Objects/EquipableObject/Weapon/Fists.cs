@@ -6,27 +6,20 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
 {
     public class Fists : Weapon
     {
-        private BoxCollider2D _attackAreaCollider;
-
-        private void Awake()
+        protected override Collider2D[] FindTargets(Vector2 attackDirection)
         {
-            _attackAreaCollider = GetComponentInChildren<BoxCollider2D>();
-        }
-
-        protected override Collider2D[] FindTargets(Vector2 attackerPosition, Vector2 attackDirection, LayerMask mask)
-        {
-            Vector2 scale = new Vector2(_attackArea.localScale.x * transform.localScale.x, _attackArea.localScale.y * transform.localScale.y) * _attackAreaCollider.size;
-            Vector2 attackPoint = attackerPosition + attackDirection.normalized * scale / 2;
+            Vector2 scale = new(_attackRange, _attackRange);
+            Vector2 attackPoint = (Vector2)transform.position + attackDirection.normalized * scale / 2;
 
             DrawDebugBox(attackPoint, scale);
-            return Physics2D.OverlapBoxAll(attackPoint, scale, 0, mask);
+            return Physics2D.OverlapBoxAll(attackPoint, scale, 0, _enemyMask);
         }
 
         protected override void CalcDurability()
         {
             return;
         }
-        private protected override void DealDamage(IWeaponDamageable target, float damage, AttackAnimationInfo animInfo)
+        private protected override void DealDamage(IWeaponDamageable target, AttackAnimationInfo animInfo)
         {
             target.TakeDamageFromFists(_damage, animInfo.HitDelay, animInfo.HitInterval);
         }

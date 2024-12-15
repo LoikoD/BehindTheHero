@@ -4,19 +4,10 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
 {
     public class Poleaxe : Weapon
     {
-        private CircleCollider2D _attackAreaCollider;
-
-        private void Awake()
+        protected override Collider2D[] FindTargets(Vector2 attackDirection)
         {
-            _attackAreaCollider = _attackArea.GetComponent<CircleCollider2D>();
-        }
-
-        protected override Collider2D[] FindTargets(Vector2 attackerPosition, Vector2 attackDirection, LayerMask mask)
-        {
-            float scale = _attackArea.localScale.x * transform.localScale.x * _attackAreaCollider.radius;
-
-            DrawDebugCircle(attackerPosition, scale);
-            return Physics2D.OverlapCircleAll(attackerPosition, scale, mask);
+            DrawDebugCircle(transform.position, _attackRange);
+            return Physics2D.OverlapCircleAll(transform.position, _attackRange, _enemyMask);
         }
 
         private void DrawDebugCircle(Vector2 center, float radius, int segments = 36)

@@ -1,72 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7252991718720486203
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6772862711763674382}
-  - component: {fileID: 2645756944837646368}
-  m_Layer: 0
-  m_Name: AttackArea
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6772862711763674382
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7252991718720486203}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 143699381665704755}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &2645756944837646368
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7252991718720486203}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1
 --- !u!1001 &3583184845522396535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146,20 +79,12 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5472626096959085674, guid: 7d4db60581f8575449b84d95a11266b6, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3478048240242019908, guid: 7d4db60581f8575449b84d95a11266b6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6772862711763674382}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3888968798785763271, guid: 7d4db60581f8575449b84d95a11266b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: -7732392518682962432}
   m_SourcePrefab: {fileID: 100100000, guid: 7d4db60581f8575449b84d95a11266b6, type: 3}
---- !u!4 &143699381665704755 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3478048240242019908, guid: 7d4db60581f8575449b84d95a11266b6, type: 3}
-  m_PrefabInstance: {fileID: 3583184845522396535}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &306916737257771696 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3888968798785763271, guid: 7d4db60581f8575449b84d95a11266b6, type: 3}
@@ -180,7 +105,7 @@ MonoBehaviour:
   _staticData: {fileID: 11400000, guid: c7ce04955c108134e961fd0ec02bee78, type: 2}
   _state: 1
   _isOnKnight: 0
-  _attackArea: {fileID: 6772862711763674382}
+  _attackRange: 14
   _damage: 30
   _durability: 2
   _attackCooldown: 2

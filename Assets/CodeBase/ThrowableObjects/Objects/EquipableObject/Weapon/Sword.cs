@@ -4,20 +4,13 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
 {
     public class Sword : Weapon
     {
-        private BoxCollider2D _attackAreaCollider;
-
-        private void Awake()
+        protected override Collider2D[] FindTargets(Vector2 attackDirection)
         {
-            _attackAreaCollider = _attackArea.GetComponent<BoxCollider2D>();
-        }
-
-        protected override Collider2D[] FindTargets(Vector2 attackerPosition, Vector2 attackDirection, LayerMask mask)
-        {
-            Vector2 scale = new Vector2(_attackArea.localScale.x * transform.localScale.x, _attackArea.localScale.y * transform.localScale.y) * _attackAreaCollider.size;
-            Vector2 attackPoint = attackerPosition + attackDirection.normalized * scale / 2;
+            Vector2 scale = new(_attackRange, _attackRange);
+            Vector2 attackPoint = (Vector2)transform.position + attackDirection.normalized * scale / 2;
 
             DrawDebugBox(attackPoint, scale);
-            return Physics2D.OverlapBoxAll(attackPoint, scale, 0, mask);
+            return Physics2D.OverlapBoxAll(attackPoint, scale, 0, _enemyMask);
         }
 
         private void DrawDebugBox(Vector2 center, Vector2 size)
