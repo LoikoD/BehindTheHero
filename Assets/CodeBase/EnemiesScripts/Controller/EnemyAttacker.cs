@@ -1,5 +1,5 @@
 using CodeBase.Character;
-using CodeBase.Knight;
+using CodeBase.Character.Interfaces;
 using UnityEngine;
 
 namespace CodeBase.EnemiesScripts.Controller

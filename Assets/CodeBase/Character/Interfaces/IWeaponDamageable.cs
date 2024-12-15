@@ -1,4 +1,4 @@
-﻿namespace CodeBase.EnemiesScripts.Controller
+﻿namespace CodeBase.Character.Interfaces
 {
     public interface IWeaponDamageable
     {

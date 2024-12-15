@@ -1,5 +1,5 @@
 using CodeBase.Character;
-using CodeBase.EnemiesScripts.Controller;
+using CodeBase.Character.Interfaces;
 using UnityEngine;
 
 namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
@@ -28,6 +28,11 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
             CurrentDurability -= _durabilityChangeStep;
         }
 
+        private protected virtual void DealDamage(IWeaponDamageable target, float damage, AttackAnimationInfo animInfo)
+        {
+            target.TakeDamageFromWeapon(_damage, animInfo.HitDelay);
+        }
+
         public void Attack(Vector2 attackDirection, AttackAnimationInfo animInfo)
         {
             _hitColliders = FindTargets(transform.position, attackDirection, _enemyMask);
@@ -38,20 +43,12 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
                 {
                     if (hit.gameObject.TryGetComponent<IWeaponDamageable>(out var enemy))
                     {
-                        if (this is Fists)
-                        {
-                            enemy.TakeDamageFromFists(_damage, animInfo.HitDelay, animInfo.HitInterval);
-                        }
-                        else
-                        {
-                            enemy.TakeDamageFromWeapon(_damage, animInfo.HitDelay);
-                        }
+                        DealDamage(enemy, _damage, animInfo);
                     }
                 }
                 
                 CalcDurability();
             }
-
         }
     }
 }

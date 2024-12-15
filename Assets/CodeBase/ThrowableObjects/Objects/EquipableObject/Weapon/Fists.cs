@@ -1,3 +1,5 @@
+using CodeBase.Character;
+using CodeBase.Character.Interfaces;
 using UnityEngine;
 
 namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
@@ -23,6 +25,10 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
         protected override void CalcDurability()
         {
             return;
+        }
+        private protected override void DealDamage(IWeaponDamageable target, float damage, AttackAnimationInfo animInfo)
+        {
+            target.TakeDamageFromFists(_damage, animInfo.HitDelay, animInfo.HitInterval);
         }
 
         private void DrawDebugBox(Vector2 center, Vector2 size)
