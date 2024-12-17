@@ -1,20 +1,19 @@
-using CodeBase.ThrowableObjects.Pool;
 using System.Collections;
-using System.Collections.Generic;
 using CodeBase.StaticData;
 using UnityEngine;
+using System;
 
-namespace CodeBase.ThrowableObjects
+namespace CodeBase.ThrowableObjects.Components.Disappearing
 {
-    public class DisappearableObject : MonoBehaviour
+    public class DisappearableObject : MonoBehaviour, IDisappearable
     {
         [SerializeField] private DisappearableObjectStaticData _staticData;
-
+        
         private Color _originColor;
         private SpriteRenderer _spriteRenderer;
         private Coroutine _disappearCoroutine;
 
-        public bool IsDisappearing => _disappearCoroutine != null;
+        public event Action Disappeared;
 
         private void Awake()
         {
@@ -29,13 +28,20 @@ namespace CodeBase.ThrowableObjects
 
         public void StopDisappear()
         {
-            StopCoroutine(_disappearCoroutine);
-            _spriteRenderer.color = _originColor;
+            if (_disappearCoroutine != null)
+            {
+                StopCoroutine(_disappearCoroutine);
+                _disappearCoroutine = null;
+            }
+
+            ResetColor();
         }
+
+        private void ResetColor() => 
+            _spriteRenderer.color = _originColor;
 
         private IEnumerator DisappearRoutine()
         {
-
             float disappearTime = 0;
             bool isClear = false;
 
@@ -48,9 +54,8 @@ namespace CodeBase.ThrowableObjects
                 disappearTime += _staticData.TimeBetweenFlashes;
             }
 
-            _spriteRenderer.color = _originColor;
-            
-            ThrowableObjectPool.ReturnObjectToPool(gameObject);
+            ResetColor();
+            Disappeared.Invoke();
         }
     }
 }

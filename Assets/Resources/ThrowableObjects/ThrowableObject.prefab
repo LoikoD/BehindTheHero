@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 3478048240242019908}
   - component: {fileID: 1866420357131835993}
   - component: {fileID: 7075843327162101546}
-  - component: {fileID: 7365101420193474576}
   - component: {fileID: 5472626096959085674}
+  - component: {fileID: 7365101420193474576}
+  - component: {fileID: 6799531116777451648}
   m_Layer: 0
   m_Name: ThrowableObject
   m_TagString: ThrowableObject
@@ -132,19 +133,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.4, y: 6.2}
   m_EdgeRadius: 0
---- !u!114 &7365101420193474576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3888968798785763271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40810edb2662c244cb2472325ca9df9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _staticData: {fileID: 11400000, guid: aa04aaff30fd88d48a626291de4b4a6c, type: 2}
 --- !u!114 &5472626096959085674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,5 +146,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _staticData: {fileID: 11400000, guid: c7ce04955c108134e961fd0ec02bee78, type: 2}
-  _state: 1
-  _isOnKnight: 0
+--- !u!114 &7365101420193474576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3888968798785763271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40810edb2662c244cb2472325ca9df9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _staticData: {fileID: 11400000, guid: aa04aaff30fd88d48a626291de4b4a6c, type: 2}
+--- !u!114 &6799531116777451648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3888968798785763271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de7d61fce3750384699c75151a0bb5b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 35f959ecf59353048b37f3c7efeb5be2, type: 2}

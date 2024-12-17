@@ -5,7 +5,6 @@ namespace CodeBase.StaticData
     [CreateAssetMenu(fileName = "ObjectData", menuName = "StaticData/Object")]
     public class ThrowableObjectStaticData : ScriptableObject
     {
-        public float Speed = 10;
         public float MaxDistance = 5;
         
         [Tooltip("Distance from the target point where object will stop")]

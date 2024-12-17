@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303e441bf19f87e4390126cf6bce041f, type: 3}
   m_Name: ObjectData
   m_EditorClassIdentifier: 
-  Speed: 5
+  Speed: 50
   MaxDistance: 35
   DistanceEpsilon: 1
   TimeToDisappear: 10

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
 {
-    public abstract class Weapon : ThrowableObject
+    public abstract class Weapon : MonoBehaviour
     {
         [SerializeField] private protected float _attackRange;
         [SerializeField] private protected float _damage;

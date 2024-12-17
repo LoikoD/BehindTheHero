@@ -18,18 +18,15 @@ namespace CodeBase.Player
         private void OnTriggerStay2D(Collider2D collision)
         {
             
-            if (collision.TryGetComponent<ThrowableObject>(out var throwableObject))
+            if (collision.TryGetComponent<IPickable>(out var pickup))
             {
-                if (_playerInventory.ObjectInHands == null && throwableObject.CanBePickedUp)
+                if (_playerInventory.ObjectInHands == null && pickup.CanBePickedUp)
                 {
-
-                    collision.transform.SetParent(handsArea, false);
-                    collision.transform.localPosition = Vector3.zero;
-                    _playerInventory.ObjectInHands = throwableObject;
+                    _playerInventory.ObjectInHands = pickup;
 
                     _animationController.SetHasItem(true);
 
-                    throwableObject.PickedUp();
+                    pickup.PickedUp(handsArea);
                 }
             }
         }

@@ -16,18 +16,15 @@ namespace CodeBase.Player
 
         public void SwapItems()
         {
-            ThrowableObject backpackObject = _playerInventory.BackpackObject;
+            IPickable backpackObject = _playerInventory.BackpackObject;
 
+            _playerInventory.ObjectInHands?.SwapOut();
             _playerInventory.BackpackObject = _playerInventory.ObjectInHands;
-            if (_playerInventory.BackpackObject != null)
-            {
-                _playerInventory.BackpackObject.gameObject.SetActive(false);
-            }
 
             _playerInventory.ObjectInHands = backpackObject;
             if (_playerInventory.ObjectInHands != null)
             {
-                _playerInventory.ObjectInHands.gameObject.SetActive(true);
+                _playerInventory.ObjectInHands.SwapIn();
                 _animationController.SetHasItem(true);
             }
             else

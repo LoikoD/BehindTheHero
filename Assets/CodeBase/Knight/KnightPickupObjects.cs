@@ -25,15 +25,16 @@ namespace CodeBase.Knight
             if (_stateMachine.HasDied)
                 return;
 
-            if (other.TryGetComponent(out ThrowableObject pickup))
+            if (other.TryGetComponent(out IEquippable equipment))
             {
-                if (pickup.State == ThrowableObjectState.Moving)
+                if (equipment.CanBeEquipped)
                 {
-                    if (pickup is Weapon weapon)
+                    if (other.TryGetComponent(out Weapon weapon))
                     {
                         _attacker.Equip(weapon);
-                        pickup.Equip(transform.position);
+                        equipment.AfterEquipped();
                     }
+
                 }
             }
         }

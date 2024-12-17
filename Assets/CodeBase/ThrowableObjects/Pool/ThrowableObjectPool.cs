@@ -1,4 +1,4 @@
-using CodeBase.ThrowableObjects.Objects;
+using CodeBase.ThrowableObjects.Core;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

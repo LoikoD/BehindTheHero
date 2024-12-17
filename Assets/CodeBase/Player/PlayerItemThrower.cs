@@ -20,9 +20,8 @@ namespace CodeBase.Player
         {
             if (_playerInventory.ObjectInHands != null)
             {
-                ThrowableObject objectToThrow = _playerInventory.ObjectInHands;
-                objectToThrow.transform.SetParent(_objectsTransform, true);
-                objectToThrow.InitThrow(targetPoint);
+                IPickable objectToThrow = _playerInventory.ObjectInHands;
+                objectToThrow.InitThrow(targetPoint, _objectsTransform);
 
                 _animationController.Throw();
 
