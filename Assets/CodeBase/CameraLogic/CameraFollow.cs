@@ -9,6 +9,8 @@ namespace CodeBase.CameraLogic
 
         private void LateUpdate()
         {
+            if (_following == null) return;
+
             transform.position = new Vector3(
                 _following.transform.position.x,
                 _following.transform.position.y,
