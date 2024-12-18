@@ -10,6 +10,7 @@ using CodeBase.Logic;
 using CodeBase.Character;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using CodeBase.Logic.Utilities;
 
 public class EnemiesSpawner : MonoBehaviour
 {
@@ -18,13 +19,17 @@ public class EnemiesSpawner : MonoBehaviour
     private const float EnemiesGap = 10f;
     private const int PoolBulkAmount = 15;
     private const float SpawnDistanceInScreens = 0.7f;
+    private const float LootSpawnChance = 0.5f;
+    private const int LootMaxAttemptsBeforeGuaranteedDrop = 5;
 
     private Camera _mainCamera;
     private Transform _knight;
     private EnemyStaticData _enemyData;
     private LevelStaticData _levelData;
-    private static List<EnemyMain> _enemiesPool;
+
+    private List<EnemyMain> _enemiesPool;
     private int _enemiesDied;
+    private PityDropSystem _pityDropSystem;
 
     public event Action EndLevel;
 
@@ -39,6 +44,7 @@ public class EnemiesSpawner : MonoBehaviour
 
         PoolEnemies();
 
+        _pityDropSystem = new PityDropSystem(LootSpawnChance, LootMaxAttemptsBeforeGuaranteedDrop);
     }
 
     public void StartSpawning()
@@ -137,7 +143,7 @@ public class EnemiesSpawner : MonoBehaviour
         if (_levelData.EnemiesCount == _enemiesDied)
             StartCoroutine(EndLevelAfterTime());
 
-        if (_enemiesDied % 2 == 0)
+        if (_enemiesDied == 1 || (_enemiesDied != 1 && _pityDropSystem.ShouldDrop()))
             _lootPool.SpwanThrowableObject(enemy.transform.position);
         
         enemy.Died -= OnEnemyDeath;
