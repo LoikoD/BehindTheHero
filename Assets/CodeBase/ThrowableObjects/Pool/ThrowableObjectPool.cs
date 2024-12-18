@@ -1,4 +1,4 @@
-using CodeBase.ThrowableObjects.Core;
+using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -27,7 +27,7 @@ namespace CodeBase.ThrowableObjects.Pool
 
         public GameObject SpwanThrowableObject(GameObject objectToSpawn, Vector3 spawnPosition)
         {
-            ThrowableObject spawnableObject = objectToSpawn.GetComponent<ThrowableObject>();
+            Weapon spawnableObject = objectToSpawn.GetComponent<Weapon>();
 
             PooledObjectInfo pool = _objectPools.Find(p => p.LookupString == spawnableObject.GetType().Name);
             
@@ -57,7 +57,7 @@ namespace CodeBase.ThrowableObjects.Pool
 
         public static void ReturnObjectToPool(GameObject obj)
         {
-            PooledObjectInfo pool = _objectPools.Find(p => p.LookupString == obj.GetComponent<ThrowableObject>().GetType().Name);
+            PooledObjectInfo pool = _objectPools.Find(p => p.LookupString == obj.GetComponent<Weapon>().GetType().Name);
 
             if (pool == null)
             {
