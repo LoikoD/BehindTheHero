@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using CodeBase.ThrowableObjects.Core;
+using System.Collections.Generic;
 
 namespace CodeBase.ThrowableObjects.Pool
 {
     public class PooledObjectInfo
     {
         public string LookupString;
-        public List<GameObject> InactiveObjects = new();
+        public List<ThrowableObjectBase> InactiveObjects = new();
+
+        public PooledObjectInfo(string lookupString)
+        {
+            LookupString = lookupString;
+        }
     }
 }

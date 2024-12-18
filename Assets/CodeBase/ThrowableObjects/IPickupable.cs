@@ -6,7 +6,7 @@ namespace CodeBase.ThrowableObjects
     {
         bool CanBePickedUp { get; }
 
-        void InitThrow(Vector2 targetPoint, Transform objectsTransform);
+        void InitThrow(Vector2 targetPoint);
         void PickedUp(Transform holdingArea);
         void SwapIn();
         void SwapOut();

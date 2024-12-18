@@ -8,9 +8,9 @@ namespace CodeBase.ThrowableObjects.Core
         public bool CanBeEquipped => _stateMachine?.CurrentState is ObjectFSMMovingState;
         public bool CanBePickedUp => _stateMachine?.CurrentState is ObjectFSMIdleState or ObjectFSMDisappearingState;
 
-        public void InitThrow(Vector2 targetPoint, Transform objectsTransform)
+        public void InitThrow(Vector2 targetPoint)
         {
-            transform.SetParent(objectsTransform, true);
+            transform.SetParent(_objectsHolder, true);
             Vector3 targetDirection = (Vector3)targetPoint - transform.position;
             TargetPoint = transform.position + targetDirection.normalized * _staticData.MaxDistance;
             

@@ -6,6 +6,7 @@ using CodeBase.Knight.KnightFSM;
 using CodeBase.Player;
 using CodeBase.StaticData;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
+using CodeBase.ThrowableObjects.Pool;
 using CodeBase.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace CodeBase.Infrastructure.Factory
             _staticData = staticData;
         }
 
-        public GameObject CreateHero(GameObject at, Transform objectsHolder, PlayerInputActions inputActions)
+        public GameObject CreateHero(GameObject at, PlayerInputActions inputActions)
         {
             GameObject hero = _assets.InstantiateAt(AssetPath.Hero, at.transform.position);
 
@@ -40,7 +41,7 @@ namespace CodeBase.Infrastructure.Factory
             playerAim.Construct(animator);
 
             PlayerItemThrower itemThrower = hero.GetComponent<PlayerItemThrower>();
-            itemThrower.Construct(inventory, animator, objectsHolder);
+            itemThrower.Construct(inventory, animator);
 
             PlayerItemSwapper itemSwapper = hero.GetComponent<PlayerItemSwapper>();
             itemSwapper.Construct(inventory, animator);
@@ -88,8 +89,10 @@ namespace CodeBase.Infrastructure.Factory
         {
             var prefab = Resources.Load<GameObject>(AssetPath.Spawner);
             GameObject spawner = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            
-            spawner.GetComponent<EnemiesSpawner>().Construct(knight, enemyType, levelData);
+
+            ThrowableObjectPool lootPool = Object.Instantiate(levelData.LootPool).GetComponent<ThrowableObjectPool>();
+
+            spawner.GetComponent<EnemiesSpawner>().Construct(knight, enemyType, levelData, lootPool);
 
             return spawner;
         }

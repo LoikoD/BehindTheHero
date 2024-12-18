@@ -11,7 +11,7 @@ namespace CodeBase.ThrowableObjects.StateMachine.States
 
         public override void Enter()
         {
-            _context.ReturnToPool();
+            _context.Disable();
         }
     }
 }

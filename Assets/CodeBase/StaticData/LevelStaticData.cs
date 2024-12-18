@@ -13,5 +13,6 @@ namespace CodeBase.StaticData
         public int MaxGroupCount;
         public float MinSpawnDelay;
         public float MaxSpawnDelay;
+        public GameObject LootPool;
     }
 }

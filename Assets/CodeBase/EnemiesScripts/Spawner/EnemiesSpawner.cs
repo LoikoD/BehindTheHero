@@ -14,7 +14,6 @@ using CodeBase.Logic.Utilities;
 
 public class EnemiesSpawner : MonoBehaviour
 {
-    [SerializeField] private ThrowableObjectPool _lootPool;
 
     private const float EnemiesGap = 10f;
     private const int PoolBulkAmount = 15;
@@ -26,6 +25,7 @@ public class EnemiesSpawner : MonoBehaviour
     private Transform _knight;
     private EnemyStaticData _enemyData;
     private LevelStaticData _levelData;
+    private ThrowableObjectPool _lootPool;
 
     private List<EnemyMain> _enemiesPool;
     private int _enemiesDied;
@@ -33,11 +33,12 @@ public class EnemiesSpawner : MonoBehaviour
 
     public event Action EndLevel;
 
-    public void Construct(Transform knight, EnemyStaticData enemyData, LevelStaticData levelData)
+    public void Construct(Transform knight, EnemyStaticData enemyData, LevelStaticData levelData, ThrowableObjectPool lootPool)
     {
         _knight = knight;
         _enemyData = enemyData;
         _levelData = levelData;
+        _lootPool = lootPool;
 
         _mainCamera = Camera.main;
         _enemiesDied = 0;
@@ -144,7 +145,7 @@ public class EnemiesSpawner : MonoBehaviour
             StartCoroutine(EndLevelAfterTime());
 
         if (_enemiesDied == 1 || (_enemiesDied != 1 && _pityDropSystem.ShouldDrop()))
-            _lootPool.SpwanThrowableObject(enemy.transform.position);
+            _lootPool.SpawnThrowableObject(enemy.transform.position);
         
         enemy.Died -= OnEnemyDeath;
     }

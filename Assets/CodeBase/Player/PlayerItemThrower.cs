@@ -7,13 +7,11 @@ namespace CodeBase.Player
     {
         private PlayerInventory _playerInventory;
         private HeroAnimationsController _animationController;
-        private Transform _objectsTransform;
 
-        public void Construct(PlayerInventory inventory, HeroAnimationsController animator, Transform objectsHolder)
+        public void Construct(PlayerInventory inventory, HeroAnimationsController animator)
         {
             _playerInventory = inventory;
             _animationController = animator;
-            _objectsTransform = objectsHolder;
         }
 
         public void Throw(Vector2 targetPoint)
@@ -21,7 +19,7 @@ namespace CodeBase.Player
             if (_playerInventory.ObjectInHands != null)
             {
                 IPickable objectToThrow = _playerInventory.ObjectInHands;
-                objectToThrow.InitThrow(targetPoint, _objectsTransform);
+                objectToThrow.InitThrow(targetPoint);
 
                 _animationController.Throw();
 

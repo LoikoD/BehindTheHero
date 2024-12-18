@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _staticData: {fileID: 11400000, guid: c7ce04955c108134e961fd0ec02bee78, type: 2}
-  _isOnKnight: 0
   _attackRange: 14
   _damage: 30
   _durability: 2

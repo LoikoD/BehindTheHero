@@ -1,10 +1,11 @@
 using CodeBase.Character;
 using CodeBase.Character.Interfaces;
+using CodeBase.ThrowableObjects.Core;
 using UnityEngine;
 
 namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
 {
-    public abstract class Weapon : MonoBehaviour
+    public abstract class Weapon : ThrowableObject
     {
         [SerializeField] private protected float _attackRange;
         [SerializeField] private protected float _damage;

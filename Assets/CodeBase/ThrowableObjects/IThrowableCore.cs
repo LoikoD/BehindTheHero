@@ -9,7 +9,6 @@ namespace CodeBase.ThrowableObjects
         ThrowableObjectStaticData StaticData { get; }
         ObjectStateMachine StateMachine { get; }
         Vector3 TargetPoint { get; }
-        void ReturnToPool();
+        void Disable();
     }
-
 }

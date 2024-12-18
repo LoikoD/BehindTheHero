@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4010886613387726308}
   - component: {fileID: 7697876175897592058}
   m_Layer: 0
-  m_Name: LootPool
+  m_Name: DefatulLootPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,5 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectPrefabs:
+  - {fileID: 306916737257771696, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
+  - {fileID: 306916737257771696, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}
+  _objectPrefabs2:
   - {fileID: 306916737257771696, guid: 2c4f9a57f96714a44ac560320f1dcf16, type: 3}
   - {fileID: 306916737257771696, guid: 11860d74ca90b5849b2988a26714ffcc, type: 3}

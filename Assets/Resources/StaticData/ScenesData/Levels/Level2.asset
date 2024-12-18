@@ -21,3 +21,4 @@ MonoBehaviour:
   MaxGroupCount: 3
   MinSpawnDelay: 7
   MaxSpawnDelay: 7
+  LootPool: {fileID: 9077227075740407390, guid: 83cd6d7c695867b46b2ba38205781403, type: 3}
