@@ -50,7 +50,7 @@ namespace CodeBase.EnemiesScripts.Controller
         }
         public void Idle()
         {
-            _spineAnimationState.SetAnimation(0, _stunAnimationName, false);
+            _spineAnimationState.SetAnimation(0, _stunAnimationName, true);
         }
         public float Die()
         {
