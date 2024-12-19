@@ -19,9 +19,9 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
         {
             return;
         }
-        private protected override void DealDamage(IWeaponDamageable target, AttackAnimationInfo animInfo)
+        private protected override void DealDamage(IWeaponDamageable target, float hitInterval)
         {
-            target.TakeDamageFromFists(_damage, animInfo.HitDelay, animInfo.HitInterval);
+            target.TakeDamageFromFists(_damage, hitInterval);
         }
 
         private void DrawDebugBox(Vector2 center, Vector2 size)

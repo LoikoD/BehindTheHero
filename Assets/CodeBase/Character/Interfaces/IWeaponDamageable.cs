@@ -2,7 +2,7 @@
 {
     public interface IWeaponDamageable
     {
-        void TakeDamageFromWeapon(float damage, float delay);
-        void TakeDamageFromFists(float damage, float delay, float interval);
+        void TakeDamageFromWeapon(float damage);
+        void TakeDamageFromFists(float damage, float interval);
     }
 }

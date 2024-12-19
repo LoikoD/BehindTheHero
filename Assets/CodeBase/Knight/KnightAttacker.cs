@@ -53,10 +53,10 @@ namespace CodeBase.Knight
             }
         }
 
-        internal override void DoAttack(Transform target, AttackAnimationInfo animInfo)
+        internal override void DoAttack(Transform target, float hitInterval)
         {
             Vector2 attackDirection = target.position - transform.position;
-            _currentWeapon.Attack(attackDirection, animInfo);
+            _currentWeapon.Attack(attackDirection, hitInterval);
         }
 
         internal override AttackAnimationInfo AttackAnimation()

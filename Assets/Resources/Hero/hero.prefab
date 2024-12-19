@@ -388,15 +388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 708aff428b9eb6d459d80658517b20b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _throwSounds:
-  - {fileID: 8300000, guid: 86db1d29360004b46895ae1e99e05186, type: 3}
-  - {fileID: 8300000, guid: 066b7a5f0714788459dbd36f7ecd8470, type: 3}
-  - {fileID: 8300000, guid: c26841fd6916eb347a6cebf755832eb3, type: 3}
-  - {fileID: 8300000, guid: 1bdad7cd210d1f241907395a42567c1c, type: 3}
-  - {fileID: 8300000, guid: 326c43628d5e9d446bbda333ab133ac6, type: 3}
-  - {fileID: 8300000, guid: fee245a641f9c604d8cfd56bbf7eeb4b, type: 3}
-  - {fileID: 8300000, guid: ed50a3538a0ac7e4cadb67abee82e9a5, type: 3}
-  - {fileID: 8300000, guid: c78491d3f4e9ddf4686b5af69a3f4a83, type: 3}
   _stepSounds:
   - {fileID: 8300000, guid: 73eccbb785172be4c985288fde8a2adc, type: 3}
   - {fileID: 8300000, guid: 13563a1f8b0457d438c96234ee9619f6, type: 3}
@@ -407,6 +398,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3baf6baa7fb32a9448da3c2256e57955, type: 3}
   - {fileID: 8300000, guid: 365b366a844bb644cbe651bf977a5fef, type: 3}
   - {fileID: 8300000, guid: 7700bb0893074b5449a03d62f69dbe67, type: 3}
+  _throwSounds:
+  - {fileID: 8300000, guid: 86db1d29360004b46895ae1e99e05186, type: 3}
+  - {fileID: 8300000, guid: 066b7a5f0714788459dbd36f7ecd8470, type: 3}
+  - {fileID: 8300000, guid: c26841fd6916eb347a6cebf755832eb3, type: 3}
+  - {fileID: 8300000, guid: 1bdad7cd210d1f241907395a42567c1c, type: 3}
+  - {fileID: 8300000, guid: 326c43628d5e9d446bbda333ab133ac6, type: 3}
+  - {fileID: 8300000, guid: fee245a641f9c604d8cfd56bbf7eeb4b, type: 3}
+  - {fileID: 8300000, guid: ed50a3538a0ac7e4cadb67abee82e9a5, type: 3}
+  - {fileID: 8300000, guid: c78491d3f4e9ddf4686b5af69a3f4a83, type: 3}
 --- !u!82 &3439246470338772013
 AudioSource:
   m_ObjectHideFlags: 0

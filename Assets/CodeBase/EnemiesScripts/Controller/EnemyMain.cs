@@ -23,21 +23,21 @@ namespace CodeBase.EnemiesScripts.Controller
             _stateMachine.Reset();
         }
 
-        public void TakeDamageFromFists(float damage, float delay, float interval)
+        public void TakeDamageFromFists(float damage, float interval)
         {
             if (_stateMachine.HasDied)
                 return;
 
-            _enemyAnimator.TakeDamageFromFists(delay, interval);
+            _enemyAnimator.TakeDamageFromFists(interval);
 
             BaseTakeDamage(damage);
         }
-        public void TakeDamageFromWeapon(float damage, float delay)
+        public void TakeDamageFromWeapon(float damage)
         {
             if (_stateMachine.HasDied)
                 return;
 
-            _enemyAnimator.TakeDamageFromWeapon(delay);
+            _enemyAnimator.TakeDamageFromWeapon();
 
             BaseTakeDamage(damage);
         }

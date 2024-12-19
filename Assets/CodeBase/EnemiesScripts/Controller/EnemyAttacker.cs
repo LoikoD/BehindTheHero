@@ -19,10 +19,10 @@ namespace CodeBase.EnemiesScripts.Controller
             _attackCooldown = attackCooldown;
         }
     
-        internal override void DoAttack(Transform target, AttackAnimationInfo animInfo)
+        internal override void DoAttack(Transform target, float hitInterval)
         {
             target.TryGetComponent(out IDamageable knight);
-            knight.TakeDamage(_damage, animInfo.HitDelay);
+            knight.TakeDamage(_damage);
         }
     }
 }

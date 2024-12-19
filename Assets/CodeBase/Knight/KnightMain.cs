@@ -16,12 +16,12 @@ namespace CodeBase.Knight
             _knightAnimator = (KnightAnimationsController)animator;
         }
 
-        public void TakeDamage(float damage, float delay)
+        public void TakeDamage(float damage)
         {
             if (_stateMachine.HasDied)
                 return;
 
-            _knightAnimator.TakeDamage(delay);
+            _knightAnimator.TakeDamage();
 
             BaseTakeDamage(damage);
 

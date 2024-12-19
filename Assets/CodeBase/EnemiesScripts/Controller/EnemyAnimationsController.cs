@@ -36,27 +36,20 @@ namespace CodeBase.EnemiesScripts.Controller
             return new AttackAnimationInfo(trackEntry.AnimationEnd, _attackData.HitDelay, 0);
         }
 
-        public void TakeDamage(float delay)
+        public void TakeDamageFromWeapon()
         {
-            var trackEntry = PlayAnimation(_animations.TakeDamage, 1, false);
-            trackEntry.Delay = delay;
+            PlayAnimation(_animations.TakeDamage, 1, false);
+            _sounds.PlayTakeDamageFromWeaponClip();
         }
 
-        public void TakeDamageFromWeapon(float delay)
+        public void TakeDamageFromFists(float interval)
         {
-            TakeDamage(delay);
-            _sounds.PlayTakeDamageFromWeaponClip(delay);
-        }
-
-        public void TakeDamageFromFists(float delay, float interval)
-        {
-            var trackEntry = PlayAnimation(_animations.TakeDamage, 1, false);
-            trackEntry.Delay = delay;
+            PlayAnimation(_animations.TakeDamage, 1, false);
             AddAnimation(_animations.TakeDamage, 1, false, interval);
             AddAnimation(_animations.TakeDamage, 1, false, interval);
 
             for (int i = 0; i < 3; i++)
-                _sounds.PlayTakeDamageFromFistsClip(delay + interval * i);
+                _sounds.PlayTakeDamageFromFistsClip(interval * i);
         }
     }
 }

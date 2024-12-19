@@ -28,11 +28,11 @@ namespace CodeBase.Character
 
             AttackCd();
 
-            DoAttack(target, animInfo);
+            StartCoroutine(ActionAfterTime(animInfo.HitDelay, () => { DoAttack(target, animInfo.HitInterval); }));
 
         }
 
-        internal abstract void DoAttack(Transform target, AttackAnimationInfo animInfo);
+        internal abstract void DoAttack(Transform target, float hitInterval);
 
         internal virtual AttackAnimationInfo AttackAnimation()
         {

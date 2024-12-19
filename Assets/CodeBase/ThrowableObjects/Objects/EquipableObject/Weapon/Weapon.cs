@@ -27,12 +27,12 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
             CurrentDurability -= _durabilityChangeStep;
         }
 
-        private protected virtual void DealDamage(IWeaponDamageable target, AttackAnimationInfo animInfo)
+        private protected virtual void DealDamage(IWeaponDamageable target, float hitInterval)
         {
-            target.TakeDamageFromWeapon(_damage, animInfo.HitDelay);
+            target.TakeDamageFromWeapon(_damage);
         }
 
-        public void Attack(Vector2 attackDirection, AttackAnimationInfo animInfo)
+        public void Attack(Vector2 attackDirection, float hitInterval)
         {
             var _hitColliders = FindTargets(attackDirection);
 
@@ -42,7 +42,7 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
                 {
                     if (hit.gameObject.TryGetComponent<IWeaponDamageable>(out var enemy))
                     {
-                        DealDamage(enemy, animInfo);
+                        DealDamage(enemy, hitInterval);
                     }
                 }
                 

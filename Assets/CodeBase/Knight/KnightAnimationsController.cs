@@ -41,11 +41,10 @@ namespace CodeBase.Knight
             _sounds.StopStepSounds();
         }
 
-        public void TakeDamage(float delay)
+        public void TakeDamage()
         {
-            var trackEntry = PlayAnimation(_animations.TakeDamage, 1, false);
-            trackEntry.Delay = delay;
-            _sounds.PlayTakeDamageClip(delay);
+            PlayAnimation(_animations.TakeDamage, 1, false);
+            _sounds.PlayTakeDamageClip();
         }
 
         public float Die()
