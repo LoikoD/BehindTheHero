@@ -10,12 +10,12 @@ namespace CodeBase.Infrastructure
 
         public void TryAgainClick()
         {
-            TryAgainClicked.Invoke();
+            TryAgainClicked?.Invoke();
         }
 
         public void MainMenuClick()
         {
-            MainMenuClicked.Invoke();
+            MainMenuClicked?.Invoke();
         }
     }
 }

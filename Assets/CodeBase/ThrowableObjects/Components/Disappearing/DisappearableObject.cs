@@ -55,7 +55,7 @@ namespace CodeBase.ThrowableObjects.Components.Disappearing
             }
 
             ResetColor();
-            Disappeared.Invoke();
+            Disappeared?.Invoke();
         }
     }
 }

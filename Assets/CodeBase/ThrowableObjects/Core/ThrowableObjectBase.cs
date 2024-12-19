@@ -59,7 +59,7 @@ namespace CodeBase.ThrowableObjects.Core
 
         public void Disable()
         {
-            Disabled.Invoke(this);
+            Disabled?.Invoke(this);
         }
     }
 }

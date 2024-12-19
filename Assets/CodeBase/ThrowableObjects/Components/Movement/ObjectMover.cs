@@ -32,7 +32,7 @@ namespace CodeBase.ThrowableObjects.Components.Movement
             }
             else
             {
-                Moved.Invoke();
+                Moved?.Invoke();
             }
         }
 
