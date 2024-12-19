@@ -5,16 +5,16 @@ namespace CodeBase.Logic.Utilities
 {
     public class SoundQueuer
     {
-        private readonly Dictionary<string, Queue<AudioClip>> _soundQueues = new();
-        private readonly Dictionary<string, List<AudioClip>> _soundLists = new();
+        private readonly Dictionary<SoundKeys, Queue<AudioClip>> _soundQueues = new();
+        private readonly Dictionary<SoundKeys, List<AudioClip>> _soundLists = new();
 
-        public void RegisterSoundList(string key, List<AudioClip> sounds)
+        public void RegisterSoundList(SoundKeys key, List<AudioClip> sounds)
         {
             _soundLists[key] = sounds;
             _soundQueues[key] = CreateShuffledQueue(sounds);
         }
 
-        public AudioClip GetNextSound(string key)
+        public AudioClip GetNextSound(SoundKeys key)
         {
             if (!_soundQueues.ContainsKey(key)) return null;
 

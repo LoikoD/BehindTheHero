@@ -10,9 +10,6 @@ namespace CodeBase.Player
         [SerializeField] private List<AudioClip> _throwSounds;
         [SerializeField] private List<AudioClip> _stepSounds;
 
-        private const string ThrowKey = "throw";
-        private const string StepKey = "step";
-
         private AudioSource _audioSource;
         private SoundQueuer _soundQueuer;
         private Coroutine _stepCoroutine;
@@ -22,13 +19,13 @@ namespace CodeBase.Player
             _audioSource = GetComponent<AudioSource>();
 
             _soundQueuer = new();
-            _soundQueuer.RegisterSoundList(ThrowKey, _throwSounds);
-            _soundQueuer.RegisterSoundList(StepKey, _stepSounds);
+            _soundQueuer.RegisterSoundList(SoundKeys.Throw, _throwSounds);
+            _soundQueuer.RegisterSoundList(SoundKeys.Step, _stepSounds);
         }
 
         public void PlayThrowClip()
         {
-            _audioSource.PlayOneShot(_soundQueuer.GetNextSound(ThrowKey));
+            _audioSource.PlayOneShot(_soundQueuer.GetNextSound(SoundKeys.Throw));
         }
 
         public void StartStepSounds(float interval)
@@ -48,7 +45,7 @@ namespace CodeBase.Player
         {
             while (true)
             {
-                _audioSource.PlayOneShot(_soundQueuer.GetNextSound(StepKey));
+                _audioSource.PlayOneShot(_soundQueuer.GetNextSound(SoundKeys.Step));
                 yield return new WaitForSeconds(interval);
             }
         }
