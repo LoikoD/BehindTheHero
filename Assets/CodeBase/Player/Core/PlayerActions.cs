@@ -5,7 +5,7 @@ using CodeBase.Player.Components.Thrower;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace CodeBase.Player
+namespace CodeBase.Player.Core
 {
     public class PlayerActions : MonoBehaviour
     {
@@ -14,12 +14,12 @@ namespace CodeBase.Player
         private IPlayerAim _playerAim;
         private IPlayerItemThrower _itemThrower;
         private IPlayerItemSwapper _itemSwapper;
-        private PlayerInputActions _playerInputActions;
+        private PlayerInputActions.PlayerActions _playerInput;
 
         private Vector2 _inputVector;
     
         public void Construct(IPlayerMovement movement, IPlayerAim aim, IPlayerItemThrower itemThrower,
-                              IPlayerItemSwapper itemSwapper, PlayerInputActions inputActions)
+                              IPlayerItemSwapper itemSwapper, PlayerInputActions.PlayerActions playerInput)
         {
             _camera = Camera.main;
 
@@ -27,33 +27,28 @@ namespace CodeBase.Player
             _playerAim = aim;
             _itemThrower = itemThrower;
             _itemSwapper = itemSwapper;
-            _playerInputActions = inputActions;
+            _playerInput = playerInput;
 
-            _playerInputActions.Player.Aim.performed += OnAim;
-            _playerInputActions.Player.Throw.performed += OnThrow;
-            _playerInputActions.Player.Swap.performed += OnSwap;
+            _playerInput.Aim.performed += OnAim;
+            _playerInput.Throw.performed += OnThrow;
+            _playerInput.Swap.performed += OnSwap;
         }
 
         private void OnDisable()
         {
-            _playerInputActions.Player.Aim.performed -= OnAim;
-            _playerInputActions.Player.Throw.performed -= OnThrow;
-            _playerInputActions.Player.Swap.performed -= OnSwap;
+            _playerInput.Aim.performed -= OnAim;
+            _playerInput.Throw.performed -= OnThrow;
+            _playerInput.Swap.performed -= OnSwap;
         }
 
         private void Update()
         {
-            _inputVector = _playerInputActions.Player.Move.ReadValue<Vector2>();
+            _inputVector = _playerInput.Move.ReadValue<Vector2>();
         }
 
         private void FixedUpdate()
         {
             _playerMovement.Move(_inputVector);
-        }
-
-        public void EnableControls()
-        {
-            _playerInputActions.Player.Enable();
         }
 
         private void OnAim(InputAction.CallbackContext context)

@@ -1,15 +1,15 @@
 using CodeBase.Player.Components.Animations;
-using CodeBase.ThrowableObjects;
+using CodeBase.Player.Core.Inventory;
 using UnityEngine;
 
 namespace CodeBase.Player.Components.Thrower
 {
     public class PlayerItemThrower : MonoBehaviour, IPlayerItemThrower
     {
-        private PlayerInventory _playerInventory;
+        private IPlayerInventory _playerInventory;
         private IHeroAnimationsController _animationController;
 
-        public void Construct(PlayerInventory inventory, IHeroAnimationsController animator)
+        public void Construct(IPlayerInventory inventory, IHeroAnimationsController animator)
         {
             _playerInventory = inventory;
             _animationController = animator;
@@ -17,16 +17,11 @@ namespace CodeBase.Player.Components.Thrower
 
         public void Throw(Vector2 targetPoint)
         {
-            if (_playerInventory.ObjectInHands != null)
+            if (_playerInventory.TryDropItem(out var itemToThrow))
             {
-                IPickable objectToThrow = _playerInventory.ObjectInHands;
-                objectToThrow.InitThrow(targetPoint);
-
+                itemToThrow.InitThrow(targetPoint);
                 _animationController.Throw();
-
-                _playerInventory.ObjectInHands = null;
             }
-
         }
     }
 }

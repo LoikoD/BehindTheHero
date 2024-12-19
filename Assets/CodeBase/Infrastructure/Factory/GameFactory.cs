@@ -3,13 +3,14 @@ using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Knight;
 using CodeBase.Knight.KnightFSM;
-using CodeBase.Player;
 using CodeBase.Player.Components.Aim;
 using CodeBase.Player.Components.Animations;
 using CodeBase.Player.Components.ItemSwapper;
 using CodeBase.Player.Components.Movement;
 using CodeBase.Player.Components.Pickup;
 using CodeBase.Player.Components.Thrower;
+using CodeBase.Player.Core;
+using CodeBase.Player.Core.Inventory;
 using CodeBase.StaticData;
 using CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon;
 using CodeBase.ThrowableObjects.Pool;
@@ -31,7 +32,7 @@ namespace CodeBase.Infrastructure.Factory
             _staticData = staticData;
         }
 
-        public GameObject CreateHero(GameObject at, PlayerInputActions inputActions)
+        public GameObject CreateHero(GameObject at, PlayerInputActions.PlayerActions playerInput)
         {
             GameObject hero = _assets.InstantiateAt(AssetPath.Hero, at.transform.position);
 
@@ -55,7 +56,7 @@ namespace CodeBase.Infrastructure.Factory
             hero.GetComponent<PickupObjects>().Construct(inventory, animator);
 
             PlayerActions playerActions = hero.GetComponent<PlayerActions>();
-            playerActions.Construct(playerMovement, playerAim, itemThrower, itemSwapper, inputActions);
+            playerActions.Construct(playerMovement, playerAim, itemThrower, itemSwapper, playerInput);
 
             return hero;
         }

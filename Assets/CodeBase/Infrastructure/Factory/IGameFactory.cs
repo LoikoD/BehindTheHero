@@ -6,7 +6,7 @@ namespace CodeBase.Infrastructure.Factory
 {
     public interface IGameFactory : IService
     {
-        GameObject CreateHero(GameObject at, PlayerInputActions inputActions);
+        GameObject CreateHero(GameObject at, PlayerInputActions.PlayerActions playerInput);
         GameObject CreateHud();
         GameObject CreateKnight(GameObject at);
         GameObject CreateSpawner(EnemyStaticData data, Transform knight, LevelStaticData levelData);

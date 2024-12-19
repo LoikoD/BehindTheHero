@@ -57,9 +57,7 @@ namespace CodeBase.Infrastructure.States
         {
             PlayerInputActions inputActions = new();
 
-            _gameFactory.CreateHero(
-                GameObject.FindGameObjectWithTag(HeroSpawnTag),
-                inputActions);
+            _gameFactory.CreateHero(GameObject.FindGameObjectWithTag(HeroSpawnTag), inputActions.Player);
 
             GameObject knight = _gameFactory.CreateKnight(GameObject.FindGameObjectWithTag(KnightSpawnTag));
 
