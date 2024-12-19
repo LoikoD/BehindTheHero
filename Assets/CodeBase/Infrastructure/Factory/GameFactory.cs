@@ -67,7 +67,6 @@ namespace CodeBase.Infrastructure.Factory
             GameObject knight = _assets.InstantiateAt(AssetPath.Knight, at.transform.position);
 
             KnightSounds sounds = knight.GetComponent<KnightSounds>();
-            sounds.Construct();
 
             KnightAnimationsController animator = knight.GetComponent<KnightAnimationsController>();
             animator.Construct(sounds);

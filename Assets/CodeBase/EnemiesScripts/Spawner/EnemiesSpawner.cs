@@ -94,7 +94,6 @@ public class EnemiesSpawner : MonoBehaviour
         enemyObj.transform.SetParent(transform, true);
 
         EnemySounds sounds = enemyObj.GetComponent<EnemySounds>();
-        sounds.Construct();
 
         EnemyAnimationsController animator = enemyObj.GetComponent<EnemyAnimationsController>();
         animator.Construct(sounds);

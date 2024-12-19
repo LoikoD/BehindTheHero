@@ -1,48 +1,30 @@
+using CodeBase.Character.Base;
 using CodeBase.Logic.Utilities;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.EnemiesScripts.Controller
 {
-    public class EnemySounds : MonoBehaviour
+    public class EnemySounds : BaseSounds
     {
         [SerializeField] private List<AudioClip> _attackSounds;
-        [SerializeField] private List<AudioClip> _takeDamageSounds;
         [SerializeField] private List<AudioClip> _takeWeaponDamageSounds;
         [SerializeField] private List<AudioClip> _takeFistsDamageSounds;
 
-        private AudioSource _audioSource;
-        private SoundQueuer _soundQueuer;
-
-        public void Construct()
+        private protected override void RegisterSounds()
         {
-            _audioSource = GetComponent<AudioSource>();
-
-            _soundQueuer = new();
-            _soundQueuer.RegisterSoundList(SoundKeys.Attack, _attackSounds);
-            _soundQueuer.RegisterSoundList(SoundKeys.TakeWeaponDamage, _takeWeaponDamageSounds);
-            _soundQueuer.RegisterSoundList(SoundKeys.TakeFistsDamage, _takeFistsDamageSounds);
+            SoundQueuer.RegisterSoundList(SoundKeys.Attack, _attackSounds);
+            SoundQueuer.RegisterSoundList(SoundKeys.TakeWeaponDamage, _takeWeaponDamageSounds);
+            SoundQueuer.RegisterSoundList(SoundKeys.TakeFistsDamage, _takeFistsDamageSounds);
         }
 
-        public void PlayAttackClip(float delay = 0)
-        {
-            StartCoroutine(PlayDelayedClip(_soundQueuer.GetNextSound(SoundKeys.Attack), delay));
+        public void PlayAttackClip(float delay = 0) =>
+            StartCoroutine(PlayDelayedSound(SoundKeys.Attack, delay));
 
-        }
-        public void PlayTakeDamageFromWeaponClip(float delay = 0)
-        {
-            StartCoroutine(PlayDelayedClip(_soundQueuer.GetNextSound(SoundKeys.TakeWeaponDamage), delay));
-        }
-        public void PlayTakeDamageFromFistsClip(float delay = 0)
-        {
-            StartCoroutine(PlayDelayedClip(_soundQueuer.GetNextSound(SoundKeys.TakeFistsDamage), delay));
-        }
-        IEnumerator PlayDelayedClip(AudioClip clip, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            _audioSource.PlayOneShot(clip);
-        }
+        public void PlayTakeDamageFromWeaponClip(float delay = 0) =>
+            StartCoroutine(PlayDelayedSound(SoundKeys.TakeWeaponDamage, delay));
 
+        public void PlayTakeDamageFromFistsClip(float delay = 0) =>
+            StartCoroutine(PlayDelayedSound(SoundKeys.TakeFistsDamage, delay));
     }
 }
