@@ -14,29 +14,29 @@ namespace CodeBase.UI
         [SerializeField] private GameObject _mainPanel;
         [SerializeField] private GameObject _settingsPanel;
 
-        private PlayerInputActions _inputActions;
+        private PlayerInputActions.PauseMenuActions _pauseInput;
         private PauseState _state;
 
         public event Action Unpaused;
 
-        public void Construct(PlayerInputActions inputActions)
+        public void Construct(PlayerInputActions.PauseMenuActions pauseInput)
         {
-            _inputActions = inputActions;
+            _pauseInput = pauseInput;
 
             _state = PauseState.Unpaused;
         }
 
         private void OnEnable()
         {
-            _inputActions.PauseMenu.Enable();
-            _inputActions.PauseMenu.Back.performed += OnBack;
+            _pauseInput.Enable();
+            _pauseInput.Back.performed += OnBack;
             _state = PauseState.Main;
         }
 
         private void OnDisable()
         {
-            _inputActions.PauseMenu.Back.performed -= OnBack;
-            _inputActions.PauseMenu.Disable();
+            _pauseInput.Back.performed -= OnBack;
+            _pauseInput.Disable();
         }
 
         public void OpenSettings()

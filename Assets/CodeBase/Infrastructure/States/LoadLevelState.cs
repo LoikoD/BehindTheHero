@@ -67,15 +67,15 @@ namespace CodeBase.Infrastructure.States
             InitHud(knightMain);
             CameraFollow(knight);
 
-            UIController gameUI = InitUI(inputActions);
+            UIController gameUI = InitUI(inputActions.PauseMenu);
             GameSession gameSession = new(knightMain, enemiesSpawner, gameUI, inputActions);
 
             return gameSession;
         }
 
-        private UIController InitUI(PlayerInputActions inputActions)
+        private UIController InitUI(PlayerInputActions.PauseMenuActions pauseInput)
         {
-            PauseMenuController pauseMenu = _gameFactory.CreatePauseMenu(inputActions).GetComponent<PauseMenuController>();
+            PauseMenuController pauseMenu = _gameFactory.CreatePauseMenu(pauseInput).GetComponent<PauseMenuController>();
             GameOverUIController gameOverUI = _gameFactory.CreateGameOverUI().GetComponent<GameOverUIController>();
 
             UIController uiController = new(pauseMenu, gameOverUI);

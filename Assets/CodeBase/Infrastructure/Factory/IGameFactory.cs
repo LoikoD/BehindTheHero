@@ -11,6 +11,6 @@ namespace CodeBase.Infrastructure.Factory
         GameObject CreateKnight(GameObject at);
         GameObject CreateSpawner(EnemyStaticData data, Transform knight, LevelStaticData levelData);
         GameObject CreateGameOverUI();
-        GameObject CreatePauseMenu(PlayerInputActions inputActions);
+        GameObject CreatePauseMenu(PlayerInputActions.PauseMenuActions pauseInput);
     }
 }

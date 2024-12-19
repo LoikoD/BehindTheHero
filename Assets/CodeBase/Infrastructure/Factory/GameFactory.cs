@@ -109,10 +109,10 @@ namespace CodeBase.Infrastructure.Factory
             return _assets.Instantiate(AssetPath.GameOverUI);
         }
 
-        public GameObject CreatePauseMenu(PlayerInputActions inputActions)
+        public GameObject CreatePauseMenu(PlayerInputActions.PauseMenuActions pauseInput)
         {
             GameObject pauseMenu = _assets.Instantiate(AssetPath.PauseMenu);
-            pauseMenu.GetComponent<PauseMenuController>().Construct(inputActions);
+            pauseMenu.GetComponent<PauseMenuController>().Construct(pauseInput);
 
             return pauseMenu;
         }
