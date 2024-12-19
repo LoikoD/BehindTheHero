@@ -239,6 +239,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bb358b8db49e52f4e9261eb0776307ce, type: 3}
   - {fileID: 8300000, guid: 39b03baa61efb5a48bc128650e98feb8, type: 3}
   _takeDamageSounds:
+  - {fileID: 8300000, guid: 088c56ae7cabc0f4283c84c994252dd1, type: 3}
+  - {fileID: 8300000, guid: c5f34b41b2ec8e349a5c925c15dee215, type: 3}
+  - {fileID: 8300000, guid: 3e141cf203d343f48acbd57372ca4e37, type: 3}
+  - {fileID: 8300000, guid: 5d434cfbb6c963742bf14c8df7af10f1, type: 3}
+  _takeDamageWithArmorSounds:
   - {fileID: 8300000, guid: d1ce079a37850784b84e80e8095b7608, type: 3}
   - {fileID: 8300000, guid: b91cdb05bf2e4924c9b4ac351deeafd2, type: 3}
   - {fileID: 8300000, guid: aaea50de6a75cd349b732150022a065a, type: 3}

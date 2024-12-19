@@ -3,14 +3,15 @@
     public enum SoundKeys
     {
         Step,
+        Attack,
         MeleeAttack,
         SwordAttack,
         PoleaxeAttack,
-        Die,
         TakeDamage,
-        Attack,
         TakeWeaponDamage,
         TakeFistsDamage,
+        TakeDamageWithArmor,
+        Die,
         Throw,
         Slider
     }

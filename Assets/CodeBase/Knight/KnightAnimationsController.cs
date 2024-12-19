@@ -45,7 +45,7 @@ namespace CodeBase.Knight
         {
             var trackEntry = PlayAnimation(_animations.TakeDamage, 1, false);
             trackEntry.Delay = delay;
-            //_sounds.PlayTakeDamageClip(delay); only if has armor?
+            _sounds.PlayTakeDamageClip(delay);
         }
 
         public float Die()

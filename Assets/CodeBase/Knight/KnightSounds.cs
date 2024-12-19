@@ -10,6 +10,7 @@ public class KnightSounds : CharacterSoundsWithSteps
     [SerializeField] private List<AudioClip> _poleaxeAttackSounds;
     [SerializeField] private List<AudioClip> _dieSounds;
     [SerializeField] private List<AudioClip> _takeDamageSounds;
+    [SerializeField] private List<AudioClip> _takeDamageWithArmorSounds;
 
     private protected override void RegisterSounds()
     {
@@ -19,6 +20,7 @@ public class KnightSounds : CharacterSoundsWithSteps
         SoundQueuer.RegisterSoundList(SoundKeys.PoleaxeAttack, _poleaxeAttackSounds);
         SoundQueuer.RegisterSoundList(SoundKeys.Die, _dieSounds);
         SoundQueuer.RegisterSoundList(SoundKeys.TakeDamage, _takeDamageSounds);
+        SoundQueuer.RegisterSoundList(SoundKeys.TakeDamageWithArmor, _takeDamageWithArmorSounds);
     }
 
     public void PlayMeleeAttackClip(int playTimes, float interval) =>
@@ -35,4 +37,7 @@ public class KnightSounds : CharacterSoundsWithSteps
 
     public void PlayTakeDamageClip(float delay = 0) =>
         StartCoroutine(PlayDelayedSound(SoundKeys.TakeDamage, delay));
+
+    public void PlayTakeDamageWithArmorClip(float delay = 0) =>
+        StartCoroutine(PlayDelayedSound(SoundKeys.TakeDamageWithArmor, delay));
 }
