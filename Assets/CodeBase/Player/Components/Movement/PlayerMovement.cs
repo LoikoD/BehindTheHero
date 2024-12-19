@@ -1,12 +1,13 @@
 using CodeBase.StaticData;
 using UnityEngine;
+using CodeBase.Player.Components.Animations;
 
-namespace CodeBase.Player
+namespace CodeBase.Player.Components.Movement
 {
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour, IPlayerMovement
     {
         private PlayerStaticData _movementStats;
-        private HeroAnimationsController _animationController;
+        private IHeroAnimationsController _animationController;
 
         private Vector2 _inputVector;
         private Vector2 _frameVelocity;
@@ -19,7 +20,7 @@ namespace CodeBase.Player
         private float _playerWidth;
         private float _playerHeight;
 
-        public void Construct(HeroAnimationsController animator, PlayerStaticData data)
+        public void Construct(IHeroAnimationsController animator, PlayerStaticData data)
         {
             _animationController = animator;
             _movementStats = data;

@@ -1,15 +1,16 @@
+using CodeBase.Player.Components.Animations;
 using CodeBase.ThrowableObjects;
 using UnityEngine;
 
-namespace CodeBase.Player
+namespace CodeBase.Player.Components.Pickup
 {
     public class PickupObjects : MonoBehaviour
     {
         [SerializeField] private Transform handsArea;
         private PlayerInventory _playerInventory;
-        private HeroAnimationsController _animationController;
+        private IHeroAnimationsController _animationController;
 
-        public void Construct(PlayerInventory inventory, HeroAnimationsController animator)
+        public void Construct(PlayerInventory inventory, IHeroAnimationsController animator)
         {
             _playerInventory = inventory;
             _animationController = animator;
@@ -17,7 +18,7 @@ namespace CodeBase.Player
 
         private void OnTriggerStay2D(Collider2D collision)
         {
-            
+
             if (collision.TryGetComponent<IPickable>(out var pickup))
             {
                 if (_playerInventory.ObjectInHands == null && pickup.CanBePickedUp)

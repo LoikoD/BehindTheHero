@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CodeBase.Player
+namespace CodeBase.Player.Components.Sounds
 {
-    public class PlayerSounds : MonoBehaviour
+    public class PlayerSounds : MonoBehaviour, IPlayerSounds
     {
         [SerializeField] private List<AudioClip> _throwSounds;
         [SerializeField] private List<AudioClip> _stepSounds;
@@ -14,7 +14,7 @@ namespace CodeBase.Player
         private SoundQueuer _soundQueuer;
         private Coroutine _stepCoroutine;
 
-        public void Awake()
+        private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
 

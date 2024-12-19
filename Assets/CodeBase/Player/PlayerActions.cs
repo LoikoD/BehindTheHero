@@ -1,3 +1,7 @@
+using CodeBase.Player.Components.Aim;
+using CodeBase.Player.Components.ItemSwapper;
+using CodeBase.Player.Components.Movement;
+using CodeBase.Player.Components.Thrower;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,16 +10,16 @@ namespace CodeBase.Player
     public class PlayerActions : MonoBehaviour
     {
         private Camera _camera;
-        private PlayerMovement _playerMovement;
-        private PlayerAim _playerAim;
-        private PlayerItemThrower _itemThrower;
-        private PlayerItemSwapper _itemSwapper;
+        private IPlayerMovement _playerMovement;
+        private IPlayerAim _playerAim;
+        private IPlayerItemThrower _itemThrower;
+        private IPlayerItemSwapper _itemSwapper;
         private PlayerInputActions _playerInputActions;
 
         private Vector2 _inputVector;
     
-        public void Construct(PlayerMovement movement, PlayerAim aim, PlayerItemThrower itemThrower,
-                              PlayerItemSwapper itemSwapper, PlayerInputActions inputActions)
+        public void Construct(IPlayerMovement movement, IPlayerAim aim, IPlayerItemThrower itemThrower,
+                              IPlayerItemSwapper itemSwapper, PlayerInputActions inputActions)
         {
             _camera = Camera.main;
 

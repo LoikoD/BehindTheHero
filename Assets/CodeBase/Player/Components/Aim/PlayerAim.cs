@@ -1,17 +1,18 @@
 using CodeBase.Logic.Utilities;
+using CodeBase.Player.Components.Animations;
 using UnityEngine;
 
-namespace CodeBase.Player
+namespace CodeBase.Player.Components.Aim
 {
-    public class PlayerAim : MonoBehaviour
+    public class PlayerAim : MonoBehaviour, IPlayerAim
     {
         private Vector2 _cursorCoords;
         private HorizontalDirection _horizontalDirection;
-        private HeroAnimationsController _animationController;
+        private IHeroAnimationsController _animationController;
 
         public Vector2 CurrentCoords => _cursorCoords;
 
-        public void Construct(HeroAnimationsController animator)
+        public void Construct(IHeroAnimationsController animator)
         {
             _animationController = animator;
             _cursorCoords = Vector2.zero;

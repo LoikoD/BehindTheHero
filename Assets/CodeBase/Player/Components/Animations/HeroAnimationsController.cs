@@ -1,11 +1,12 @@
+using CodeBase.Player.Components.Sounds;
 using Spine;
 using Spine.Unity;
 using System.Collections;
 using UnityEngine;
 
-namespace CodeBase.Player
+namespace CodeBase.Player.Components.Animations
 {
-    public class HeroAnimationsController : MonoBehaviour
+    public class HeroAnimationsController : MonoBehaviour, IHeroAnimationsController
     {
         #region Inspector
         [SpineAnimation]
@@ -36,7 +37,7 @@ namespace CodeBase.Player
         private SkeletonAnimation _skeletonAnimation;
         private Spine.AnimationState _spineAnimationState;
         private Skeleton _skeleton;
-        private PlayerSounds _sounds;
+        private IPlayerSounds _sounds;
 
         private bool _isRunning = false;
         private bool _hasItem = false;
@@ -47,7 +48,7 @@ namespace CodeBase.Player
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
             _spineAnimationState = _skeletonAnimation.AnimationState;
             _skeleton = _skeletonAnimation.Skeleton;
-            _sounds = GetComponent<PlayerSounds>();
+            _sounds = GetComponent<IPlayerSounds>();
 
             _isRunning = false;
             _hasItem = false;

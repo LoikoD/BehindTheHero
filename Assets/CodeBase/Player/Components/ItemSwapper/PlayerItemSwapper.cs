@@ -1,14 +1,15 @@
+using CodeBase.Player.Components.Animations;
 using CodeBase.ThrowableObjects;
 using UnityEngine;
 
-namespace CodeBase.Player
+namespace CodeBase.Player.Components.ItemSwapper
 {
-    public class PlayerItemSwapper : MonoBehaviour
+    public class PlayerItemSwapper : MonoBehaviour, IPlayerItemSwapper
     {
         private PlayerInventory _playerInventory;
-        private HeroAnimationsController _animationController;
+        private IHeroAnimationsController _animationController;
 
-        public void Construct(PlayerInventory inventory, HeroAnimationsController animator)
+        public void Construct(PlayerInventory inventory, IHeroAnimationsController animator)
         {
             _playerInventory = inventory;
             _animationController = animator;
