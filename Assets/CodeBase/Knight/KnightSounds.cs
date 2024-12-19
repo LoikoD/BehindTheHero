@@ -68,6 +68,7 @@ public class KnightSounds : MonoBehaviour
         if (_stepCoroutine != null)
         {
             StopCoroutine(_stepCoroutine);
+            _stepCoroutine = null;
         }
     }
 

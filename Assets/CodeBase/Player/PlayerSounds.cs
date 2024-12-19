@@ -38,6 +38,7 @@ namespace CodeBase.Player
             if (_stepCoroutine != null)
             {
                 StopCoroutine(_stepCoroutine);
+                _stepCoroutine = null;
             }
         }
 
