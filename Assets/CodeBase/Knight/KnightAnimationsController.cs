@@ -1,122 +1,64 @@
 using CodeBase.Character;
+using CodeBase.Character.Base;
+using CodeBase.Character.Data;
 using CodeBase.Character.Interfaces;
 using Spine;
-using Spine.Unity;
 using System.Collections;
 using UnityEngine;
 
 namespace CodeBase.Knight
 {
-    public class KnightAnimationsController : MonoBehaviour, IAnimationsController
+    public class KnightAnimationsController : BaseAnimationsController, IAnimationsController
     {
-        #region Inspector
-        [SpineAnimation]
-        [SerializeField]
-        private string _runAnimationName;
+        [SerializeField] private KnightAnimationNames _animations;
+        [SerializeField] private KnightSkinNames _skins;
+        [SerializeField] private KnightAttackAnimationData _attackData;
 
-        [SpineAnimation]
-        [SerializeField]
-        private string _idleAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _meleeAtackAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _swordAttackAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _poleaxeAttackAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _takeDamageAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _stunAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _deathAnimationName;
-
-        [SpineSkin]
-        [SerializeField]
-        private string _meleeSkinName;
-
-        [SpineSkin]
-        [SerializeField]
-        private string _swordSkinName;
-
-        [SpineSkin]
-        [SerializeField]
-        private string _poleaxeSkinName;
-        #endregion
-
-        private SkeletonAnimation _skeletonAnimation;
-        private Spine.AnimationState _spineAnimationState;
-        private Skeleton _skeleton;
         private KnightSounds _sounds;
+
         private bool _isAttacking;
         private Coroutine _attackCoroutine;
 
-        private readonly float PoleaxeHitDelay = 0.1334f;
-        private readonly float SwordHitDelay = 0.1334f;
-        private readonly float FistsFirstHitDelay = 0.0667f;
-        private readonly float FistsHitInterval = 0.2001f;
-
         public void Construct(KnightSounds sounds)
         {
-            _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
-            _spineAnimationState = _skeletonAnimation.AnimationState;
-            _skeleton = _skeletonAnimation.Skeleton;
-            _isAttacking = false;
-
             _sounds = sounds;
+            _isAttacking = false;
         }
+
         public void Run()
         {
-            if (_isAttacking)
-            {
-                return;
-            }
-            TrackEntry trackEntry = _spineAnimationState.SetAnimation(0, _runAnimationName, true);
+            if (_isAttacking) return;
 
+            var trackEntry = PlayAnimation(_animations.Run, 0, true);
             _sounds.StartStepSounds(trackEntry.AnimationEnd / 2);
         }
+
         public void Idle()
         {
-            if (_isAttacking)
-            {
-                return;
-            }
-            _spineAnimationState.SetAnimation(0, _idleAnimationName, true);
+            if (_isAttacking) return;
 
+            PlayAnimation(_animations.Idle, 0, true);
             _sounds.StopStepSounds();
         }
+
         public void TakeDamage(float delay)
         {
-            TrackEntry trackEntry = _spineAnimationState.SetAnimation(1, _takeDamageAnimationName, false);
+            var trackEntry = PlayAnimation(_animations.TakeDamage, 1, false);
             trackEntry.Delay = delay;
             //_sounds.PlayTakeDamageClip(delay); only if has armor?
         }
+
         public float Die()
         {
-            if (_attackCoroutine != null)
-            {
-                StopCoroutine(_attackCoroutine);
-                _isAttacking = false;
-            }
+            StopAttackIfNeeded();
             _sounds.StopStepSounds();
 
-            float time = _spineAnimationState.SetAnimation(0, _deathAnimationName, false).AnimationEnd;
-
+            var trackEntry = PlayAnimation(_animations.Death, 0, false);
             _sounds.PlayDieClip();
 
-            return time;
+            return trackEntry.AnimationEnd;
         }
+
         public AttackAnimationInfo Attack()
         {
             if (_isAttacking)
@@ -124,65 +66,66 @@ namespace CodeBase.Knight
                 Debug.LogWarning("Attack animation called before previous attack animation has finished.");
                 return null;
             }
+
             _isAttacking = true;
+            var (animationName, hitDelay, hitInterval) = GetAttackParameters();
 
-            float hitDelay = 0;
-            float hitInterval = 0;
-            TrackEntry attackEntry = null;
-            if (_skeleton.Skin.Name == _meleeSkinName)
-            {
-                attackEntry = _spineAnimationState.SetAnimation(0, _meleeAtackAnimationName, false);
-                hitDelay = FistsFirstHitDelay;
-                hitInterval = FistsHitInterval;
-                _sounds.PlayMeleeAttackClip(3, FistsHitInterval);
-            }
-            else if (_skeleton.Skin.Name == _swordSkinName)
-            {
-                attackEntry = _spineAnimationState.SetAnimation(0, _swordAttackAnimationName, false);
-                _sounds.PlaySwordAttackClip();
-                hitDelay = SwordHitDelay;
-            }
-            else if (_skeleton.Skin.Name == _poleaxeSkinName)
-            {
-                attackEntry = _spineAnimationState.SetAnimation(0, _poleaxeAttackAnimationName, false);
-                _sounds.PlayPoleaxeAttackClip();
-                hitDelay = PoleaxeHitDelay;
-            }
-            _spineAnimationState.AddAnimation(0, _idleAnimationName, true, 0);
+            var attackEntry = PlayAnimation(animationName, 0, false);
+            AddAnimation(_animations.Idle, 0, true, 0);
 
-            AttackAnimationInfo animInfo = new(attackEntry.AnimationEnd, hitDelay, hitInterval);
+            PlayAttackSound(hitInterval);
 
+            var animInfo = new AttackAnimationInfo(attackEntry.AnimationEnd, hitDelay, hitInterval);
             _attackCoroutine = StartCoroutine(StopAttackAfterTime(animInfo.Duration));
 
             return animInfo;
+        }
+
+        public void SetMeleeSkin() => SetSkin(_skins.Melee);
+        public void SetSwordSkin() => SetSkin(_skins.Sword);
+        public void SetPoleaxeSkin() => SetSkin(_skins.Poleaxe);
+
+        private (string animation, float delay, float interval) GetAttackParameters() =>
+            Skeleton.Skin.Name switch
+            {
+                var name when name == _skins.Melee =>
+                    (_animations.MeleeAttack, _attackData.FistsFirstHitDelay, _attackData.FistsHitInterval),
+                var name when name == _skins.Sword =>
+                    (_animations.SwordAttack, _attackData.SwordHitDelay, 0),
+                var name when name == _skins.Poleaxe =>
+                    (_animations.PoleaxeAttack, _attackData.PoleaxeHitDelay, 0),
+                _ => throw new System.ArgumentException($"Unknown skin: {Skeleton.Skin.Name}")
+            };
+
+        private void PlayAttackSound(float interval)
+        {
+            switch (Skeleton.Skin.Name)
+            {
+                case var name when name == _skins.Melee:
+                    _sounds.PlayMeleeAttackClip(3, interval);
+                    break;
+                case var name when name == _skins.Sword:
+                    _sounds.PlaySwordAttackClip();
+                    break;
+                case var name when name == _skins.Poleaxe:
+                    _sounds.PlayPoleaxeAttackClip();
+                    break;
+            }
         }
 
         private IEnumerator StopAttackAfterTime(float time)
         {
             yield return new WaitForSeconds(time);
             _isAttacking = false;
-
         }
 
-        public void Turn()
+        private void StopAttackIfNeeded()
         {
-            _skeleton.ScaleX *= -1;
-        }
-
-        public void SetMeleeSkin()
-        {
-            _skeleton.SetSkin(_meleeSkinName);
-            _skeleton.SetSlotsToSetupPose();
-        }
-        public void SetSwordSkin()
-        {
-            _skeleton.SetSkin(_swordSkinName);
-            _skeleton.SetSlotsToSetupPose();
-        }
-        public void SetPoleaxeSkin()
-        {
-            _skeleton.SetSkin(_poleaxeSkinName);
-            _skeleton.SetSlotsToSetupPose();
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+                _isAttacking = false;
+            }
         }
     }
 }

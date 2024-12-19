@@ -167,17 +167,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c5500bef6f41a4fbd30b8613bab8ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _runAnimationName: go
-  _idleAnimationName: idle
-  _meleeAtackAnimationName: attack_mele
-  _swordAttackAnimationName: attack_sword
-  _poleaxeAttackAnimationName: attack_axe
-  _takeDamageAnimationName: damage_paralllel
-  _stunAnimationName: stun
-  _deathAnimationName: death
-  _meleeSkinName: mele
-  _swordSkinName: sword
-  _poleaxeSkinName: axe
+  _animations:
+    Run: go
+    Idle: idle
+    MeleeAttack: attack_mele
+    SwordAttack: attack_sword
+    PoleaxeAttack: attack_axe
+    TakeDamage: damage_paralllel
+    Stun: stun
+    Death: death
+  _skins:
+    Melee: mele
+    Sword: sword
+    Poleaxe: axe
+  _attackData:
+    PoleaxeHitDelay: 0.1334
+    SwordHitDelay: 0.1334
+    FistsFirstHitDelay: 0.0667
+    FistsHitInterval: 0.2001
 --- !u!114 &6043353209942840566
 MonoBehaviour:
   m_ObjectHideFlags: 0

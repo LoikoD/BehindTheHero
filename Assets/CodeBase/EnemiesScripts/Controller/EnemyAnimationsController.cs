@@ -1,93 +1,62 @@
+using CodeBase.Character.Base;
 using CodeBase.Character;
 using CodeBase.Character.Interfaces;
-using Spine;
-using Spine.Unity;
 using UnityEngine;
+using CodeBase.Character.Data;
 
 namespace CodeBase.EnemiesScripts.Controller
 {
-    public class EnemyAnimationsController : MonoBehaviour, IAnimationsController
+    public class EnemyAnimationsController : BaseAnimationsController, IAnimationsController
     {
-        #region Inspector
-        [SpineAnimation]
-        [SerializeField]
-        private string _runAnimationName;
+        [SerializeField] private EnemyAnimationNames _animations;
+        [SerializeField] private EnemyAttackAnimationData _attackData;
 
-        [SpineAnimation]
-        [SerializeField]
-        private string _atackAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _takeDamageAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _deathAnimationName;
-
-        [SpineAnimation]
-        [SerializeField]
-        private string _stunAnimationName;
-        #endregion
-
-        private SkeletonAnimation _skeletonAnimation;
-        private Spine.AnimationState _spineAnimationState;
-        private Skeleton _skeleton;
         private EnemySounds _sounds;
-
-        private const float HitDelay = 0.3332f;
 
         public void Construct(EnemySounds sounds)
         {
-            _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
-            _spineAnimationState = _skeletonAnimation.AnimationState;
-            _skeleton = _skeletonAnimation.Skeleton;
             _sounds = sounds;
         }
-        public void Run()
-        {
-            _spineAnimationState.SetAnimation(0, _runAnimationName, true);
-        }
-        public void Idle()
-        {
-            _spineAnimationState.SetAnimation(0, _stunAnimationName, true);
-        }
+
+        public void Run() => PlayAnimation(_animations.Run, 0, true);
+
+        public void Idle() => PlayAnimation(_animations.Idle, 0, true);
+
         public float Die()
         {
-            TrackEntry trackEntry = _spineAnimationState.SetAnimation(0, _deathAnimationName, false);
+            var trackEntry = PlayAnimation(_animations.Death, 0, false);
             return trackEntry.AnimationEnd;
         }
+
         public AttackAnimationInfo Attack()
         {
-            TrackEntry trackEntry = _spineAnimationState.SetAnimation(0, _atackAnimationName, false);
-            _spineAnimationState.AddAnimation(0, _stunAnimationName, true, 0);
-            _sounds.PlayAttackClip(HitDelay * 0.8f);
-            return new AttackAnimationInfo(trackEntry.AnimationEnd, HitDelay, 0);
+            var trackEntry = PlayAnimation(_animations.Attack, 0, false);
+            AddAnimation(_animations.Idle, 0, true, 0);
+            _sounds.PlayAttackClip(_attackData.HitDelay * 0.8f);
+            return new AttackAnimationInfo(trackEntry.AnimationEnd, _attackData.HitDelay, 0);
         }
-        public void Turn()
-        {
-            _skeleton.ScaleX *= -1;
-        }
+
         public void TakeDamage(float delay)
         {
-            TrackEntry trackEntry = _spineAnimationState.SetAnimation(1, _takeDamageAnimationName, false);
+            var trackEntry = PlayAnimation(_animations.TakeDamage, 1, false);
             trackEntry.Delay = delay;
         }
+
         public void TakeDamageFromWeapon(float delay)
         {
             TakeDamage(delay);
             _sounds.PlayTakeDamageFromWeaponClip(delay);
         }
+
         public void TakeDamageFromFists(float delay, float interval)
         {
-            TrackEntry trackEntry = _spineAnimationState.SetAnimation(1, _takeDamageAnimationName, false);
+            var trackEntry = PlayAnimation(_animations.TakeDamage, 1, false);
             trackEntry.Delay = delay;
-            _spineAnimationState.AddAnimation(1, _takeDamageAnimationName, false, interval);
-            _spineAnimationState.AddAnimation(1, _takeDamageAnimationName, false, interval);
+            AddAnimation(_animations.TakeDamage, 1, false, interval);
+            AddAnimation(_animations.TakeDamage, 1, false, interval);
 
-            _sounds.PlayTakeDamageFromFistsClip(delay);
-            _sounds.PlayTakeDamageFromFistsClip(delay + interval);
-            _sounds.PlayTakeDamageFromFistsClip(delay + interval * 2);
+            for (int i = 0; i < 3; i++)
+                _sounds.PlayTakeDamageFromFistsClip(delay + interval * i);
         }
     }
 }

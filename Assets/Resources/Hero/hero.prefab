@@ -320,12 +320,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d749a1a2b905dab429ded8b5c468ceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _runAnimationName: go
-  _idleAnimationName: idle
-  _runWithItemAnimationName: go_item
-  _idleWithItemAnimationName: idle_item
-  _stunAnimationName: stun
-  _throwAnimationName: throw
+  _animations:
+    Run: go
+    Idle: idle
+    RunWithItem: go_item
+    IdleWithItem: idle_item
+    Stun: stun
+    Throw: throw
 --- !u!114 &411861458182834686
 MonoBehaviour:
   m_ObjectHideFlags: 0

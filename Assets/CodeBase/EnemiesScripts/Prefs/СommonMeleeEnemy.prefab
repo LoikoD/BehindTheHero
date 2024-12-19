@@ -135,11 +135,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3554ee731434c5d47bc168e7f0998756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _runAnimationName: go
-  _atackAnimationName: attack
-  _takeDamageAnimationName: damage
-  _deathAnimationName: death
-  _stunAnimationName: stun
+  _animations:
+    Run: go
+    Attack: attack
+    TakeDamage: damage
+    Death: death
+    Idle: stun
+  _attackData:
+    HitDelay: 0.3332
 --- !u!114 &2367117315640051562
 MonoBehaviour:
   m_ObjectHideFlags: 0
