@@ -10,14 +10,14 @@ namespace CodeBase.Knight.KnightFSM
     {
         private readonly KnightStateMachine _stateMachine;
         private readonly KnightMover _movement;
-        private readonly ClosestTargetFinder _targetFinder;
+        private readonly ClosestOnScreenTargetFinder _targetFinder;
         private readonly IAnimationsController _animator;
 
         public KnightFSMIdleState(KnightStateMachine stateMachine, KnightMover movement, KnightStaticData data, KnightAnimationsController animator)
         {
             _stateMachine = stateMachine;
             _movement = movement;
-            _targetFinder = new ClosestTargetFinder(data.AggroRange, data.TargetLayer);
+            _targetFinder = new ClosestOnScreenTargetFinder(data.TargetLayer);
             _animator = animator;
         }
 
