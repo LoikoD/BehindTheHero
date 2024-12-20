@@ -39,9 +39,9 @@ namespace CodeBase.Logic.Utilities
             return closestTarget != null;
         }
 
-        private Bounds GetScreenBounds(float padding = 1f)
+        private Bounds GetScreenBounds()
         {
-            float cameraHeight = _camera.orthographicSize * 2 * padding;
+            float cameraHeight = _camera.orthographicSize * 2;
             float cameraWidth = cameraHeight * _camera.aspect;
             return new Bounds(_camera.transform.position, new Vector2(cameraWidth, cameraHeight));
         }
