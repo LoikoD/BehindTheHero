@@ -89,9 +89,9 @@ namespace CodeBase.Infrastructure.States
 
             LevelStaticData levelStaticData = (LevelStaticData)_sceneService.CurrentScene;
             
-            foreach (EnemyStaticData enemyData in levelStaticData.MonsterTypes)
+            foreach (LevelSpawnerData levelSpawnerData in levelStaticData.LevelSpawners)
             {
-                spawner = _gameFactory.CreateSpawner(enemyData, knight.transform, levelStaticData);
+                spawner = _gameFactory.CreateSpawner(knight.transform, levelSpawnerData);
             }
 
             return spawner;

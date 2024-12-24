@@ -7,6 +7,8 @@ namespace CodeBase.StaticData
     {
         public EnemyTypeID Type;
         public float AttackCooldown;
+        public float SeparationRadius;
+        public LayerMask SeparationLayer;
         public GameObject Prefab;
     }
 }

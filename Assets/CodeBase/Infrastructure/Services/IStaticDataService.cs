@@ -7,7 +7,7 @@ namespace CodeBase.Infrastructure.Services
         void LoadMonsters();
         void LoadLevels();
         void LoadDialogues();
-        EnemyStaticData ForMonster(EnemyTypeID typeID);
+        EnemyStaticData ForEnemy(EnemyTypeID typeID);
         KnightStaticData ForKnight();
         PlayerStaticData ForHero();
         LevelStaticData ForLevel(string sceneKey);

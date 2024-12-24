@@ -7,14 +7,14 @@ namespace CodeBase.StaticData
 {
     public class StaticDataService : IStaticDataService
     {
-        private Dictionary<EnemyTypeID, EnemyStaticData> _monsters;
+        private Dictionary<EnemyTypeID, EnemyStaticData> _enemies;
         private Dictionary<string, LevelStaticData> _levels;
         private Dictionary<string, DialogueStaticData> _dialogues;
 
         public void LoadMonsters()
         {
-            _monsters = Resources
-                .LoadAll<EnemyStaticData>("StaticData/Monsters")
+            _enemies = Resources
+                .LoadAll<EnemyStaticData>("StaticData/Enemies")
                 .ToDictionary(x => x.Type, x => x);
         }
 
@@ -38,8 +38,8 @@ namespace CodeBase.StaticData
         public PlayerStaticData ForHero() =>
             Resources.Load<PlayerStaticData>("StaticData/PlayerData");
 
-        public EnemyStaticData ForMonster(EnemyTypeID typeID) =>
-            _monsters.TryGetValue(typeID, out EnemyStaticData data) ? data : null;
+        public EnemyStaticData ForEnemy(EnemyTypeID typeID) =>
+            _enemies.TryGetValue(typeID, out EnemyStaticData data) ? data : null;
 
         public LevelStaticData ForLevel(string sceneKey) =>
             _levels.TryGetValue(sceneKey, out LevelStaticData data) ? data : null;

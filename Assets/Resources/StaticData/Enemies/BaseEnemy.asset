@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4cef479e31305a4aaa11afbf6d7463c, type: 3}
-  m_Name: EnemyBase
+  m_Name: BaseEnemy
   m_EditorClassIdentifier: 
   Hp: 25
   Damage: 3
   MoveSpeed: 10
   AttackRange: 9
-  TargetLayer:
-    serializedVersion: 2
-    m_Bits: 128
   Type: 0
   AttackCooldown: 3
+  SeparationRadius: 4
+  SeparationLayer:
+    serializedVersion: 2
+    m_Bits: 256
   Prefab: {fileID: 6123560694690102695, guid: db9906c3d569b6744ae2ff23fd5b35c4, type: 3}

@@ -7,12 +7,7 @@ namespace CodeBase.StaticData
     public class LevelStaticData : SceneStaticData
     {
         public string LoadLevelText;
-        public List<EnemyStaticData> MonsterTypes;
-        public int EnemiesCount;
-        public int MinGroupCount;
-        public int MaxGroupCount;
-        public float MinSpawnDelay;
-        public float MaxSpawnDelay;
-        public GameObject LootPool;
+        public List<LevelSpawnerData> LevelSpawners;
     }
+
 }

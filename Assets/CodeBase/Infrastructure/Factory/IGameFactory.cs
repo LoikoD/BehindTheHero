@@ -9,7 +9,7 @@ namespace CodeBase.Infrastructure.Factory
         GameObject CreateHero(GameObject at, PlayerInputActions.PlayerActions playerInput);
         GameObject CreateHud();
         GameObject CreateKnight(GameObject at);
-        GameObject CreateSpawner(EnemyStaticData data, Transform knight, LevelStaticData levelData);
+        GameObject CreateSpawner(Transform knight, LevelSpawnerData levelSpawnerData);
         GameObject CreateGameOverUI();
         GameObject CreatePauseMenu(PlayerInputActions.PauseMenuActions pauseInput);
     }

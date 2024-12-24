@@ -91,14 +91,16 @@ namespace CodeBase.Infrastructure.Factory
             _assets.Instantiate(AssetPath.Hud);
         
 
-        public GameObject CreateSpawner(EnemyStaticData enemyType, Transform knight, LevelStaticData levelData)
+        public GameObject CreateSpawner(Transform knight, LevelSpawnerData levelSpawnerData)
         {
             var prefab = Resources.Load<GameObject>(AssetPath.Spawner);
             GameObject spawner = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
 
-            ThrowableObjectPool lootPool = Object.Instantiate(levelData.LootPool).GetComponent<ThrowableObjectPool>();
+            ThrowableObjectPool lootPool = Object.Instantiate(levelSpawnerData.SpawnerData.LootPool).GetComponent<ThrowableObjectPool>();
 
-            spawner.GetComponent<EnemiesSpawner>().Construct(knight, enemyType, levelData, lootPool);
+            EnemyStaticData enemyData = _staticData.ForEnemy(levelSpawnerData.SpawnerData.EnemyType);
+
+            spawner.GetComponent<EnemiesSpawner>().Construct(knight, levelSpawnerData, enemyData, lootPool);
 
             return spawner;
         }

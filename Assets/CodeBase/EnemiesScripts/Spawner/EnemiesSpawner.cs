@@ -14,38 +14,41 @@ using CodeBase.Logic.Utilities;
 
 public class EnemiesSpawner : MonoBehaviour
 {
-
-    private const float EnemiesGap = 10f;
-    private const int PoolBulkAmount = 15;
-    private const float SpawnDistanceInScreens = 0.7f;
-    private const float LootSpawnChance = 0.5f;
-    private const int LootMaxAttemptsBeforeGuaranteedDrop = 5;
-
-    private Camera _mainCamera;
     private Transform _knight;
     private EnemyStaticData _enemyData;
-    private LevelStaticData _levelData;
+    private SpawnerStaticData _spawnerData;
+    private LevelSpawnerData _levelSpawnerData;
     private ThrowableObjectPool _lootPool;
 
     private List<EnemyMain> _enemiesPool;
     private int _enemiesDied;
     private PityDropSystem _pityDropSystem;
+    private OffScreenPointProvider _spawnPointProvider;
 
     public event Action EndLevel;
 
-    public void Construct(Transform knight, EnemyStaticData enemyData, LevelStaticData levelData, ThrowableObjectPool lootPool)
+    public void Construct(Transform knight, LevelSpawnerData levelSpawnerData, EnemyStaticData enemyData, ThrowableObjectPool lootPool)
     {
         _knight = knight;
+        _levelSpawnerData = levelSpawnerData;
+        _spawnerData = levelSpawnerData.SpawnerData;
         _enemyData = enemyData;
-        _levelData = levelData;
         _lootPool = lootPool;
 
-        _mainCamera = Camera.main;
         _enemiesDied = 0;
 
         PoolEnemies();
 
-        _pityDropSystem = new PityDropSystem(LootSpawnChance, LootMaxAttemptsBeforeGuaranteedDrop);
+        _pityDropSystem = new PityDropSystem(_spawnerData.LootSpawnChance, _spawnerData.LootMaxAttemptsBeforeGuaranteedDrop);
+        _spawnPointProvider = new OffScreenPointProvider(Camera.main, _spawnerData.SpawnDistanceFromEdge);
+
+
+        List<Vector2> basePoints = _spawnPointProvider.GetPointsForDebug();
+        for (int i = 1; i < basePoints.Count; i++)
+        {
+            Debug.DrawLine(basePoints[i - 1], basePoints[i], Color.yellow, 10);
+        }
+        Debug.DrawLine(basePoints[^1], basePoints[0], Color.yellow, 10);
     }
 
     public void StartSpawning()
@@ -57,7 +60,7 @@ public class EnemiesSpawner : MonoBehaviour
     {
         _enemiesPool = new List<EnemyMain>();
 
-        for (int i = 0; i < PoolBulkAmount; i++)
+        for (int i = 0; i < _spawnerData.EnemiesPoolBulkAmount; i++)
         {
             EnemyMain enemy = CreateEnemy();
             enemy.gameObject.SetActive(false);
@@ -69,22 +72,22 @@ public class EnemiesSpawner : MonoBehaviour
     private IEnumerator Spawning()
     {
         int _spawnedCount = 0;
-        while (_spawnedCount < _levelData.EnemiesCount)
+        while (_spawnedCount < _levelSpawnerData.TotalEnemiesCount)
         {
-            Vector3 _groupSpawnPos = GetRandomOffScreenPosition();
+            int _enemiesInGroup = Mathf.Min(_levelSpawnerData.TotalEnemiesCount - _spawnedCount, Random.Range(_levelSpawnerData.MinGroupCount, _levelSpawnerData.MaxGroupCount));
 
-            int _enemiesInGroup = Mathf.Min(_levelData.EnemiesCount - _spawnedCount, Random.Range(_levelData.MinGroupCount, _levelData.MaxGroupCount));
-            
+            List<Vector2> _groupSpawnPoints = _spawnPointProvider.GetRandomGroupPoints(_enemiesInGroup, _spawnerData.MinEnemiesGap);
+
             for (int i = 0; i < _enemiesInGroup; i++)
             {
-                Vector3 position = _groupSpawnPos + new Vector3(Random.Range(-EnemiesGap, EnemiesGap), Random.Range(-EnemiesGap, EnemiesGap), 0);
+                Vector3 position = _groupSpawnPoints[i];
 
                 SpawnEnemy(position);
 
                 _spawnedCount++;
             }
             
-            yield return new WaitForSeconds(Random.Range(_levelData.MinSpawnDelay, _levelData.MaxSpawnDelay));
+            yield return new WaitForSeconds(Random.Range(_levelSpawnerData.MinSpawnDelay, _levelSpawnerData.MaxSpawnDelay));
         }
     }
     
@@ -99,7 +102,7 @@ public class EnemiesSpawner : MonoBehaviour
         animator.Construct(sounds);
 
         EnemyMover mover = enemyObj.GetComponent<EnemyMover>();
-        mover.Construct(_enemyData.MoveSpeed);
+        mover.Construct(_enemyData.MoveSpeed, _enemyData.SeparationRadius, _enemyData.SeparationLayer);
 
         EnemyAttacker attacker = enemyObj.GetComponent<EnemyAttacker>();
         attacker.Construct(animator, _enemyData.Damage, _enemyData.AttackCooldown);
@@ -140,26 +143,13 @@ public class EnemiesSpawner : MonoBehaviour
         _enemiesDied += 1;
         _enemiesPool.Add(enemy);
 
-        if (_levelData.EnemiesCount == _enemiesDied)
+        if (_levelSpawnerData.TotalEnemiesCount == _enemiesDied)
             StartCoroutine(EndLevelAfterTime());
 
         if (_enemiesDied == 1 || (_enemiesDied != 1 && _pityDropSystem.ShouldDrop()))
             _lootPool.SpawnThrowableObject(enemy.transform.position);
         
         enemy.Died -= OnEnemyDeath;
-    }
-
-    private Vector3 GetRandomOffScreenPosition()
-    {
-        float screenHeight = _mainCamera.orthographicSize * 2;
-        float screenWidth = screenHeight * _mainCamera.aspect;
-        float distance = SpawnDistanceInScreens * (screenWidth > screenHeight ? screenWidth : screenHeight);
-
-        float randomAngle = Random.Range(0f, 360f);
-        Vector2 direction = new(Mathf.Cos(randomAngle * Mathf.Deg2Rad), Mathf.Sin(randomAngle * Mathf.Deg2Rad));
-        Vector3 offScreenPosition = (Vector2)_mainCamera.transform.position + direction.normalized * distance;
-
-        return offScreenPosition;
     }
 
     private IEnumerator EndLevelAfterTime()

@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: Level3
   LoadLevelText: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C 3"
-  MonsterTypes:
-  - {fileID: 11400000, guid: 7b431d85d55742b47a32bd091bc40e9f, type: 2}
+  LevelSpawners:
+  - SpawnerData: {fileID: 11400000, guid: de4a4cb17968dbc44855e13534e037f0, type: 2}
+    TotalEnemiesCount: 30
+    MinGroupCount: 2
+    MaxGroupCount: 4
+    MinSpawnDelay: 3
+    MaxSpawnDelay: 5
   EnemiesCount: 30
   MinGroupCount: 2
   MaxGroupCount: 4
