@@ -14,7 +14,6 @@ namespace CodeBase.Character
 
         public float CurrentHealth { get; set; }
         public float MaxHealth { get; set; }
-        public Transform Transform => transform;
 
         public event Action HealthChanged;
 

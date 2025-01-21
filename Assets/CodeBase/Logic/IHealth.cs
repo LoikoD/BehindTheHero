@@ -6,6 +6,5 @@ namespace CodeBase.Logic
     {
         float CurrentHealth { get; set; }
         float MaxHealth { get; set; }
-        public Transform Transform { get; }
     }
 }
