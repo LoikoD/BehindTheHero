@@ -8,11 +8,11 @@ namespace CodeBase.Character.CharacterFSM
     public abstract class CharacterFSMChaseState : IFsmState
     {
         private readonly CharacterStateMachine _stateMachine;
-        private readonly CharacterMover _mover;
+        private readonly IMover _mover;
         private readonly IAnimationsController _animator;
         private readonly CharacterStaticData _data;
 
-        public CharacterFSMChaseState(CharacterStateMachine stateMachine, CharacterMover mover, IAnimationsController animator, CharacterStaticData data)
+        public CharacterFSMChaseState(CharacterStateMachine stateMachine, IMover mover, IAnimationsController animator, CharacterStaticData data)
         {
             _stateMachine = stateMachine;
             _mover = mover;
@@ -27,12 +27,12 @@ namespace CodeBase.Character.CharacterFSM
 
         public void Update()
         {
-            if (Vector3.Distance(_mover.transform.position, _stateMachine.Target.Transform.position) <= _data.AttackRange)
+            if (_mover.DistanceToTarget(_stateMachine.Target) <= _data.AttackRange)
             {
                 _stateMachine.SetState<CharacterFSMAttackState>();
             }
 
-            _mover.Move(_stateMachine.Target.Transform);
+            _mover.Move(_stateMachine.Target);
         }
 
         public void Exit()

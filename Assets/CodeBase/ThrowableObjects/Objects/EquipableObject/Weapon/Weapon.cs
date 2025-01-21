@@ -40,7 +40,8 @@ namespace CodeBase.ThrowableObjects.Objects.EquipableObject.Weapon
             {
                 foreach (var hit in _hitColliders)
                 {
-                    if (hit.gameObject.TryGetComponent<IWeaponDamageable>(out var enemy))
+                    IWeaponDamageable enemy = hit.GetComponentInParent<IWeaponDamageable>();
+                    if (enemy != null)
                     {
                         DealDamage(enemy, hitInterval);
                     }

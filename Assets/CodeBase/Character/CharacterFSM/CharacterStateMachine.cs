@@ -1,11 +1,11 @@
 ﻿using CodeBase.Infrastructure;
-using CodeBase.Logic;
+using UnityEngine;
 
 namespace CodeBase.Character.CharacterFSM
 {
     public abstract class CharacterStateMachine : DefaultStateMachine
     {
-        public IHealth Target { get; internal set; }
+        public Transform Target { get; internal set; }
         public bool HasDied { get; internal set; }
 
         public void Reset()
@@ -14,7 +14,7 @@ namespace CodeBase.Character.CharacterFSM
             SetDefaultState();
         }
 
-        public void SetTarget(IHealth target)
+        public void SetTarget(Transform target)
         {
             Target = target;
         }

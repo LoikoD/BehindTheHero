@@ -28,7 +28,7 @@ namespace CodeBase.Character
             if (_stateMachine.Target == null)
                 return;
 
-            Vector2 vectorToTarget = _stateMachine.Target.Transform.position - transform.position;
+            Vector2 vectorToTarget = _stateMachine.Target.position - transform.position;
             if (vectorToTarget.x > 0 && _horizontalDirection != HorizontalDirection.Right)
             {
                 _horizontalDirection = HorizontalDirection.Right;

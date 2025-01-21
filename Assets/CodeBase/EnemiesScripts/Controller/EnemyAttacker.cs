@@ -21,8 +21,8 @@ namespace CodeBase.EnemiesScripts.Controller
     
         internal override void DoAttack(Transform target, float hitInterval)
         {
-            target.TryGetComponent(out IDamageable knight);
-            knight.TakeDamage(_damage);
+            IDamageable knight = target.GetComponent<IDamageable>();
+            knight?.TakeDamage(_damage);
         }
     }
 }

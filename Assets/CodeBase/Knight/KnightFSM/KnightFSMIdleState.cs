@@ -1,8 +1,8 @@
 using CodeBase.Character.Interfaces;
 using CodeBase.Infrastructure.States;
-using CodeBase.Logic;
 using CodeBase.Logic.Utilities;
 using CodeBase.StaticData;
+using UnityEngine;
 
 namespace CodeBase.Knight.KnightFSM
 {
@@ -28,7 +28,7 @@ namespace CodeBase.Knight.KnightFSM
 
         public void Update()
         {
-            if (_targetFinder.TryFindTarget(_movement.gameObject.transform.position, out IHealth target))
+            if (_targetFinder.TryFindTarget(_movement.gameObject.transform.position, out Transform target))
             {
                 _stateMachine.SetTarget(target);
                 _stateMachine.SetState<KnightFSMChaseState>();

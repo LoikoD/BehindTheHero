@@ -13,7 +13,7 @@ namespace CodeBase.Knight.KnightFSM
 
         internal override void CheckTarget()
         {
-            if (_stateMachine.Target.Transform.gameObject.activeSelf == false)
+            if (_stateMachine.Target.gameObject.activeInHierarchy == false)
                 _stateMachine.SetState<KnightFSMIdleState>();
         }
     }

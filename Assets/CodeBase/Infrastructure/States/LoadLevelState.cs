@@ -62,7 +62,7 @@ namespace CodeBase.Infrastructure.States
             GameObject knight = _gameFactory.CreateKnight(GameObject.FindGameObjectWithTag(KnightSpawnTag));
 
             KnightMain knightMain = knight.GetComponent<KnightMain>();
-            EnemiesSpawner enemiesSpawner = InitSpawners(knight).GetComponent<EnemiesSpawner>();
+            EnemiesSpawner enemiesSpawner = InitSpawners(knight.transform).GetComponent<EnemiesSpawner>();
 
             InitHud(knightMain);
             CameraFollow(knight);
@@ -83,7 +83,7 @@ namespace CodeBase.Infrastructure.States
             return uiController;
         }
 
-        private GameObject InitSpawners(GameObject knight)
+        private GameObject InitSpawners(Transform knight)
         {
             GameObject spawner = null;
 
@@ -91,7 +91,7 @@ namespace CodeBase.Infrastructure.States
             
             foreach (LevelSpawnerData levelSpawnerData in levelStaticData.LevelSpawners)
             {
-                spawner = _gameFactory.CreateSpawner(knight.transform, levelSpawnerData);
+                spawner = _gameFactory.CreateSpawner(knight, levelSpawnerData);
             }
 
             return spawner;

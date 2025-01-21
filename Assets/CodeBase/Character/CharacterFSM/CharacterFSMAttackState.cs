@@ -34,7 +34,7 @@ namespace CodeBase.Character.CharacterFSM
             }
             else
             {
-                _attacker.Attack(_stateMachine.Target.Transform);
+                _attacker.Attack(_stateMachine.Target);
             }
 
             CheckTarget();
@@ -51,7 +51,7 @@ namespace CodeBase.Character.CharacterFSM
 
         private bool NeedChaseTarget()
         {
-            _distance = Vector3.Distance(_attacker.transform.position, _stateMachine.Target.Transform.position);
+            _distance = Vector3.Distance(_attacker.transform.position, _stateMachine.Target.position);
 
             if (_distance > _data.AttackRange)
                 return true;
