@@ -102,7 +102,7 @@ public class EnemiesSpawner : MonoBehaviour
         animator.Construct(sounds);
 
         EnemyMover mover = enemyObj.GetComponent<EnemyMover>();
-        mover.Construct(_enemyData.MoveSpeed, _enemyData.SeparationRadius, _enemyData.SeparationLayer);
+        mover.Construct(_enemyData.MoveSpeed);
 
         EnemyAttacker attacker = enemyObj.GetComponent<EnemyAttacker>();
         attacker.Construct(animator, _enemyData.Damage, _enemyData.AttackCooldown);

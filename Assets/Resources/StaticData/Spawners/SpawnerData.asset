@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyType: 0
   SpawnDistanceFromEdge: 30
-  MinEnemiesGap: 6
+  MinEnemiesGap: 10
   EnemiesPoolBulkAmount: 15
   LootPool: {fileID: 9077227075740407390, guid: 83cd6d7c695867b46b2ba38205781403, type: 3}
   LootSpawnChance: 0.5
