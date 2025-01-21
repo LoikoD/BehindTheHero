@@ -65,7 +65,7 @@ namespace CodeBase.Infrastructure.States
             EnemiesSpawner enemiesSpawner = InitSpawners(knight.transform).GetComponent<EnemiesSpawner>();
 
             InitHud(knightMain);
-            CameraFollow(knight);
+            CameraFollow(knightMain.CenterPos);
 
             UIController gameUI = InitUI(inputActions.PauseMenu);
             GameSession gameSession = new(knightMain, enemiesSpawner, gameUI, inputActions);
@@ -104,7 +104,7 @@ namespace CodeBase.Infrastructure.States
             hud.GetComponent<HudUI>().Construct(knightMain);
         }
 
-        private void CameraFollow(GameObject gameObject) => 
-            Camera.main.gameObject.GetComponent<CameraFollow>().Follow(gameObject);
+        private void CameraFollow(Transform transformToFollow) => 
+            Camera.main.gameObject.GetComponent<CameraFollow>().Follow(transformToFollow);
     }
 }

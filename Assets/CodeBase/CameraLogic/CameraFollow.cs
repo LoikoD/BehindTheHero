@@ -17,7 +17,7 @@ namespace CodeBase.CameraLogic
                 gameObject.transform.position.z);
         }
 
-        public void Follow(GameObject following) => 
-            _following = following.transform;
+        public void Follow(Transform followingTransform) => 
+            _following = followingTransform;
     }
 }

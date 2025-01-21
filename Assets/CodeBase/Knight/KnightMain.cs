@@ -2,11 +2,16 @@
 using CodeBase.Character;
 using CodeBase.Character.CharacterFSM;
 using CodeBase.Character.Interfaces;
+using UnityEngine;
 
 namespace CodeBase.Knight
 {
     public class KnightMain : CharacterMain, IDamageable
     {
+        [SerializeField] private Transform _centerPos;
+
+        public Transform CenterPos => _centerPos;
+
         private KnightAnimationsController _knightAnimator;
         public event Action Died;
 
